@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="part form-container" [formGroup]="inputForm">
+    <input
+      (blur)="onTouched()"
+      (keyup)="update()"
+      formControlName="input"
+      autocomplete
+      type="text"
+      placeholder="Enter smth to login or register"
+      #input>
+  </div>
+</div>
