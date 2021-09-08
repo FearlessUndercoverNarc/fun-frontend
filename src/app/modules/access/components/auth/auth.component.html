@@ -1,0 +1,20 @@
+<div class="container">
+  <h2>F.U.N.</h2>
+  <form [formGroup]="authFormGroup" (submit)="auth()" (keyup.enter)="auth()">
+    <div class="control-row">
+      <small class="title">Логин</small>
+      <app-login-input formControlName="login" [validators]="validators"></app-login-input>
+      <small class="error" *ngIf="authFormGroup.get('login')?.errors?.required && authFormGroup.get('login')?.touched">Это
+        обязательное поле</small>
+    </div>
+    <div class="control-row">
+      <small class="title">Пароль</small>
+      <app-password-input [phone]="true" formControlName="password" [validators]="validators"></app-password-input>
+      <small class="error"
+             *ngIf="authFormGroup.get('password')?.errors?.required && authFormGroup.get('password')?.touched">Это
+        обязательное поле</small>
+    </div>
+    <button class="light-blue-button" type="submit" [disabled]="authFormGroup.invalid || isFormSent">Войти</button>
+    <button class="light-blue-button" type="submit" (click)="register()">Регистрация</button>
+  </form>
+</div>

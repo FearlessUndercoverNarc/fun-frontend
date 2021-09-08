@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AuthComponent} from "./auth.component";
 import {AuthInputsModule} from "../../../../shared/modules/auth-inputs/auth-inputs.module";
+import {AccountService} from "../../../../shared/services/account.service";
 
 
 
@@ -10,6 +11,7 @@ import {AuthInputsModule} from "../../../../shared/modules/auth-inputs/auth-inpu
   imports: [
     CommonModule,
     AuthInputsModule
-  ]
+  ],
+  providers: []
 })
 export class AuthModule { }

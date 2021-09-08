@@ -1,4 +1,4 @@
-export enum ApiControllers {
+export enum APIControllers {
   Account = 'Account',
   Profile = 'Profile',
   // Deck = 'Deck',
