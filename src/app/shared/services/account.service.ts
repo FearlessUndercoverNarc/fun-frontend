@@ -13,7 +13,7 @@ import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends BasicCRUD<any> {
+export class AccountService extends BasicCRUD<any> {
   postfix: string;
   private _token = '';
   private _id = 0;
@@ -51,7 +51,7 @@ export class UserService extends BasicCRUD<any> {
   }
 
 
-  login(loginData: LoginDTO): Observable<LoginResultDto> {
+  login(loginData: LoginDto): Observable<LoginResultDto> {
     return this._httpClient.post<LoginResultDto>(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
         map((result: LoginResultDto) => {

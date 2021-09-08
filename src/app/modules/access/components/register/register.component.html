@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Shashliki finance</h2>
+  <h2>F.U.N.</h2>
   <form [formGroup]="regFormGroup" (submit)="register()" (keyup.enter)="register()">
     <div class="control-row">
       <small class="title">Пользовательское имя</small>
@@ -16,7 +16,7 @@
     </div>
     <div class="control-row">
       <small class="title">Пароль</small>
-      <app-password-input [phone]="true" formControlName="password" [validators]="validators"></app-password-input>
+      <app-password-input formControlName="password" [validators]="validators"></app-password-input>
       <small class="error"
              *ngIf="regFormGroup.get('password')?.errors?.required && regFormGroup.get('password')?.touched">Это
         обязательное поле</small>

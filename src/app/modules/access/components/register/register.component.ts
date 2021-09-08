@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, SkipSelf} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from "../../../../shared/services/account.service";
 import {Md5} from 'ts-md5/dist/md5';
@@ -8,7 +8,7 @@ import {UserDto} from "../../../../shared/interfaces/dto/user-dto.interface";
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['../shared/styles/auth-register.styles.sass']
+  styleUrls: ['./register.component.sass']
 })
 export class RegisterComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _accountService: AccountService
+    @SkipSelf() private _accountService: AccountService
   ) {
   }
 
@@ -53,7 +53,8 @@ export class RegisterComponent implements OnInit {
           this.isFormSent = false;
           this._router.navigate(['cases'])
         },
-        error => {
+          (error: any) => {
+          console.log(error)
           this.isFormSent = false
         })
   }

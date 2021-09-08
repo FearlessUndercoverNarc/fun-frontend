@@ -9,7 +9,7 @@ import {LoginDto} from "../../../../shared/interfaces/dto/login-dto.interface";
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['../shared/styles/auth-register.styles.sass']
+  styleUrls: ['./auth.component.sass']
 })
 export class AuthComponent implements OnInit {
 
@@ -34,6 +34,7 @@ export class AuthComponent implements OnInit {
     if (this.authFormGroup.invalid) {
       return
     }
+
     const values = this.extrudeValues();
 
     this.isFormSent = true

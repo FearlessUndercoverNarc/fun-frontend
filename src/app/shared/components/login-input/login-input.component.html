@@ -1,12 +1,30 @@
-<div class="container">
-  <div class="part form-container" [formGroup]="inputForm">
-    <input
-      (blur)="onTouched()"
-      (keyup)="update()"
-      formControlName="input"
-      autocomplete
-      type="text"
-      placeholder="Enter smth to login or register"
-      #input>
+<!--<div class="container">-->
+<!--  <div class="part form-container" [formGroup]="inputForm">-->
+<!--    <input-->
+<!--      (blur)="onTouched()"-->
+<!--      (keyup)="update()"-->
+<!--      formControlName="input"-->
+<!--      autocomplete-->
+<!--      type="text"-->
+<!--      placeholder="Enter smth to login or register"-->
+<!--      #input>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="container" [class.invalid]="inputForm.invalid && inputForm.touched"
+     [class.valid]="inputForm.valid">
+  <div class="part left">
+    <img src="assets/icons/phone-dark.svg" class="dark" alt="phone-dark">
+    <img src="assets/icons/phone-light.svg" class="light" alt="phone-light">
+  </div>
+  <div class="part input-container">
+    <form [formGroup]="inputForm">
+      <input (blur)="onTouched()" type="text" placeholder="Логин" (keyup)="update()" formControlName="input">
+    </form>
+  </div>
+  <div class="part right">
+    <img src="assets/icons/success.svg" class="success" alt="success">
+    <img src="assets/icons/error.svg" class="error" alt="error">
   </div>
 </div>
