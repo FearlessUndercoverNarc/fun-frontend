@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-template',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
+  goToMyCases(): void {
+    this._router.navigate(['browse', 'my-cases']);
+  }
+  goToSharedCases(): void {
+    this._router.navigate(['browse', 'shared-cases']);
+  }
+  goToTrashBin(): void {
+    this._router.navigate(['browse', 'trash-bin']);
+  }
 }

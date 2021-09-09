@@ -31,7 +31,7 @@
     <div class="left-bar">
       <ul class="left-bar__list">
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a href class="left-bar__link">
             <img src="../../../../../assets/icons/to_create.svg" alt="">
             <div class="left-bar__text">
               создать
@@ -39,7 +39,7 @@
           </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a (click)="goToMyCases()" class="left-bar__link">
             <img src="../../../../../assets/icons/my_case.svg" alt="">
             <div class="left-bar__text">
               мои дела
@@ -47,7 +47,7 @@
           </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a (click)="goToSharedCases()" class="left-bar__link">
             <img src="../../../../../assets/icons/available_to_me.svg" alt="">
             <div class="left-bar__text">
               Доступные мне
@@ -63,7 +63,7 @@
           </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a (click)="goToTrashBin()" class="left-bar__link">
             <img src="../../../../../assets/icons/to_create.svg" alt="">
             <div class="left-bar__text">
               Корзина
@@ -86,7 +86,7 @@
       <button type="submit" class="">подписка </button>
     </div>
     <div class="right-bar">
-      <div class="test"></div>
+      <router-outlet></router-outlet>
     </div>
   </main>
 </div>

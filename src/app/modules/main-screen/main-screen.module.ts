@@ -7,17 +7,38 @@ import {TrashBinComponent} from './components/trash-bin/trash-bin.component';
 import {RouterModule, Routes} from "@angular/router";
 
 
+// const routes: Routes = [
+//   {
+//     path: '',
+//     redirectTo: 'template',
+//     pathMatch: 'full'
+//   },
+//   {
+//     path: 'template',
+//     component: TemplateComponent,
+//   },
+// ]
+
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'template',
+    redirectTo: 'my-cases',
     pathMatch: 'full'
   },
   {
-    path: 'template',
-    component: TemplateComponent,
+    path: 'my-cases',
+    component: MyCasesComponent
   },
+  {
+    path: 'shared-cases',
+    component: SharedCasesComponent
+  },
+  {
+    path: 'trash-bin',
+    component: TrashBinComponent
+  }
 ]
+
 
 @NgModule({
   declarations: [

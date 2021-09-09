@@ -5,7 +5,7 @@
       <h3>Регистрация</h3>
       <div class="control-row">
         <small class="title">ФИО</small>
-        <app-username-input [phone]="true" formControlName="username" [validators]="validators"></app-username-input>
+        <app-username-input [phone]="true" formControlName="fio" [validators]="validators"></app-username-input>
         <small class="error"
                *ngIf="regFormGroup.get('username')?.errors?.required && regFormGroup.get('username')?.touched">Это
           обязательное поле</small>
