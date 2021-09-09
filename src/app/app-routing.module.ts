@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "./shared/guards/auth.guard";
+import {TemplateComponent} from "./modules/main-screen/components/template/template.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
   {
     path: 'browse',
     loadChildren: () => import('./modules/main-screen/main-screen.module').then(ms => ms.MainScreenModule),
+    component: TemplateComponent,
     canActivate: [AuthGuard],
   },
   {
