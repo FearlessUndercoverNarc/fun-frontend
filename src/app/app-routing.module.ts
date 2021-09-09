@@ -21,13 +21,13 @@ const routes: Routes = [
     loadChildren: () => import('./modules/access/components/forbidden/forbidden.module').then(f => f.ForbiddenModule),
   },
   {
-    path: 'fun',
+    path: 'browse',
     loadChildren: () => import('./modules/main-screen/main-screen.module').then(ms => ms.MainScreenModule),
     canActivate: [AuthGuard],
   },
   {
     path: '',
-    redirectTo: 'fun',
+    redirectTo: 'browse',
     pathMatch: 'full'
   },
   {

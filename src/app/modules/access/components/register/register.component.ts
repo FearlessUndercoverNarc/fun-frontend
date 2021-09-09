@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
     this._accountService.create(values)
       .subscribe(() => {
           this.isFormSent = false;
-          this._router.navigate(['fun'])
+          this._router.navigate(['browse'])
         },
           (error: any) => {
           console.log(error)

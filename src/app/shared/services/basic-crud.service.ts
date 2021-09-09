@@ -9,22 +9,23 @@ export abstract class BasicCRUD<TParam> {
   // This is a simple abstract class which implements all basic CRUD methods
 
   protected constructor(
+    protected apiArea: string,
     protected postfix: string,
-    protected httpClient: HttpClient
+    protected httpClient: HttpClient,
   ) {
   }
 
 
   getAll(): Observable<TParam[]> {
-    return this.httpClient.get<TParam[]>(`${environment.apiUrl}/${this.postfix}/GetAll`)
+    return this.httpClient.get<TParam[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAll`)
   }
 
   create(data: CreateGroupDto): Observable<CreatedDto> {
-    return this.httpClient.post<CreatedDto>(`${environment.apiUrl}/${this.postfix}/Create`, data)
+    return this.httpClient.post<CreatedDto>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Create`, data)
   }
 
   remove(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.postfix}/Remove`, {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Remove`, {
       params: {
         id: id.toString(),
       }
@@ -32,7 +33,7 @@ export abstract class BasicCRUD<TParam> {
   }
 
   getById(id: number): Observable<TParam> {
-    return this.httpClient.get<TParam>(`${environment.apiUrl}/${this.postfix}/GetById`, {
+    return this.httpClient.get<TParam>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetById`, {
       params: {
         id: id.toString()
       }
@@ -40,7 +41,7 @@ export abstract class BasicCRUD<TParam> {
   }
 
   update(element: TParam): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiUrl}/${this.postfix}/Update`, element)
+    return this.httpClient.post<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Update`, element)
   }
 
 }

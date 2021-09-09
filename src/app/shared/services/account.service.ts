@@ -23,7 +23,7 @@ export class AccountService extends BasicCRUD<any> {
     private _httpClient: HttpClient,
     private router: Router
   ) {
-    super(APIControllers.Account, _httpClient);
+    super(ApiAreas.Shared, APIControllers.Account, _httpClient);
     this.postfix = APIControllers.Account;
   }
 
