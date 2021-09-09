@@ -1,5 +1,5 @@
 export enum APIControllers {
-  Account = 'Account',
+  Account = 'funaccount',
   Profile = 'Profile',
   // Deck = 'Deck',
   // MemoryCard = 'MemoryCard'

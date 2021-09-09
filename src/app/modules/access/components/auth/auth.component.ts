@@ -42,7 +42,7 @@ export class AuthComponent implements OnInit {
     this._accountService.login(values)
       .subscribe(() => {
           this.isFormSent = false
-          this._router.navigate(['cases'])
+          this._router.navigate(['fun'])
         },
 
         error => {
