@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+@import './styles/var-variables'
+
+body, html
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  background-image: url("./assets/img/bg.png")
+  background-repeat: no-repeat
+  background-size: cover
+  background-attachment: fixed
+  font-family: 'Roboto', sans-serif
+
+a
+  text-decoration: none
+
+input, button, .label, .no-select, a
+  outline: none
+  -webkit-touch-callout: none
+  -webkit-tap-highlight-color: transparent
+
+button.light-orange-button
+  background: $var-orange
+  text-transform: uppercase
+  color: $var-6
+  font-size: 16px
+  text-align: center
+  border: none
+  transition: .1s
+  cursor: pointer
+  width: 300px
+  height: 40px
+  border-radius: 16px
+
+  &:disabled
+    background: $var-disabled
+    color: $var-disabled-text
+    cursor: default
+
+  &:hover:enabled
+    transform: translateY(-2px)
+    background: $var-orange-hover
+    color: $var-white
+
+  &:active
+    transform: translateY(-2px)
+    background: $var-orange
+
+button.ready-button
+  border: none
+  background: $var-success
+  color: $frame-white
+  font-size: 18px
+  font-weight: 500
+  border-radius: 4px
+  transition: .4s
+
+  &:disabled
+    background: $var-disabled
+    color: $var-disabled-text
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    opacity: .8
+
+button.error-button
+  border: none
+  background: $var-error
+  color: $frame-white
+  font-size: 18px
+  font-weight: 500
+  border-radius: 4px
+  transition: .4s
+
+  &:disabled
+    background: $var-disabled
+    color: $var-disabled-text
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    opacity: .8
+
+.grey-button-link
+  color: $var-6
+  text-align: center
+  border-radius: 4px
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 17px
+  background: $var-2
+
+  &.active
+    background: $var-3

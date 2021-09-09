@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>F.U.N.</h2>
+  <form [formGroup]="regFormGroup" (submit)="register()" (keyup.enter)="register()">
+    <div class="control-row">
+      <small class="title">Пользовательское имя</small>
+      <app-username-input [phone]="true" formControlName="username" [validators]="validators"></app-username-input>
+      <small class="error"
+             *ngIf="regFormGroup.get('username')?.errors?.required && regFormGroup.get('username')?.touched">Это
+        обязательное поле</small>
+    </div>
+    <div class="control-row">
+      <small class="title">Логин</small>
+      <app-login-input formControlName="login" [validators]="validators"></app-login-input>
+      <small class="error" *ngIf="regFormGroup.get('login')?.errors?.required && regFormGroup.get('login')?.touched">Это
+        обязательное поле</small>
+    </div>
+    <div class="control-row">
+      <small class="title">Пароль</small>
+      <app-password-input formControlName="password" [validators]="validators"></app-password-input>
+      <small class="error"
+             *ngIf="regFormGroup.get('password')?.errors?.required && regFormGroup.get('password')?.touched">Это
+        обязательное поле</small>
+    </div>
+    <button class="light-blue-button" [disabled]="regFormGroup.invalid || isFormSent" type="submit"
+            (click)="register()">Зарегистрироваться
+    </button>
+    <button class="light-blue-button"
+            (click)="goBackToAuth()">Авторизоваться
+    </button>
+  </form>
+</div>

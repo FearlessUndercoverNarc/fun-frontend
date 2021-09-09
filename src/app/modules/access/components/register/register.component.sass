@@ -1,0 +1,92 @@
+@import '~src/styles/var-variables'
+@import "~src/styles/fonts"
+
+.container
+  width: 100vw
+
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  box-sizing: border-box
+
+  h2
+    color: #111
+    letter-spacing: .2rem
+    width: 100%
+    //color: #E8EDF6
+    font-size: 70px
+    font-family: SuicideSupervillains, Roboto, sans-serif
+    display: block
+    //text-align: center
+    margin-bottom: 51px
+
+    user-select: none
+
+    box-sizing: border-box
+
+    padding-left: 1.4em
+
+  form
+    border-radius: 5px
+    width: 100%
+    max-width: 360px
+    box-sizing: border-box
+    //padding: 0 1rem 1rem 1rem
+    padding: 2em
+    background-color: rgba(17, 17, 17, 0.54)
+
+
+    small.title
+      font-size: 16px
+      color: $var-6
+      display: block
+      margin-bottom: 8px
+
+    small.error
+      font-size: 12px
+      display: block
+      line-height: 24px
+      color: $var-error
+
+    .control-row
+      height: 102px
+
+      &.small
+        display: flex
+        height: 28px
+        flex-direction: row
+        margin-top: 15px
+
+        .checkbox-container
+          flex: 1
+          display: flex
+
+          app-checkbox
+            width: 28px
+            height: 28px
+            display: inline-block
+
+          span
+            font-size: 16px
+            margin-left: 13px
+            line-height: 28px
+            color: $var-6
+
+        .link-container a
+          color: $var-dark-blue
+          line-height: 28px
+          display: block
+          font-size: 16px
+
+    button
+      width: 100%
+      height: 52px
+      margin-top: 40px
+      cursor: pointer
+
+      &:disabled
+        cursor: not-allowed
+
+      &:scope
+        border: 1px solid $var-active-dark

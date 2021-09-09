@@ -1,105 +1,130 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
-import {ServiceInterface} from "../interfaces/service.interface";
-import {ApiAreas} from "../enums/api-areas.enum";
-import {LocalStorageEnum} from "../enums/local-storage.enum";
-import {IsValidLoginRequestDto} from "../interfaces/is-valid-login-request-dto.interface";
-import {IsValidLoginResponseDto} from "../interfaces/is-valid-login-response-dto.interface";
-import {LoginRequestDto} from "../interfaces/login-request-dto.interface";
-import {LoginResponseDto} from "../interfaces/login-response-dto.interface";
-import {ApiControllers} from "../enums/api-controllers.enum";
+import {LoginDto} from "../interfaces/dto/login-dto.interface";
+import {APIControllers} from "../enums/api-controllers.enum";
+import {UserDto} from "../interfaces/dto/user-dto.interface";
+import {BasicCRUD} from "./basic-crud.service";
+import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 
-//* AccountService is provided into AppModule
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService implements ServiceInterface {
+export class AccountService extends BasicCRUD<any> {
+  postfix: string;
+  private _token = '';
+  private _id = 0;
+
   constructor(
     private _httpClient: HttpClient,
-    private _router: Router
+    private router: Router
   ) {
-  }
-
-  area = ApiAreas.Shared;
-  controller = ApiControllers.Account;
-
-  url = `${environment.apiUrl}/${this.area}/${this.controller}`
-
-  private _token = '';
-
-  get token(): string {
-    if (!this._token) {
-      this._token = localStorage.getItem(LocalStorageEnum.Token) || ''
-    }
-    return this._token
+    super(APIControllers.User, _httpClient);
+    this.postfix = APIControllers.User;
   }
 
   set token(token: string) {
-    this._token = token
-    localStorage.setItem(LocalStorageEnum.Token, this._token)
+    this._token = token;
+    localStorage.setItem('token', this._token);
   }
 
-  private _accountId = 0;
-
-  get accountId(): number {
-    if (!this._accountId) {
-      this._accountId = ~~(localStorage.getItem(LocalStorageEnum.AccountId) ?? 0)
+  get token(): string {
+    if (!this._token) {
+      this._token = localStorage.getItem('token') + '';
     }
-    return this._accountId
+    return this._token;
   }
 
-  set accountId(accountId: number) {
-    this._accountId = accountId
-    localStorage.setItem(LocalStorageEnum.AccountId, this._accountId.toString())
+  get id(): number {
+    if (!this._id) {
+      this._id = +(localStorage.getItem('id') + '');
+    }
+    return this._id
   }
 
-  isLoginValid(request: IsValidLoginRequestDto): Observable<IsValidLoginResponseDto> {
-    return this._httpClient.post<IsValidLoginResponseDto>(`${this.url}/isValidLogin`, request, {withCredentials: true})
+  set id(newId) {
+    this._id = newId
+    localStorage.setItem('id', this._id + '')
   }
 
-  login(request: LoginRequestDto): Observable<LoginResponseDto> {
-    return this._httpClient.post<LoginResponseDto>(`${this.url}/login`, request, {withCredentials: true})
+
+  login(loginData: LoginDto): Observable<LoginResultDto> {
+    return this._httpClient.post<LoginResultDto>(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
-        map((response: LoginResponseDto) => {
-          this.accountId = response.id
-          this.token = response.token
-          return response
+        map((result: LoginResultDto) => {
+          this.id = result.id
+          this.token = result.token;
+          return result;
         })
-      )
+      );
   }
 
-  logout(): void {
-    this._httpClient.get(`${this.url}/logout`, {withCredentials: true})
-      .subscribe(() => {
-        this.killAuthorization()
-        this._router.navigate(['/auth'])
-      })
+  update(element: UserDto): Observable<void> {
+    return this._httpClient.post<void>(`${environment.apiUrl}/${this.postfix}/Update`, element)
+  }
+
+
+  getById(id: number): Observable<UserDto> {
+    return this._httpClient.get<UserDto>(`${environment.apiUrl}/${this.postfix}/GetById`, {
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  getByGroup(id: number): Observable<UserDto[]> {
+    return this._httpClient.get<UserDto[]>(`${environment.apiUrl}/${this.postfix}/GetByGroup`, {
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  logoutAndNavigateToAuth(): void {
+    this.killLocalStorage();
+    this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`);
+    this.router.navigate(['start', 'auth']);
   }
 
   isLoggedIn(): boolean {
-    return !!this.token
+    return (
+      !!this._token ||
+      !!localStorage.getItem('token'))
+      &&
+      (!!this._id ||
+        !!localStorage.getItem('id')
+      );
   }
 
-  public killAuthorization(): void {
-    this.killToken()
-    this.killAccountId()
+  killLocalStorage() {
+    this.killToken();
+    this.killCategory();
+    this.tasks();
+    this.killOpenedGroupId();
   }
 
-  private killToken() {
-    this.token = ''
+  killToken(): void {
+    this.token = '';
+    this.id = 0;
   }
 
-  private killAccountId() {
-    this.accountId = 0;
+  private killCategory() {
+    localStorage.removeItem('openedCategoryId');
+    localStorage.removeItem('openedCategoryType');
+  }
+
+  private tasks() {
+    localStorage.removeItem('tasks');
+  }
+
+  private killOpenedGroupId() {
+    localStorage.setItem('openedGroupId', '0');
   }
 
   authPageEntered() {
-    if (this.isLoggedIn()) {
-      this.killAuthorization();
-    }
+    if (this.isLoggedIn()) this.killLocalStorage();
   }
 }
