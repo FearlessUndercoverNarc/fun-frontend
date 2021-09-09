@@ -2,35 +2,35 @@
   <header class="header">
     <div class="header__logo">
       <a href="">
-        <div class="header__logo-image"><img src="../../../../../assets/icons/logo.svg" alt=""></div>
+        <div class="header__logo-image"><img src="assets/icons/logo.svg" alt=""></div>
         F.U.N.
       </a>
     </div>
-    <div class="header__togle-menu togle-menu">
+    <div class="header__togle-menu togle-menu" [ngClass]="isMenuShown ? '_active' : ''" (click)="toggleNavMenu()">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div class="header__search-trigger search-trigger">
+    <div class="header__search-trigger search-trigger" (click)="toggleSearchBar()">
       <button class="">
-        <img class="search-trigger__trigger" src="../../../../../assets/icons/search.svg" alt="">
-        <img class="search-trigger__arrow" src="../../../../../assets/icons/arrow-up.svg" alt="">
+        <img class="search-trigger__trigger" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/search.svg" alt="">
+        <img class="search-trigger__arrow" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/arrow-up.svg" alt="">
       </button>
     </div>
-    <div class="header__search search-header">
+    <div class="header__search search-header" [ngClass]="isSearchShown ? '_active' : ''">
       <div class="search-header__wrapper">
         <input class="search-header__input" type="" placeholder="Найти...">
         <button href="" class="search-header__icon">
-          <img src="../../../../../assets/icons/search.svg" alt="">
+          <img src="assets/icons/search.svg" alt="">
         </button>
       </div>
     </div>
     <div class="header__user user-header">
       <a href="" class="user-header__settings">
-        <img src="../../../../../assets/icons/seting.svg" alt="">
+        <img src="assets/icons/seting.svg" alt="">
       </a>
       <a href="" class="user-header__notify">
-        <img src="../../../../../assets/icons/notify.svg" alt="">
+        <img src="assets/icons/notify.svg" alt="">
       </a>
       <a href="" class="user-header__user">
         <div class="user-header__image">
@@ -39,11 +39,11 @@
     </div>
   </header>
   <main class="main">
-    <div class="left-bar">
+    <div class="left-bar" [ngClass]="isMenuShown ? '_active' : ''">
       <ul class="left-bar__list">
         <li class="left-bar__item">
           <a href="" class="left-bar__link">
-            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <img src="assets/icons/to_create.svg" alt="">
             <div class="left-bar__text">
               создать
             </div>
@@ -51,7 +51,7 @@
         </li>
         <li class="left-bar__item">
           <a (click)="goToMyCases()" class="left-bar__link">
-            <img src="../../../../../assets/icons/my_case.svg" alt="">
+            <img src="assets/icons/my_case.svg" alt="">
             <div class="left-bar__text">
               мои дела
             </div>
@@ -59,7 +59,7 @@
         </li>
         <li class="left-bar__item">
           <a (click)="goToSharedCases()" class="left-bar__link">
-            <img src="../../../../../assets/icons/available_to_me.svg" alt="">
+            <img src="assets/icons/available_to_me.svg" alt="">
             <div class="left-bar__text">
               Доступные мне
             </div>
@@ -67,7 +67,7 @@
         </li>
         <li class="left-bar__item">
           <a href="" class="left-bar__link">
-            <img src="../../../../../assets/icons/Recent.svg" alt="">
+            <img src="assets/icons/Recent.svg" alt="">
             <div class="left-bar__text">
               Недавние
             </div>
@@ -75,7 +75,7 @@
         </li>
         <li class="left-bar__item">
           <a (click)="goToTrashBin()" class="left-bar__link">
-            <img src="../../../../../assets/icons/trashcan.svg" alt="">
+            <img src="assets/icons/trashcan.svg" alt="">
             <div class="left-bar__text">
               Корзина
             </div>
@@ -84,7 +84,7 @@
       </ul>
       <div class="left-bar__storage">
         <a href="" class="left-bar__link">
-          <img src="../../../../../assets/icons/cloud.svg" alt="">
+          <img src="assets/icons/cloud.svg" alt="">
           <div class="left-bar__text">
             хранилище
           </div>

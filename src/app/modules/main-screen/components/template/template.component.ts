@@ -12,6 +12,9 @@ export class TemplateComponent implements OnInit {
     private _router: Router
   ) { }
 
+  isMenuShown: boolean = false;
+  isSearchShown: boolean = false;
+
   ngOnInit(): void {
   }
 
@@ -23,5 +26,13 @@ export class TemplateComponent implements OnInit {
   }
   goToTrashBin(): void {
     this._router.navigate(['browse', 'trash-bin']);
+  }
+
+  toggleNavMenu(): void {
+    this.isMenuShown = !this.isMenuShown;
+  }
+
+  toggleSearchBar(): void {
+    this.isSearchShown = !this.isSearchShown;
   }
 }
