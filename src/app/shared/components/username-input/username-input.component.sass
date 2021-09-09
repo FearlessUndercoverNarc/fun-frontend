@@ -17,11 +17,9 @@
 
   &:focus-within
     border: 1px solid $var-6
-
     .left
       .light
         display: block
-
       .dark
         display: none
 
@@ -33,10 +31,8 @@
     display: flex
     justify-content: center
     align-content: center
-
     img
       width: 18.75px
-
     .light
       display: none
 
@@ -51,34 +47,29 @@
       background: none
       font-size: 20px
       color: $var-6
-
+      padding-left: 30px
       &:focus::placeholder
         opacity: 0
 
       &::placeholder
-        color: #CDCDCD8E
+        color: $frame-white
 
   img.success
     display: none
-
   img.error
     display: none
 
   &.invalid
     border: 1px solid $var-error
-
     img.error
       display: block
-
     img.success
       display: none
 
   &.valid
     border: 1px solid $var-success
-
     img.error
       display: none
-
     img.success
       display: block
 

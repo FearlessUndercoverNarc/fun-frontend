@@ -1,9 +1,5 @@
 <div class="container" [class.invalid]="inputForm.invalid && inputForm.touched"
      [class.valid]="inputForm.valid">
-  <div class="part left">
-    <img src="assets/icons/3p_black_24dp.svg" class="dark" alt="board-dark">
-    <img src="assets/icons/3p_white_24dp.svg" class="light" alt="board-light">
-  </div>
   <div class="part input-container">
     <form [formGroup]="inputForm">
       <input (blur)="onTouched()" type="text" placeholder="Пользователь" (keyup)="update()" formControlName="input">

@@ -47,11 +47,12 @@ export class RegisterComponent implements OnInit {
 
   private processCreation(values: any) {
     this.isFormSent = true
+    //
 
     this._accountService.create(values)
       .subscribe(() => {
           this.isFormSent = false;
-          this._router.navigate(['cases'])
+          this._router.navigate(['browse'])
         },
           (error: any) => {
           console.log(error)

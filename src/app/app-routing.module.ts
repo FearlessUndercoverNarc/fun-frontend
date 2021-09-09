@@ -5,11 +5,6 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'cases',
-    pathMatch: 'full'
-  },
-  {
     path: 'auth',
     loadChildren: () => import('./modules/access/components/auth/auth.module').then(a => a.AuthModule),
   },
@@ -26,13 +21,19 @@ const routes: Routes = [
     loadChildren: () => import('./modules/access/components/forbidden/forbidden.module').then(f => f.ForbiddenModule),
   },
   {
-    path: 'cases',
+    path: 'browse',
     loadChildren: () => import('./modules/main-screen/main-screen.module').then(ms => ms.MainScreenModule),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '',
+    redirectTo: 'browse',
+    pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'not-found'
+    redirectTo: 'not-found',
+    pathMatch: 'full'
   }
 ]
 
@@ -41,4 +42,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
