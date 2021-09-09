@@ -6,12 +6,23 @@
         F.U.N.
       </a>
     </div>
+    <div class="header__togle-menu togle-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="header__search-trigger search-trigger">
+      <button class="">
+        <img class="search-trigger__trigger" src="../../../../../assets/icons/search.svg" alt="">
+        <img class="search-trigger__arrow" src="../../../../../assets/icons/arrow-up.svg" alt="">
+      </button>
+    </div>
     <div class="header__search search-header">
       <div class="search-header__wrapper">
         <input class="search-header__input" type="" placeholder="Найти...">
-        <a href="" class="search-header__icon">
+        <button href="" class="search-header__icon">
           <img src="../../../../../assets/icons/search.svg" alt="">
-        </a>
+        </button>
       </div>
     </div>
     <div class="header__user user-header">
@@ -56,7 +67,7 @@
         </li>
         <li class="left-bar__item">
           <a href="" class="left-bar__link">
-            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <img src="../../../../../assets/icons/Recent.svg" alt="">
             <div class="left-bar__text">
               Недавние
             </div>
@@ -64,7 +75,7 @@
         </li>
         <li class="left-bar__item">
           <a (click)="goToTrashBin()" class="left-bar__link">
-            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <img src="../../../../../assets/icons/trashcan.svg" alt="">
             <div class="left-bar__text">
               Корзина
             </div>
@@ -73,17 +84,17 @@
       </ul>
       <div class="left-bar__storage">
         <a href="" class="left-bar__link">
-          <img src="../../../../../assets/icons/to_create.svg" alt="">
+          <img src="../../../../../assets/icons/cloud.svg" alt="">
           <div class="left-bar__text">
             хранилище
           </div>
         </a>
       </div>
-      <div class="left-bar__range">
-        <input type="range" id="card-range" name="" min="0" max="30">
-        <label for="card-range">Использовано 4 из 30 карточек</label>
+      <div class="left-bar__range card-range">
+        <div class="card-range__range"></div>
+        <div class="card-range__text">Использовано 4 из 30 карточек</div>
       </div>
-      <button type="submit" class="">подписка </button>
+      <button type="submit" class="left-bar__button">Подписка</button>
     </div>
     <div class="right-bar">
       <router-outlet></router-outlet>
