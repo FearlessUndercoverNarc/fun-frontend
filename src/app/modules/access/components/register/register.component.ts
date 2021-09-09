@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 
   validators = [Validators.required]
   regFormGroup: FormGroup = new FormGroup({
-    'username': new FormControl('', this.validators),
+    'fio': new FormControl('', this.validators),
     'login': new FormControl('', this.validators),
     'password': new FormControl('', this.validators),
   })
@@ -47,7 +47,6 @@ export class RegisterComponent implements OnInit {
 
   private processCreation(values: any) {
     this.isFormSent = true
-    //
 
     this._accountService.create(values)
       .subscribe(() => {
