@@ -1,30 +1,89 @@
-<div class="wrepper">
+<div class="wrapper">
   <header class="header">
-    <div class="header__icon icon-header">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="header__logo">
+      <a href="">
+        <div class="header__logo-image"><img src="../../../../../assets/icons/logo.svg" alt=""></div>
+        F.U.N.
+      </a>
     </div>
-    <div class="header__logo ">
-      <a href="">F.U.N.</a>
+    <div class="header__search search-header">
+      <div class="search-header__wrapper">
+        <input class="search-header__input" type="" placeholder="Найти...">
+        <a href="" class="search-header__icon">
+          <img src="../../../../../assets/icons/search.svg" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="header__user user-header">
+      <a href="" class="user-header__settings">
+        <img src="../../../../../assets/icons/seting.svg" alt="">
+      </a>
+      <a href="" class="user-header__notify">
+        <img src="../../../../../assets/icons/notify.svg" alt="">
+      </a>
+      <a href="" class="user-header__user">
+        <div class="user-header__image">
+        </div>
+      </a>
     </div>
   </header>
   <main class="main">
     <div class="left-bar">
-      <div class="left-bar__switch">
-        <span></span>
-      </div>
       <ul class="left-bar__list">
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">дела</a>
+          <a href="" class="left-bar__link">
+            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <div class="left-bar__text">
+              создать
+            </div>
+          </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">что-то</a>
+          <a href="" class="left-bar__link">
+            <img src="../../../../../assets/icons/my_case.svg" alt="">
+            <div class="left-bar__text">
+              мои дела
+            </div>
+          </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">корзина</a>
+          <a href="" class="left-bar__link">
+            <img src="../../../../../assets/icons/available_to_me.svg" alt="">
+            <div class="left-bar__text">
+              Доступные мне
+            </div>
+          </a>
+        </li>
+        <li class="left-bar__item">
+          <a href="" class="left-bar__link">
+            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <div class="left-bar__text">
+              Недавние
+            </div>
+          </a>
+        </li>
+        <li class="left-bar__item">
+          <a href="" class="left-bar__link">
+            <img src="../../../../../assets/icons/to_create.svg" alt="">
+            <div class="left-bar__text">
+              Корзина
+            </div>
+          </a>
         </li>
       </ul>
+      <div class="left-bar__storage">
+        <a href="" class="left-bar__link">
+          <img src="../../../../../assets/icons/to_create.svg" alt="">
+          <div class="left-bar__text">
+            хранилище
+          </div>
+        </a>
+      </div>
+      <div class="left-bar__range">
+        <input type="range" id="card-range" name="" min="0" max="30">
+        <label for="card-range">Использовано 4 из 30 карточек</label>
+      </div>
+      <button type="submit" class="">подписка </button>
     </div>
     <div class="right-bar">
       <div class="test"></div>
