@@ -4,6 +4,7 @@ $whiteColor: #fff
 $mainColor: #F5F5F5
 $borderColor: #EAE9E5
 $Detective_Black_2:#5B5953
+$scrollColor: #666
 *
   box-sizing: border-box
 ul
@@ -19,7 +20,7 @@ ul
   justify-content: center
   align-items: center
   height: 100vh
-  overflow: hidden
+  min-height: 950px
   .header
     background: $whiteColor
     padding: 0 40px
@@ -48,10 +49,10 @@ ul
         display: flex
         align-items: center
   .main
-    padding: 0 40px
+    padding: 0 0 0 20px
     width: 100%
     max-width: 1440px
-    min-height: calc(900px - 72px)
+    height: calc(900px - 72px)
     background: $mainColor
     border-radius: 0 0 20px 20px
     display: flex
@@ -88,8 +89,12 @@ ul
         font-size: 16px
         line-height: 24px
         color: $Detective_Black_2
+        img
+          margin-right: 16px
         &:hover
           background: $whiteColor
+        &__storage
+          padding-left: 24px
 .search-header
   display: flex
   flex: 1 1 auto
@@ -147,3 +152,15 @@ ul
     display: flex
     align-items: center
     justify-content: center
+.right-bar
+  flex: 1 1 auto
+  overflow: auto
+  &::-webkit-scrollbar
+    width: 10px
+    background: #16161600
+  &::-webkit-scrollbar-thumb
+    width: 5px
+    border-radius: 5px
+    background: $scrollColor
+  .test
+    height: 4000px
