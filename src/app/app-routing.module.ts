@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'browse',
-    loadChildren: () => import('./modules/main-screen/main-screen.module').then(ms => ms.MainScreenModule),
+    loadChildren: () => import('./modules/main-screen/modules/main-screen.module').then(ms => ms.MainScreenModule),
     component: TemplateComponent,
     canActivate: [AuthGuard],
   },
