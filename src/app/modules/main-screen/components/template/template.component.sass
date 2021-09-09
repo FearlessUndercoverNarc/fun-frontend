@@ -1,4 +1,5 @@
 $bgColor: #F0C352
+$btnHoverColor: #e9b83b
 $fontColor: #110801
 $whiteColor: #fff
 $mainColor: #F5F5F5
@@ -15,12 +16,13 @@ ul
     padding: 0
     margin: 0
 .wrapper
+  padding: 10px 15px
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
   height: 100vh
-  min-height: 950px
+  min-height: 800px
   .header
     background: $whiteColor
     padding: 0 40px
@@ -58,6 +60,22 @@ ul
     display: flex
     .left-bar
       position: relative
+      &__range
+        padding-left: 50px
+      &__button
+        background: #F0C352
+        border-radius: 100px
+        outline: none
+        border: none
+        padding: 14px 56px
+        margin-left: 50px
+        margin-top: 8px
+        transition: all 0.3s ease 0s
+        font-size: 16px
+        line-height: 19px
+        cursor: pointer
+        &:hover
+          background: $btnHoverColor
       &::after
         content: ''
         position: absolute
@@ -93,9 +111,17 @@ ul
           margin-right: 16px
         &:hover
           background: $whiteColor
-        &__storage
-          padding-left: 24px
+      &__storage
+        width: calc( 100% - 59px )
+        padding-left: 24px
+        margin-bottom: 8px
+.card-range
+  &__text
+    color: #5B5953
+    font-size: 14px
+    line-height: 22px
 .search-header
+  margin: 0 15px
   display: flex
   flex: 1 1 auto
   align-items: center
@@ -104,11 +130,15 @@ ul
     position: absolute
     top: 0
     right: 0
-    width: 10%
+    width: 30px
     height: 100%
     display: flex
+    border: none
+    cursor: pointer
     align-items: center
     justify-content: center
+    background: $mainColor
+    border-radius: 8px
   &__wrapper
     position: relative
     display: flex
@@ -162,5 +192,47 @@ ul
     width: 5px
     border-radius: 5px
     background: $scrollColor
-  .test
-    height: 4000px
+
+
+				
+			
+		
+	
+
+
+@media (max-width: 662px)
+  .header
+    flex: 0 1 120px
+    padding: 15px 30px
+    flex-wrap: wrap
+    padding: 15px 25px
+  .main
+    flex: 1 1 auto
+  .header__logo
+    flex: 0 1 calc( 100% - 131px )
+    order: 1
+  .header__search
+    flex: 0 1 20%
+    order: 3
+    margin: 0
+  .header__user
+    min-width: 130px
+    flex: 0 1 20%
+    order: 2
+@media (max-width: 425px)
+  .header
+    flex: 0 1 120px
+    padding: 0px
+    flex-wrap: wrap
+  .main
+    flex: 1 1 auto
+  .header__logo
+    flex: 0 1 calc( 100% - 131px )
+    order: 1
+  .header__search
+    order: 3
+    margin: 0
+  .header__user
+    min-width: 130px
+    flex: 0 1 20%
+    order: 2
