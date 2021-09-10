@@ -1,0 +1,9 @@
+<div class="create-container">
+  <div class="btn-layer new-case-btn-wrapper" *ngIf="isRoot">
+    <new-case-btn></new-case-btn>
+  </div>
+  <div class="btn-layer new-folder-or-desk-btn-wrapper" *ngIf="!isRoot">
+    <new-folder-btn></new-folder-btn>
+    <new-desk-btn></new-desk-btn>
+  </div>
+</div>

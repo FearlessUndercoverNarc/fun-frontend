@@ -1,33 +1,9 @@
 <div class="my-cases-container">
   <h4>Дела</h4>
   <div class="cases-container">
-    <div class="folder">
+    <div class="folder" *ngFor="let case of cases">
       <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
-    </div>
-    <div class="folder">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>Top Secret</p>
+      <p>{{ case.title }}</p>
     </div>
   </div>
 </div>

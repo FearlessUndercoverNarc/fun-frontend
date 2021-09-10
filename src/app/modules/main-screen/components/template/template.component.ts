@@ -27,10 +27,10 @@ export class TemplateComponent implements OnInit {
     this.isSearchShown = !this.isSearchShown;
   }
 
-  createSmth() {
+  goToCreate() {
     this.toggleNavMenu();
 
-    alert('Not implemented yet.');
+    this._router.navigate(['browse', 'create'])
   }
 
   goToRecent() {
@@ -50,7 +50,6 @@ export class TemplateComponent implements OnInit {
     this.toggleNavMenu();
     this._router.navigate(['browse', 'trash-bin']);
   }
-
 
   goToRepository() {
     this.toggleNavMenu();

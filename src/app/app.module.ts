@@ -1,16 +1,26 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Provider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {AccountService} from "./shared/services/account.service";
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { PopupComponent } from './modules/main-screen/components/template/popup/popup.component';
+import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
+import {NewCaseBtnComponent} from './modules/main-screen/components/create/new-case-btn/new-case-btn.component';
+import {NewFolderBtnComponent} from './modules/main-screen/components/create/new-folder-btn/new-folder-btn.component';
+import {NewDeskBtnComponent} from './modules/main-screen/components/create/new-desk-btn/new-desk-btn.component';
+
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: AuthInterceptor
+}
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     HttpClientModule,
@@ -19,7 +29,8 @@ import { PopupComponent } from './modules/main-screen/components/template/popup/
     BrowserAnimationsModule
   ],
   providers: [
-    AccountService
+    AccountService,
+    INTERCEPTOR_PROVIDER
   ],
   bootstrap: [AppComponent]
 })
