@@ -12,7 +12,8 @@ import {PathService} from "../services/path.service";
 import {CreateModule} from "./create.module";
 import {CreateComponent} from "../components/create/create.component";
 import {ProfileComponent} from "../components/profile/profile.component";
-
+import {SettingsComponent} from "../components/settings/settings.component";
+import {SubscriptionComponent} from "../components/subscription/subscription.component";
 
 
 const routes: Routes = [
@@ -39,8 +40,16 @@ const routes: Routes = [
     component: TrashBinComponent
   },
   {
+    path: 'settings',
+    component: SettingsComponent
+  },
+  {
     path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'subscription',
+    component: SubscriptionComponent
   }
 ]
 
@@ -49,6 +58,9 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     SharedCasesComponent,
+    SettingsComponent,
+    ProfileComponent,
+    SubscriptionComponent
   ],
   imports: [
     CommonModule,

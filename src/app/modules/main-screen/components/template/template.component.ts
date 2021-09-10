@@ -66,10 +66,13 @@ export class TemplateComponent implements OnInit {
 
   goToSubscription() {
     this.toggleNavMenu();
-    alert('Not implemented yet.');
+
+    this._router.navigate(['browse', 'subscription']);
   }
 
-  toggleSettings() {
-    this.isSettingsShown = !this.isSettingsShown;
+  goToSettings() {
+    this.toggleNavMenu();
+
+    this._router.navigate(['browse', 'settings']);
   }
 }

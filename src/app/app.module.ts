@@ -11,6 +11,8 @@ import {NewCaseBtnComponent} from './modules/main-screen/components/create/new-c
 import {NewFolderBtnComponent} from './modules/main-screen/components/create/new-folder-btn/new-folder-btn.component';
 import {NewDeskBtnComponent} from './modules/main-screen/components/create/new-desk-btn/new-desk-btn.component';
 import { ProfileComponent } from './modules/main-screen/components/profile/profile.component';
+import { SettingsComponent } from './modules/main-screen/components/settings/settings.component';
+import { SubscriptionComponent } from './modules/main-screen/components/subscription/subscription.component';
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -22,7 +24,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
   ],
   imports: [
     HttpClientModule,
