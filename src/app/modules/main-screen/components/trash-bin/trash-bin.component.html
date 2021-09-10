@@ -29,10 +29,97 @@
       <img src="assets/icons/folder-icon.svg" alt="case">
       <p>Top Secret</p>
     </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
+    <div class="folder">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>Top Secret</p>
+    </div>
   </div>
-	<!--модальное окно находиться в template.component.html
-	там написано чё куда-->
-	<div class="trash__button-wrapper">
-		<button type="button" class="trash__button">Очистить</button>
-	</div>
+  <!--модальное окно находиться в template.component.html
+  там написано чё куда-->
 </div>
+<div class="trash__button-wrapper">
+  <button (click)="showClearModal()" type="button" class="trash__button">Очистить</button>
+</div>
+
+<popup [isShown]="isModalShown" (modalClosed)="modalClosed($event)"></popup>
+

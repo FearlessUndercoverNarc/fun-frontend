@@ -13,8 +13,10 @@
     </div>
     <div class="header__search-trigger search-trigger" (click)="toggleSearchBar()">
       <button class="">
-        <img class="search-trigger__trigger" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/search.svg" alt="">
-        <img class="search-trigger__arrow" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/arrow-up.svg" alt="">
+        <img class="search-trigger__trigger" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/search.svg"
+             alt="">
+        <img class="search-trigger__arrow" [ngClass]="isSearchShown ? '_active' : ''" src="assets/icons/arrow-up.svg"
+             alt="">
       </button>
     </div>
     <div class="header__search search-header" [ngClass]="isSearchShown ? '_active' : ''">
@@ -42,10 +44,10 @@
     <div class="left-bar" [ngClass]="isMenuShown ? '_active' : ''">
       <ul class="left-bar__list">
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a (click)="createSmth()" class="left-bar__link">
             <img src="assets/icons/to_create.svg" alt="">
             <div class="left-bar__text">
-              создать
+              Создать
             </div>
           </a>
         </li>
@@ -53,7 +55,7 @@
           <a (click)="goToMyCases()" class="left-bar__link">
             <img src="assets/icons/my_case.svg" alt="">
             <div class="left-bar__text">
-              мои дела
+              Мои дела
             </div>
           </a>
         </li>
@@ -66,7 +68,7 @@
           </a>
         </li>
         <li class="left-bar__item">
-          <a href="" class="left-bar__link">
+          <a (click)="goToRecent()" class="left-bar__link">
             <img src="assets/icons/Recent.svg" alt="">
             <div class="left-bar__text">
               Недавние
@@ -83,10 +85,10 @@
         </li>
       </ul>
       <div class="left-bar__storage">
-        <a href="" class="left-bar__link">
+        <a (click)="goToRepository()" class="left-bar__link">
           <img src="assets/icons/cloud.svg" alt="">
           <div class="left-bar__text">
-            хранилище
+            Хранилище
           </div>
         </a>
       </div>
@@ -94,25 +96,11 @@
         <div class="card-range__range"></div>
         <div class="card-range__text">Использовано 4 из 30 карточек</div>
       </div>
-      <button type="submit" class="left-bar__button">Подписка</button>
+      <button type="submit" (click)="goToSubscription()" class="left-bar__button">Подписка</button>
     </div>
     <div class="right-bar">
       <router-outlet></router-outlet>
     </div>
   </main>
-  <div class="popup"> 
-    <!--при нажатии на кнопку очистить, которая находится в right-bar, добавляется класс _active к .popup-->
-    <!--при нажатии на popup-space-closing отбирается класс _active у .popup-->
-    <div class="popup-space-closing"></div> 
-    <div class="popup__content">
-      <div class="popup__body">
-        <h3>Очистить корзину?</h3>
-        <p>Все объекты будут удалены навсегда. Вы действительно хотите очистить корзину?</p>
-        <div class="popup__button-wrapper">
-          <button type="button" class="popup__button-cancel">Отмена</button>
-          <button type="button" class="popup__button-clean">Очистить</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--  TODO сделать затемнение router-outlet при просмотре нав-меню-->
 </div>
