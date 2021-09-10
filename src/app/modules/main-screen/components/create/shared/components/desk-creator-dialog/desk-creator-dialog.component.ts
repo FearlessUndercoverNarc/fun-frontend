@@ -1,4 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
+import {CreationResponse} from "../../interfaces/creation-response.interface";
+import {PathService} from "../../../../../services/path.service";
+import {NewFolder} from "../../../../../interfaces/new-created/new-folder.interface";
+import {NewDesk} from "../../../../../interfaces/new-created/new-desk.interface";
 
 @Component({
   selector: 'app-desk-creator-dialog',
@@ -8,9 +12,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class DeskCreatorDialogComponent implements OnInit {
 
   @Input() isShown: boolean = false;
-  @Output() modalClosed = new EventEmitter<boolean>();
+  @Output() modalClosed = new EventEmitter<CreationResponse>();
 
-  constructor() {
+  title = '';
+  description = '';
+
+  constructor(
+    @SkipSelf() private _pathService: PathService
+  ) {
   }
 
   ngOnInit(): void {
@@ -18,6 +27,26 @@ export class DeskCreatorDialogComponent implements OnInit {
 
 
   closeModal(decision: boolean): void {
-    this.modalClosed.emit(decision);
+    let response: CreationResponse = {
+      agreed: decision,
+      data: null
+    }
+    if (decision) {
+      const data: NewDesk = {
+        title: this.title,
+        description: this.description,
+        parentId: this._pathService.parentFolderId
+      }
+
+      response = {
+        agreed: true,
+        data: data
+      }
+    }
+
+    this.title = '';
+    this.description = '';
+
+    this.modalClosed.emit(response);
   }
 }

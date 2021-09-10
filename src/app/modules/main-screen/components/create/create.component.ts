@@ -50,9 +50,20 @@ export class CreateComponent implements OnInit {
           break;
 
         case 'folder':
+          console.table(result.data);
+          this._folderCreatorService.create(result.data)
+            .subscribe((result) => {
+              console.table(result);
+              this._router.navigate(['browse', 'my-cases']);
+            })
           break;
 
         case 'desk':
+          this._deskCreatorService.create(result.data)
+            .subscribe((result) => {
+              console.table(result);
+              this._router.navigate(['browse', 'my-cases']);
+            })
           break;
 
         default:
