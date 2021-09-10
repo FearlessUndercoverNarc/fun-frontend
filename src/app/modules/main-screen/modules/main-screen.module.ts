@@ -9,6 +9,10 @@ import {CreateCaseComponent} from '../components/create-case/create-case.compone
 import {CreateElementComponent} from '../components/create-element/create-element.component';
 import {MyCasesModule} from "./my-cases.module";
 import {TrashBinModule} from "./trash-bin.module";
+import {CasesService} from "../services/cases.service";
+import {PathService} from "../services/path.service";
+import {CreateModule} from "./create.module";
+import {CreateComponent} from "../components/create/create.component";
 
 
 const routes: Routes = [
@@ -16,6 +20,10 @@ const routes: Routes = [
     path: '',
     redirectTo: 'my-cases',
     pathMatch: 'full'
+  },
+  {
+    path: 'create',
+    component: CreateComponent
   },
   {
     path: 'my-cases',
@@ -42,7 +50,12 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MyCasesModule,
-    TrashBinModule
+    TrashBinModule,
+    CreateModule
+  ],
+  providers: [
+    CasesService,
+    PathService
   ]
 })
 export class MainScreenModule {
