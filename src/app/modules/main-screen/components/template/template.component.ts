@@ -18,15 +18,6 @@ export class TemplateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToMyCases(): void {
-    this._router.navigate(['browse', 'my-cases']);
-  }
-  goToSharedCases(): void {
-    this._router.navigate(['browse', 'shared-cases']);
-  }
-  goToTrashBin(): void {
-    this._router.navigate(['browse', 'trash-bin']);
-  }
 
   toggleNavMenu(): void {
     this.isMenuShown = !this.isMenuShown;
@@ -34,5 +25,40 @@ export class TemplateComponent implements OnInit {
 
   toggleSearchBar(): void {
     this.isSearchShown = !this.isSearchShown;
+  }
+
+  createSmth() {
+    this.toggleNavMenu();
+
+    alert('Not implemented yet.');
+  }
+
+  goToRecent() {
+    this.toggleNavMenu();
+    alert('Not implemented yet.');
+  }
+
+  goToMyCases(): void {
+    this.toggleNavMenu();
+    this._router.navigate(['browse', 'my-cases']);
+  }
+  goToSharedCases(): void {
+    this.toggleNavMenu();
+    this._router.navigate(['browse', 'shared-cases']);
+  }
+  goToTrashBin(): void {
+    this.toggleNavMenu();
+    this._router.navigate(['browse', 'trash-bin']);
+  }
+
+
+  goToRepository() {
+    this.toggleNavMenu();
+    alert('Not implemented yet.');
+  }
+
+  goToSubscription() {
+    this.toggleNavMenu();
+    alert('Not implemented yet.');
   }
 }

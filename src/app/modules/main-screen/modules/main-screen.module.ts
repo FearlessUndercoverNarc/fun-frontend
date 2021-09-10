@@ -8,6 +8,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {CreateCaseComponent} from '../components/create-case/create-case.component';
 import {CreateElementComponent} from '../components/create-element/create-element.component';
 import {MyCasesModule} from "./my-cases.module";
+import {TrashBinModule} from "./trash-bin.module";
 
 
 const routes: Routes = [
@@ -36,12 +37,12 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     SharedCasesComponent,
-    TrashBinComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MyCasesModule
+    MyCasesModule,
+    TrashBinModule
   ]
 })
 export class MainScreenModule {

@@ -2,7 +2,7 @@
      [class.valid]="inputForm.valid">
   <div class="part input-container">
     <form [formGroup]="inputForm">
-      <input (blur)="onTouched()" type="text" placeholder="Логин" (keyup)="update()" formControlName="input">
+      <input (blur)="onTouched()" type="text" placeholder="Логин" autocomplete (keyup)="update()" formControlName="input">
     </form>
   </div>
   <div class="part right">
