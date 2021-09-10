@@ -7,11 +7,6 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
-import {NewCaseBtnComponent} from './modules/main-screen/components/create/new-case-btn/new-case-btn.component';
-import {NewFolderBtnComponent} from './modules/main-screen/components/create/new-folder-btn/new-folder-btn.component';
-import {NewDeskBtnComponent} from './modules/main-screen/components/create/new-desk-btn/new-desk-btn.component';
-import { ProfileComponent } from './modules/main-screen/components/profile/profile.component';
-
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -22,7 +17,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
   ],
   imports: [
     HttpClientModule,

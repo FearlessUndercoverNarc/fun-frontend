@@ -14,7 +14,6 @@ import {CreateComponent} from "../components/create/create.component";
 import {ProfileComponent} from "../components/profile/profile.component";
 
 
-
 const routes: Routes = [
   {
     path: '',
@@ -49,6 +48,7 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     SharedCasesComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

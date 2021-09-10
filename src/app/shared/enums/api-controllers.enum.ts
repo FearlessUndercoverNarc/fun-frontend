@@ -11,4 +11,5 @@ export enum APIControllers {
   // Purse = 'Purse',
   User = 'User',
   Folder = 'Folder',
+  Desk = 'Desk',
 }
