@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,10 +10,12 @@ export class TemplateComponent implements OnInit {
 
   constructor(
     private _router: Router
-  ) { }
+  ) {
+  }
 
   isMenuShown: boolean = false;
   isSearchShown: boolean = false;
+  isSettingsShown: boolean = false;
 
   ngOnInit(): void {
   }
@@ -42,10 +44,12 @@ export class TemplateComponent implements OnInit {
     this.toggleNavMenu();
     this._router.navigate(['browse', 'my-cases']);
   }
+
   goToSharedCases(): void {
     this.toggleNavMenu();
     this._router.navigate(['browse', 'shared-cases']);
   }
+
   goToTrashBin(): void {
     this.toggleNavMenu();
     this._router.navigate(['browse', 'trash-bin']);
@@ -59,5 +63,9 @@ export class TemplateComponent implements OnInit {
   goToSubscription() {
     this.toggleNavMenu();
     alert('Not implemented yet.');
+  }
+
+  toggleSettings() {
+    this.isSettingsShown = !this.isSettingsShown;
   }
 }
