@@ -16,21 +16,11 @@ export class CasesService extends BasicCRUD<any> {
 
   private _cases: FolderDto[] = [];
 
-  private _selectedCaseId = 0;
-
   constructor(
     private _httpClient: HttpClient,
     protected _accountService: AccountService
   ) {
     super(APIControllers.Folder, _httpClient, _accountService);
-  }
-
-  set selectedCaseId(id: number) {
-    this._selectedCaseId = id;
-  }
-
-  get selectedCaseId(): number {
-    return this._selectedCaseId;
   }
 
   set cases(cases: FolderDto[]) {

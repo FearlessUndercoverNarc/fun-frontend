@@ -1,6 +1,6 @@
-import {BasicCRUD} from "../../../shared/services/basic-crud.service";
+import {BasicCRUD} from "../../../../shared/services/basic-crud.service";
 import {HttpClient} from "@angular/common/http";
-import {AccountService} from "../../../shared/services/account.service";
+import {AccountService} from "../../../../shared/services/account.service";
 
 
 export abstract class CreatorService extends BasicCRUD<any> {

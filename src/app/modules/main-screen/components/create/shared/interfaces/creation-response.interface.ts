@@ -1,6 +1,6 @@
-import {NewCase} from "../../../../interfaces/new-case.interface";
-import {NewFolder} from "../../../../interfaces/new-folder.interface";
-import {NewDesk} from "../../../../interfaces/new-desk.interface";
+import {NewCase} from "../../../../interfaces/new-created/new-case.interface";
+import {NewFolder} from "../../../../interfaces/new-created/new-folder.interface";
+import {NewDesk} from "../../../../interfaces/new-created/new-desk.interface";
 
 export interface CreationResponse {
   agreed: boolean,

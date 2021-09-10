@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {CreatorService} from "./creator.service";
 import {HttpClient} from "@angular/common/http";
-import {ApiAreas} from "../../../shared/enums/api-areas.enum";
-import {APIControllers} from "../../../shared/enums/api-controllers.enum";
-import {AccountService} from "../../../shared/services/account.service";
+import {ApiAreas} from "../../../../shared/enums/api-areas.enum";
+import {APIControllers} from "../../../../shared/enums/api-controllers.enum";
+import {AccountService} from "../../../../shared/services/account.service";
 
 @Injectable({
   providedIn: 'root'

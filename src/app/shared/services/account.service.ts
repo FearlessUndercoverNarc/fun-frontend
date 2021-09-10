@@ -118,4 +118,8 @@ export class AccountService {
   create(data: any): Observable<any> {
     return this._httpClient.post<any>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Create`, data)
   }
+
+  get ApiVersion(): string {
+    return this.hasSubscription ? ApiAreas.v2 : ApiAreas.v1;
+  }
 }

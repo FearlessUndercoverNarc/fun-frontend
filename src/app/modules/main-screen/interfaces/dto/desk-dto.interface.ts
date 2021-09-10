@@ -1,4 +1,5 @@
 export interface DeskDto {
+  id: number,
   title: string,
   description: string,
   createdAt: string,

@@ -12,6 +12,7 @@ import {PathService} from "../services/path.service";
 import {CreateModule} from "./create.module";
 import {CreateComponent} from "../components/create/create.component";
 import {ProfileComponent} from "../components/profile/profile.component";
+import {DesksLoaderService} from "../services/desks-loader.service";
 
 
 const routes: Routes = [
@@ -59,7 +60,8 @@ const routes: Routes = [
   ],
   providers: [
     CasesService,
-    PathService
+    PathService,
+    DesksLoaderService
   ]
 })
 export class MainScreenModule {

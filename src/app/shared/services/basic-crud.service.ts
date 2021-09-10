@@ -16,7 +16,7 @@ export abstract class BasicCRUD<TParam> {
   }
 
   get apiArea() {
-    return this._accountService.hasSubscription ? ApiAreas.v2 : ApiAreas.v1;
+    return this._accountService.ApiVersion;
   }
 
   getAll(): Observable<TParam[]> {

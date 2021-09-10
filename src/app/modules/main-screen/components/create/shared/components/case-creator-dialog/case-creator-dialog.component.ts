@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CreationResponse} from "../../interfaces/creation-response.interface";
-import {NewCase} from "../../../../../interfaces/new-case.interface";
+import {NewCase} from "../../../../../interfaces/new-created/new-case.interface";
 
 @Component({
   selector: 'app-creator-dialog',

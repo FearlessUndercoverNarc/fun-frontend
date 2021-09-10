@@ -1,8 +1,8 @@
 import {Component, OnInit, SkipSelf} from '@angular/core';
 import {PathService} from "../../services/path.service";
-import {CaseCreatorService} from "../../services/case-creator.service";
-import {DeskCreatorService} from "../../services/desk-creator.service";
-import {FolderCreatorService} from "../../services/folder-creator.service";
+import {CaseCreatorService} from "../../services/creators/case-creator.service";
+import {DeskCreatorService} from "../../services/creators/desk-creator.service";
+import {FolderCreatorService} from "../../services/creators/folder-creator.service";
 import {CreationResponse} from "./shared/interfaces/creation-response.interface";
 import {pipe} from "rxjs";
 import {map} from "rxjs/operators";
@@ -32,6 +32,8 @@ export class CreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.isRoot = this._pathService.isRoot();
+
+    console.log(this._pathService.path)
   }
 
   modalClosed(result: CreationResponse): void {
