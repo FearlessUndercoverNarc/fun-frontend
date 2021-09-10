@@ -55,6 +55,10 @@ export class TemplateComponent implements OnInit {
     this._router.navigate(['browse', 'trash-bin']);
   }
 
+  goToProfile(): void {
+    this._router.navigate(['browse', 'profile']);
+  }
+
   goToRepository() {
     this.toggleNavMenu();
     alert('Not implemented yet.');

@@ -10,6 +10,7 @@ import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
 import {NewCaseBtnComponent} from './modules/main-screen/components/create/new-case-btn/new-case-btn.component';
 import {NewFolderBtnComponent} from './modules/main-screen/components/create/new-folder-btn/new-folder-btn.component';
 import {NewDeskBtnComponent} from './modules/main-screen/components/create/new-desk-btn/new-desk-btn.component';
+import { ProfileComponent } from './modules/main-screen/components/profile/profile.component';
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -20,7 +21,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProfileComponent
   ],
   imports: [
     HttpClientModule,
