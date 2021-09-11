@@ -211,6 +211,8 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
       this.creatingCardConnection.cardLeftId = id
 
+      this.mainContainer.nativeElement.style.cursor = 'crosshair';
+
       this.creatingCardConnection.x1 = this.getCardById(this.creatingCardConnection.cardLeftId).x
       this.creatingCardConnection.y1 = this.getCardById(this.creatingCardConnection.cardLeftId).y
     
@@ -221,9 +223,14 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
       this.creatingCardConnection.x2 = this.getCardById(this.creatingCardConnection.cardRightId).x
       this.creatingCardConnection.y2 = this.getCardById(this.creatingCardConnection.cardRightId).y
 
+      this.mainContainer.nativeElement.style.cursor = 'default';
+
       this._cardConnectionService.create(this.creatingCardConnection)
       .subscribe(() => {
         this.isConnectingCards = false
+
+        this.cardConnections.push({...this.creatingCardConnection})
+
         this.creatingCardConnection.cardLeftId = -1
       })
     }
