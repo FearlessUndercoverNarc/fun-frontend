@@ -1,0 +1,22 @@
+<div class="container" #mainContainer>
+    <header></header>
+    <div class="board-container">
+        <perfect-scrollbar #board style="max-width: 100vw; max-height: 100vh;">
+            <div class="board"
+            #canvas
+            (mousemove)="mouseMoveHandler($event)"
+            (mouseup)="mouseUpHandler($event)"
+            (mousedown)="mouseDownHandler($event)"
+            >
+                <app-card 
+                *ngFor="let card of cards"
+                [id]="'card' + card.id"
+                [card]="card" 
+                [ngStyle]="{top: card.y + 'px', left: card.x + 'px'}"
+                (onDragStarted)="onDragStarted($event)"
+                (onDragStopped)="onDragStopped($event)"
+                ></app-card>
+            </div>
+        </perfect-scrollbar>
+    </div>
+</div>

@@ -10,5 +10,6 @@ export enum APIControllers {
   // OutcomeOperationCategory = 'OutcomeOperationCategory',
   // Purse = 'Purse',
   User = 'User',
+  Board = 'Board',
   Folder = 'Folder',
 }
