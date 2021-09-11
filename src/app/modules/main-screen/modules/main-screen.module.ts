@@ -17,6 +17,9 @@ import {SettingsComponent} from "../components/settings/settings.component";
 import {SubscriptionComponent} from "../components/subscription/subscription.component";
 import {RepositoryComponent} from "../components/repository/repository.component";
 
+import {DesksLoaderService} from "../services/desks-loader.service";
+import {FoldersService} from "../services/folders.service";
+
 
 const routes: Routes = [
   {
@@ -79,7 +82,8 @@ const routes: Routes = [
   providers: [
     CasesService,
     PathService,
-    DesksLoaderService
+    DesksLoaderService,
+    FoldersService
   ]
 })
 export class MainScreenModule {

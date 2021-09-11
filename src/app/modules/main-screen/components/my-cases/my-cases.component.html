@@ -1,17 +1,18 @@
 <div class="my-cases-container">
-  <h4>Дела</h4>
+  <h4>{{ getHeaderTitle() }}</h4>
   <div class="cases-container">
-    <div class="folder" *ngFor="let case of foldersOnPage" (click)="selectFolder(case)"
-         [ngClass]="case.isSelected ? 'selected' : ''">
+    <div class="folder" *ngFor="let caseOnPage of foldersOnPage" (click)="selectFolder(caseOnPage)"
+         [ngClass]="caseOnPage.isSelected ? 'selected' : ''">
       <div class="folder-icon"></div>
-      <p>{{ case.folder.title }}</p>
+      <p>{{ caseOnPage.folder.title }}</p>
     </div>
   </div>
+  <h4 *ngIf="desksOnPage.length != 0">Доски</h4>
   <div class="cases-container" *ngIf="desksOnPage.length != 0">
-    <div class="folder" *ngFor="let desk of desksOnPage" (click)="selectDesk(desk)"
-         [ngClass]="desk.isSelected ? 'selected' : ''">
+    <div class="folder" *ngFor="let deckOnPage of desksOnPage" (click)="selectDesk(deckOnPage)"
+         [ngClass]="deckOnPage.isSelected ? 'selected' : ''">
       <div class="folder-icon"></div>
-      <p>{{ desk.desk.title }}</p>
+      <p>{{ deckOnPage.desk.title }}</p>
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@ import {NewFolder} from "../../../../../interfaces/new-created/new-folder.interf
 import {NewDesk} from "../../../../../interfaces/new-created/new-desk.interface";
 
 @Component({
-  selector: 'app-desk-creator-dialog',
+  selector: 'desk-creator-dialog',
   templateUrl: './desk-creator-dialog.component.html',
   styleUrls: ['../creator-dialog.style.sass']
 })
@@ -28,7 +28,7 @@ export class DeskCreatorDialogComponent implements OnInit {
 
   closeModal(decision: boolean): void {
     let response: CreationResponse = {
-      agreed: decision,
+      agreed: false,
       data: null
     }
     if (decision) {

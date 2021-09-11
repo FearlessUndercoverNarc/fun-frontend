@@ -32,7 +32,6 @@ export class MyCasesComponent implements OnInit {
 
   ngOnInit(): void {
     if (this._pathService.isRoot()) {
-
       this._casesService.loadCases()
         .subscribe(() => {
           this.foldersOnPage = this._casesService.cases.map(c => {
@@ -43,9 +42,7 @@ export class MyCasesComponent implements OnInit {
         })
 
     } else {
-
       this.processSubFolder(this._pathService.parentFolderId);
-
     }
   }
 
@@ -59,7 +56,7 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  private unselectOthers() {
+  unselectOthers() {
     for (let folder of this.foldersOnPage) {
       folder.isSelected = false;
     }
@@ -109,5 +106,9 @@ export class MyCasesComponent implements OnInit {
         alert('ERROR. Check console for details.');
         console.log(error);
       });
+  }
+
+  getHeaderTitle(): string {
+    return this._pathService.isRoot() ? 'Дела' : 'Папки';
   }
 }
