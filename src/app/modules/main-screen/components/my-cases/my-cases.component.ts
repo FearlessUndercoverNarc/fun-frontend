@@ -61,6 +61,15 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
+  selectMilk(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      event.preventDefault();
+    } else {
+      this.unselectOthers();
+    }
+  }
+
+
   selectDesk(deskOnPage: DeskOnPage): void {
     if (!deskOnPage.isSelected) {
       this.unselectOthers();
@@ -118,5 +127,11 @@ export class MyCasesComponent implements OnInit {
     } else {
       this.processSubFolder(this._pathService.parentFolderId);
     }
+  }
+
+  onRightClick(event: MouseEvent) {
+    event.preventDefault();
+
+    console.log('right clicked!')
   }
 }
