@@ -1,6 +1,11 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Route } from '@angular/compiler/src/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { switchMap } from 'rxjs/operators';
 import { Card } from 'src/app/shared/interfaces/card.interface';
+import { Desk } from 'src/app/shared/interfaces/desk.interface';
+import { DeskService } from 'src/app/shared/services/desk.service';
 
 
 interface Position {
@@ -18,6 +23,8 @@ interface Position {
   styleUrls: ['./main-board.component.sass']
 })
 export class MainBoardComponent implements OnInit, AfterViewInit {
+
+  desk = {} as Desk
 
   isCursorDown: boolean = false
   isDragging: boolean = false
@@ -61,9 +68,24 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     offsetY: 0
   }
 
-  constructor() { }
+  constructor(
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _deskService: DeskService
+  ) { }
 
   ngOnInit(): void {
+    this._route.params
+    .pipe(
+      switchMap(params => {
+        return this._deskService.getById(params.id)
+      })
+    )
+    .subscribe(desk => {
+      this.desk = desk
+    }, error => {
+      this._router.navigate(['/'])
+    })
   }
 
   ngAfterViewInit() {
