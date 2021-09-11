@@ -151,6 +151,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
   mouseUpHandler(event: any) {
     this.isCursorDown = false
+    
 
     this.mainContainer.nativeElement.style.cursor = 'default';
   }
@@ -197,6 +198,10 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
   onDragStopped(id: number) {
     this.isDragging = false
+
+    this._cardService.update(this.getCardById(id))
+    .subscribe(() => {
+    })
   }
 
   onConnectionButtonClicked(id: number) {
