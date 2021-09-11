@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, SkipSelf} from '@angular/core';
 import {Router} from "@angular/router";
 import {RightClickService} from "../../../../shared/services/right-click.service";
+import {PathService} from "../../services/path.service";
 
 @Component({
   selector: 'app-template',
@@ -10,7 +11,8 @@ import {RightClickService} from "../../../../shared/services/right-click.service
 export class TemplateComponent implements OnInit {
   constructor(
     private _router: Router,
-    private _rightClickService: RightClickService
+    private _rightClickService: RightClickService,
+    @SkipSelf() private _pathService: PathService
   ) {
   }
 
@@ -42,6 +44,7 @@ export class TemplateComponent implements OnInit {
 
   goToMyCases(): void {
     this.toggleNavMenu();
+    this._pathService.goToRoot();
     this._router.navigate(['browse', 'my-cases']);
   }
 
@@ -52,6 +55,7 @@ export class TemplateComponent implements OnInit {
 
   goToTrashBin(): void {
     this.toggleNavMenu();
+    this._pathService.goToRoot();
     this._router.navigate(['browse', 'trash-bin']);
   }
 

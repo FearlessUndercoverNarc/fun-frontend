@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, SkipSelf} from "@angular/core";
 import {FolderDto} from "../interfaces/dto/folder-dto.interface";
 import {HttpClient} from "@angular/common/http";
 import {AccountService} from "../../../shared/services/account.service";
@@ -11,12 +11,13 @@ import {map} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class FoldersService extends BasicCRUD<any>{
+export class FoldersService extends BasicCRUD<any> {
   private _folders: FolderDto[] = [];
+
 
   constructor(
     private _httpClient: HttpClient,
-    protected _accountService: AccountService
+    @SkipSelf() protected _accountService: AccountService
   ) {
     super(APIControllers.Folder, _httpClient, _accountService);
   }
@@ -28,6 +29,8 @@ export class FoldersService extends BasicCRUD<any>{
   get folders(): FolderDto[] {
     return this._folders;
   }
+
+
 
   loadSubFolders(folderId: number): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
@@ -41,4 +44,5 @@ export class FoldersService extends BasicCRUD<any>{
         })
       )
   }
+
 }
