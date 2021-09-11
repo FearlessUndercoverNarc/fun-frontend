@@ -11,7 +11,7 @@ import { CardService } from 'src/app/shared/services/card.service';
 })
 export class CardCreatorDialogComponent implements OnInit {
 
-  colors: string[] = ['7BC86CFF', '81e66dFF', 'F5DD29FF', 'FFAF3FFF', 'EF7564FF', 'CD8DE5FF', '5BA4CFFF', '29CCE5FF']
+  colors: string[] = ['#7BC86C', '#81e66d', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5']
   selectedColor: string = this.colors[0]
   selectedColorId: number = 0
   uploadedFile: string = ''
