@@ -6,6 +6,8 @@ import {ReplaySubject} from "rxjs";
 })
 export class DeleteService {
 
+  selectedElementsToTrashbinMoved: ReplaySubject<void> = new ReplaySubject<void>();
+  selectedElementsRecovered: ReplaySubject<void> = new ReplaySubject<void>();
   selectedElementsDeleted: ReplaySubject<void> = new ReplaySubject<void>();
 
   constructor(
@@ -13,8 +15,15 @@ export class DeleteService {
   ) {
   }
 
-  deleteSelectedElements(): void {
-    this.selectedElementsDeleted.next();
+  moveToTrashbinSelectedElements(): void {
+    this.selectedElementsToTrashbinMoved.next();
   }
 
+  recoverSelectedElements() {
+    this.selectedElementsRecovered.next();
+  }
+
+  deleteSelectedElements() {
+    this.selectedElementsDeleted.next();
+  }
 }

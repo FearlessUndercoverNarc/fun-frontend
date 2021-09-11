@@ -11,6 +11,8 @@ import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
+import {TrashedFoldersService} from "../../services/trashed-folders.service";
+import {TrashedDesksService} from "../../services/trashed-desks.service";
 
 @Component({
   selector: 'app-my-cases',
@@ -23,12 +25,15 @@ export class MyCasesComponent implements OnInit {
   desksOnPage: DeskOnPage[] = [];
 
   onceClicked: boolean = false;
+  isDragging: boolean = false;
 
   constructor(
     @SkipSelf() private _casesService: CasesService,
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
+    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
+    @SkipSelf() private _trashedDesksService: TrashedDesksService,
     @SkipSelf() private _rightClickService: RightClickService,
     private _deleteService: DeleteService
   ) {
@@ -43,18 +48,18 @@ export class MyCasesComponent implements OnInit {
       this.loadAllElements()
     });
 
-    this._deleteService.selectedElementsDeleted
-      .subscribe(() => this.deleteSelectedElements())
+    this._deleteService.selectedElementsToTrashbinMoved
+      .subscribe(() => this.moveToTrashbinSelectedElements())
   }
 
-  private deleteSelectedElements() {
+  private moveToTrashbinSelectedElements() {
     console.log('here 3')
 
     console.table(this.foldersOnPage);
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._foldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -67,7 +72,7 @@ export class MyCasesComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._desksService.moveToTrash(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.moveToTrash(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })

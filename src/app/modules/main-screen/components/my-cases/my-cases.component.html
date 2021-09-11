@@ -1,11 +1,14 @@
-<div class="my-cases-container"
+<div class="my-cases-container" cdkDropListGroup
      (click)="selectMilk($event)"
      (contextmenu)="onRightClickMilk($event)">
   <h4 (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">{{ getHeaderTitle() }}</h4>
   <div class="cases-container"
        (contextmenu)="onRightClickMilk($event)"
        (click)="selectMilk($event)">
-    <div class="folder" *ngFor="let caseOnPage of foldersOnPage"
+    <div class="folder" cdkDropList cdkDrag *ngFor="let caseOnPage of foldersOnPage"
+         (mousedown)="isDragging = true"
+         (mouseup)="isDragging = false"
+         [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
          (click)="this.onceClicked = true; selectFolder(caseOnPage)"
          [ngClass]="caseOnPage.isSelected ? 'selected' : ''"
          (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">

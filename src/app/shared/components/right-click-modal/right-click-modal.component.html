@@ -18,7 +18,7 @@
     <div class="dialog-box__image">
       <img src="assets/icons/delete_dialog.svg" alt="">
     </div>
-    <button (click)="deleteElement()" type="button" class="dialog-box__button">Удалить</button>
+    <button (click)="moveToTrashbinElement()" type="button" class="dialog-box__button">Удалить</button>
   </div>
 </div>
 
@@ -32,6 +32,25 @@
       <img src="assets/icons/import-icon.svg" alt="">
     </div>
     <button type="button" class="dialog-box__button">Импортировать</button>
+  </div>
+</div>
+
+
+<div class="dialog-box"
+     *ngIf="isRecoverModalShown"
+     [style.top]="y.toString() + 'px'"
+     [style.left]="x.toString() + 'px'">
+  <div class="dialog-box__item">
+    <div class="dialog-box__image">
+      <img src="assets/icons/recover-icon.svg" alt="">
+    </div>
+    <button type="button" class="dialog-box__button" (click)="recoverElement()">Восстановить</button>
+  </div>
+  <div class="dialog-box__item">
+    <div class="dialog-box__image">
+      <img src="assets/icons/delete_dialog.svg" alt="">
+    </div>
+    <button type="button" class="dialog-box__button" (click)="deleteElement()">Удалить</button>
   </div>
 </div>
 

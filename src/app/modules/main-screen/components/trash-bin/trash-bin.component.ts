@@ -9,6 +9,8 @@ import {PathService} from "../../services/path.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
 import {LinkerEnvironment} from "@angular/compiler-cli/linker";
+import {TrashedFoldersService} from "../../services/trashed-folders.service";
+import {TrashedDesksService} from "../../services/trashed-desks.service";
 
 @Component({
   selector: 'app-trash-bin',
@@ -27,6 +29,8 @@ export class TrashBinComponent implements OnInit {
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
+    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
+    @SkipSelf() private _trashedDesksService: TrashedDesksService,
     @SkipSelf() private _rightClickService: RightClickService,
     private _deleteService: DeleteService
   ) {
@@ -35,10 +39,10 @@ export class TrashBinComponent implements OnInit {
   isModalShown: boolean = false;
 
   ngOnInit(): void {
-    this._foldersService.loadTrashedFolders()
+    this._trashedFoldersService.loadTrashedFolders()
       .subscribe(() => {
-        console.table(this._foldersService.trashedFolders)
-        this.casesOnPage = this._foldersService.trashedFolders.filter(tc => {
+        console.table(this._trashedFoldersService.trashedFolders)
+        this.casesOnPage = this._trashedFoldersService.trashedFolders.filter(tc => {
           return tc.parentId === null
         }).map(tc => {
           return {folder: tc, isSelected: false}
@@ -46,7 +50,7 @@ export class TrashBinComponent implements OnInit {
 
         console.table(this.casesOnPage)
 
-        this.foldersOnPage = this._foldersService.trashedFolders.filter(tf => {
+        this.foldersOnPage = this._trashedFoldersService.trashedFolders.filter(tf => {
           return tf.parentId!!
         }).map(tf => {
           return {folder: tf, isSelected: false}
@@ -55,13 +59,19 @@ export class TrashBinComponent implements OnInit {
       });
 
 
-    this._desksService.loadTrashedDesks().subscribe(() => {
-      this.desksOnPage = this._desksService.desks.map(d => {
+    this._trashedDesksService.loadTrashedDesks().subscribe(() => {
+      this.desksOnPage = this._trashedDesksService.trashedDesks.map(d => {
         return {desk: d, isSelected: false}
       })
     })
 
     console.table(this.desksOnPage)
+
+    this._deleteService.selectedElementsRecovered
+      .subscribe(() => this.recoverSelectedElements())
+
+    this._deleteService.selectedElementsDeleted
+      .subscribe(() => this.deleteSelectedElements())
   }
 
   showClearModal() {
@@ -81,8 +91,6 @@ export class TrashBinComponent implements OnInit {
 
 
   onRightClickElement(event: MouseEvent) {
-    this.onceClicked = false;
-
     event.stopImmediatePropagation();
 
     event.preventDefault();
@@ -90,7 +98,7 @@ export class TrashBinComponent implements OnInit {
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
 
-    this._rightClickService.rightClickedElement.next();
+    this._rightClickService.rightClickedTrash.next();
   }
 
   onRightClickMilk(event: MouseEvent) {
@@ -122,14 +130,6 @@ export class TrashBinComponent implements OnInit {
       this.unselectAll();
 
       deskOnPage.isSelected = true;
-
-      this.onceClicked = true;
-    } else {
-      if (this.onceClicked) {
-        this.onceClicked = false;
-        this._rightClickService.hideAllModals();
-        alert('Not implemented.')
-      }
     }
   }
 
@@ -138,27 +138,18 @@ export class TrashBinComponent implements OnInit {
       this.unselectAll();
 
       folderOnPage.isSelected = true;
-
-      this.onceClicked = true;
-    } else {
-      if (this.onceClicked) {
-        this.onceClicked = false;
-        this._rightClickService.hideAllModals();
-        alert('line 124');
-        // this.openSubFolder(folderOnPage.folder);
-      }
     }
   }
 
 
-  private deleteSelectedElements() {
+  private moveToTrashSelectedElements() {
     console.log('here 3')
 
     console.table(this.foldersOnPage);
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._foldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -193,5 +184,76 @@ export class TrashBinComponent implements OnInit {
     for (let desk of this.desksOnPage) {
       desk.isSelected = false;
     }
+  }
+
+  private recoverSelectedElements() {
+    console.log('here')
+
+    for (let i = 0; i < this.casesOnPage.length; i++) {
+      if (this.casesOnPage[i].isSelected) {
+        this._trashedFoldersService.recover(this.casesOnPage[i].folder.id)
+          .subscribe(() => {
+            this.casesOnPage.splice(i, 1)
+          });
+      }
+    }
+
+    for (let i = 0; i < this.foldersOnPage.length; i++) {
+      if (this.foldersOnPage[i].isSelected) {
+        this._trashedFoldersService.recover(this.foldersOnPage[i].folder.id)
+          .subscribe(() => {
+            this.foldersOnPage.splice(i, 1)
+          });
+      }
+    }
+
+    this._trashedFoldersService.trashedFolders = this.foldersOnPage.map(f => {
+      return f.folder
+    })
+
+    for (let i = 0; i < this.desksOnPage.length; i++) {
+      if (this.desksOnPage[i].isSelected) {
+        this._trashedDesksService.recover(this.desksOnPage[i].desk.id)
+          .subscribe(() => {
+            this.desksOnPage.splice(i, 1);
+          })
+      }
+    }
+
+    this._trashedDesksService.trashedDesks = this.desksOnPage.map(d => {
+      return d.desk
+    })
+
+    this.unselectAll();
+  }
+
+  private deleteSelectedElements() {
+    for (let i = 0; i < this.foldersOnPage.length; i++) {
+      if (this.foldersOnPage[i].isSelected) {
+        this._trashedFoldersService.delete(this.foldersOnPage[i].folder.id)
+          .subscribe(() => {
+            this.foldersOnPage.splice(i, 1)
+          });
+      }
+    }
+
+    this._trashedFoldersService.trashedFolders = this.foldersOnPage.map(f => {
+      return f.folder
+    })
+
+    for (let i = 0; i < this.desksOnPage.length; i++) {
+      if (this.desksOnPage[i].isSelected) {
+        this._trashedDesksService.delete(this.desksOnPage[i].desk.id)
+          .subscribe(() => {
+            this.desksOnPage.splice(i, 1);
+          })
+      }
+    }
+
+    this._trashedDesksService.trashedDesks = this.desksOnPage.map(d => {
+      return d.desk
+    })
+
+    this.unselectAll();
   }
 }

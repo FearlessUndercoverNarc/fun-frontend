@@ -15,6 +15,7 @@ export class RightClickModalComponent implements OnInit {
 
   isElementModalShown: boolean = false;
   isMilkModalShown: boolean = false;
+  isRecoverModalShown: boolean = false;
 
   constructor(
     @SkipSelf() private _rightClickService: RightClickService,
@@ -41,9 +42,18 @@ export class RightClickModalComponent implements OnInit {
         this.isElementModalShown = false;
       })
 
+    this._rightClickService.rightClickedTrash
+      .subscribe(() => {
+        this.x = this.calcX();
+        this.y = this.calcY();
+
+        this.isRecoverModalShown = true;
+      })
+
     this._rightClickService.hideAllModalsEvent.subscribe(() => {
       this.isMilkModalShown = false;
       this.isElementModalShown = false;
+      this.isRecoverModalShown = false;
     })
   }
 
@@ -53,6 +63,16 @@ export class RightClickModalComponent implements OnInit {
 
   private calcY() {
     return this._rightClickService.y;
+  }
+
+  moveToTrashbinElement() {
+    this._rightClickService.hideAllModals();
+    this._deleteService.moveToTrashbinSelectedElements();
+  }
+
+  recoverElement() {
+    this._rightClickService.hideAllModals();
+    this._deleteService.recoverSelectedElements();
   }
 
   deleteElement() {

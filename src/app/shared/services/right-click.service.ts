@@ -13,6 +13,7 @@ export class RightClickService {
 
   rightClickedElement: ReplaySubject<void> = new ReplaySubject<void>();
   rightClickedMilk: ReplaySubject<void> = new ReplaySubject<void>();
+  rightClickedTrash: ReplaySubject<void> = new ReplaySubject<void>();
 
   hideAllModalsEvent: ReplaySubject<void> = new ReplaySubject<void>();
 

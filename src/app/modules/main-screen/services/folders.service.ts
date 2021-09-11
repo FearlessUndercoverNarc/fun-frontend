@@ -14,7 +14,6 @@ import {map} from "rxjs/operators";
 export class FoldersService extends BasicCRUD<any> {
   private _folders: FolderDto[] = [];
 
-  private _trashedFolders: FolderDto[] = [];
 
   constructor(
     private _httpClient: HttpClient,
@@ -31,13 +30,7 @@ export class FoldersService extends BasicCRUD<any> {
     return this._folders;
   }
 
-  set trashedFolders(cases: FolderDto[]) {
-    this._trashedFolders = cases;
-  }
 
-  get trashedFolders(): FolderDto[] {
-    return this._trashedFolders;
-  }
 
   loadSubFolders(folderId: number): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
@@ -52,20 +45,4 @@ export class FoldersService extends BasicCRUD<any> {
       )
   }
 
-  moveToTrash(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
-      params: {
-        id: id.toString(),
-      }
-    })
-  }
-
-  loadTrashedFolders(): Observable<void> {
-    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashbin`)
-      .pipe(
-        map((result: FolderDto[]) => {
-          this._folders = result;
-        })
-      )
-  }
 }
