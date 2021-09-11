@@ -1,10 +1,12 @@
-import { Route } from '@angular/compiler/src/core';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { CardConnection } from 'src/app/shared/interfaces/card-connection.interface';
 import { Card } from 'src/app/shared/interfaces/card.interface';
 import { Desk } from 'src/app/shared/interfaces/desk.interface';
+import { CardConnectionService } from 'src/app/shared/services/card-connection.service';
+import { CardService } from 'src/app/shared/services/card.service';
 import { DeskService } from 'src/app/shared/services/desk.service';
 
 
@@ -25,56 +27,37 @@ interface Position {
 export class MainBoardComponent implements OnInit, AfterViewInit {
 
   desk = {} as Desk
+  isLoaded: boolean = false
 
   isCursorDown: boolean = false
   isDragging: boolean = false
+  isConnectingCards: boolean = false
 
   @ViewChild(PerfectScrollbarComponent) board?: PerfectScrollbarComponent
   @ViewChild('mainContainer') mainContainer: any
   @ViewChild('canvas') canvas: any
 
-  position: Position = {
-    top: 0,
-    left: 0,
-    x: 0,
-    y: 0,
-    offsetX: 0,
-    offsetY: 0
-  }
+  position = {} as Position
 
   zoom: number = 1
 
-  cards: Card[] = [
-    {
-      id: 1,
-      x: 5000,
-      y: 5000
-    },
-    {
-      id: 2,
-      x: 5500,
-      y: 5500
-    },
-  ]
+  cards: Card[] = []
+  cardConnections: CardConnection[] = []
 
   draggingCard = {} as Card
-
-  draggingPosition: Position = {
-    top: 0,
-    left: 0,
-    x: 0,
-    y: 0,
-    offsetX: 0,
-    offsetY: 0
-  }
+  draggingPosition = {} as Position
+  creatingCardConnection = {cardLeftId: -1} as CardConnection
 
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
-    private _deskService: DeskService
+    private _deskService: DeskService,
+    private _cardService: CardService,
+    private _cardConnectionService: CardConnectionService,
   ) { }
 
   ngOnInit(): void {
+
     this._route.params
     .pipe(
       switchMap(params => {
@@ -83,33 +66,86 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     )
     .subscribe(desk => {
       this.desk = desk
+
+      this._cardService.getAllByDesk(this.desk.id)
+      .subscribe(cards => {
+        this.cards = cards
+
+        this._cardConnectionService.getAllByDesk(this.desk.id)
+        .pipe(
+          map(connections => {
+            return connections.map(conn => {
+              const leftCard = this.getCardById(conn.cardLeftId)
+              const rightCard = this.getCardById(conn.cardRightId)
+
+              conn.x1 = leftCard.x
+              conn.y1 = leftCard.y
+
+              conn.x2 = rightCard.x
+              conn.y2 = rightCard.y
+
+              return conn
+            })
+          })
+        )
+        .subscribe(cardConnections => {
+
+          this.cardConnections = cardConnections
+          console.log(cardConnections)
+          
+          setTimeout(() => {
+            this.board?.directiveRef?.scrollTo(4800, 4800)
+          }, 100)
+
+          this.isLoaded = true
+        })
+
+        
+
+      }, error => {
+        this._router.navigate(['/'])
+      })
+
+      
+
     }, error => {
       this._router.navigate(['/'])
     })
   }
 
   ngAfterViewInit() {
-    this.board?.directiveRef?.scrollTo(4800, 4800)
   }
 
   mouseMoveHandler(event: any) {
     event.preventDefault()
 
-    if (!this.isCursorDown) return
+    if (!this.isCursorDown && !this.isConnectingCards) return
 
-    if (!this.isDragging) {
+    console.log(this.isConnectingCards)
+    if (this.isConnectingCards) {
+
+      const leftCard = this.getCardById(this.creatingCardConnection.cardLeftId)
+
+      this.creatingCardConnection.x2 = 
+      event.clientX + leftCard.x
+      - (document.getElementById(`card${leftCard.id || 0}`)?.offsetWidth || 0);
+
+      this.creatingCardConnection.y2 = event.clientY + leftCard.y
+      - (document.getElementById(`card${leftCard.id || 0}`)?.offsetHeight || 0) - 50;
+
+    } else if (!this.isDragging) {
       const deltaX = this.position.x - event.clientX
       const deltaY = this.position.y - event.clientY
 
       this.board?.directiveRef?.scrollTo(this.position.left + deltaX, this.position.top + deltaY)
-    } else {
+    }
+    else {
       const deltaX = this.draggingPosition.left + event.clientX
       const deltaY = this.draggingPosition.top + event.clientY
 
       this.draggingCard.x = deltaX - this.draggingPosition.offsetX
       this.draggingCard.y = deltaY - 50 - (this.draggingPosition.offsetY)
 
-      console.log(deltaY, this.draggingPosition.offsetY)
     }
   }
 
@@ -128,7 +164,6 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     this.position = this.getCursorPosition(event)
     this.draggingPosition = this.getCursorPosition(event)
 
-    console.log(event)
   }
 
   getCursorPosition(event: any): Position {
@@ -163,5 +198,44 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   onDragStopped(id: number) {
     this.isDragging = false
   }
+
+  onConnectionButtonClicked(id: number) {
+
+    if (this.creatingCardConnection.cardLeftId == -1) {
+      this.isConnectingCards = true
+
+      this.creatingCardConnection.cardLeftId = id
+
+      this.creatingCardConnection.x1 = this.getCardById(this.creatingCardConnection.cardLeftId).x
+      this.creatingCardConnection.y1 = this.getCardById(this.creatingCardConnection.cardLeftId).y
+    
+    } else {
+      this.isConnectingCards = false
+      this.creatingCardConnection.cardRightId = id
+
+      this.creatingCardConnection.x2 = this.getCardById(this.creatingCardConnection.cardRightId).x
+      this.creatingCardConnection.y2 = this.getCardById(this.creatingCardConnection.cardRightId).y
+
+      this._cardConnectionService.create(this.creatingCardConnection)
+      .subscribe(() => {
+        this.isConnectingCards = false
+        this.creatingCardConnection.cardLeftId = -1
+      })
+    }
+
+    console.log(this.creatingCardConnection)
+  }
+
+  getCardById(id: number): Card {
+    return this.cards.find(card => card.id == id) || {} as Card
+  }
+
+  removeConnection(id: number) {
+    this._cardConnectionService.remove(id)
+    .subscribe(() => {
+      this.cardConnections = this.cardConnections.filter(connection => connection.id != id)
+    })
+  }
+
 
 }

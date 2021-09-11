@@ -1,22 +1,35 @@
 <div class="container" #mainContainer>
-    <header></header>
-    <div class="board-container">
-        <perfect-scrollbar #board style="max-width: 100vw; max-height: 100vh;">
-            <div class="board"
-            #canvas
-            (mousemove)="mouseMoveHandler($event)"
-            (mouseup)="mouseUpHandler($event)"
-            (mousedown)="mouseDownHandler($event)"
-            >
-                <app-card 
-                *ngFor="let card of cards"
-                [id]="'card' + card.id"
-                [card]="card" 
-                [ngStyle]="{top: card.y + 'px', left: card.x + 'px'}"
-                (onDragStarted)="onDragStarted($event)"
-                (onDragStopped)="onDragStopped($event)"
-                ></app-card>
-            </div>
-        </perfect-scrollbar>
-    </div>
+    <ng-container *ngIf="isLoaded">
+        <header>
+            <span>{{ desk.title }} - {{ desk.description }}</span>
+        </header>
+        <div class="board-container">
+            <perfect-scrollbar #board style="max-width: 100vw; max-height: 100vh;">
+                <div class="board"
+                #canvas
+                (mousemove)="mouseMoveHandler($event)"
+                (mouseup)="mouseUpHandler($event)"
+                (mousedown)="mouseDownHandler($event)"
+                >
+                    <app-card 
+                    *ngFor="let card of cards"
+                    [id]="'card' + card.id"
+                    [card]="card" 
+                    [ngStyle]="{top: card.y + 'px', left: card.x + 'px'}"
+                    (onDragStarted)="onDragStarted($event)"
+                    (onDragStopped)="onDragStopped($event)"
+                    (onConnectionClicked)="onConnectionButtonClicked($event)"
+                    ></app-card>
+                    <svg width="10000" height="10000">
+                        <line
+                        class="connectionLine"
+                        *ngFor="let connection of cardConnections"
+                        (click)="removeConnection(connection.id)"
+                        [attr.x1]="getCardById(connection.cardLeftId).x" [attr.y1]="getCardById(connection.cardLeftId).y" [attr.x2]="getCardById(connection.cardRightId).x" [attr.y2]="getCardById(connection.cardRightId).y" stroke-width="2" stroke="red"/>
+                        <!-- <line [attr.x1]="creatingCardConnection.x1" [attr.y1]="creatingCardConnection.y1" [attr.x2]="creatingCardConnection.x2" [attr.y2]="creatingCardConnection.y2" stroke-width="1" stroke="black"/> -->
+                    </svg>
+                </div>
+            </perfect-scrollbar>
+        </div>
+    </ng-container>
 </div>

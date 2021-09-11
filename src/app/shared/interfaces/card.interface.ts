@@ -1,5 +1,11 @@
 export interface Card {
-    id: number,
+    id?: number,
     x: number,
-    y: number
+    y: number,
+    title: string,
+    image: string,
+    description: string,
+    externalUrl: string,
+    colorHex: string,
+    deskId: number
 }

@@ -2,7 +2,6 @@ import {HttpClient} from "@angular/common/http"
 import {Observable} from "rxjs"
 import {environment} from "src/environments/environment"
 import {AccountService} from "./account.service";
-import {ApiAreas} from "../enums/api-areas.enum";
 
 export abstract class BasicCRUD<TParam> {
 
