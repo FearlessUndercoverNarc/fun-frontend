@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {RightClickService} from "../../../../shared/services/right-click.service";
 
 @Component({
   selector: 'app-template',
@@ -8,7 +9,8 @@ import {Router} from "@angular/router";
 })
 export class TemplateComponent implements OnInit {
   constructor(
-    private _router: Router
+    private _router: Router,
+    private _rightClickService: RightClickService
   ) {
   }
 
@@ -72,5 +74,13 @@ export class TemplateComponent implements OnInit {
     this.toggleNavMenu();
 
     this._router.navigate(['browse', 'settings']);
+  }
+
+  onRightClick(event: MouseEvent): void {
+    event.preventDefault();
+
+    if (event.target === event.currentTarget) {
+      this._rightClickService.hideAllModals();
+    }
   }
 }

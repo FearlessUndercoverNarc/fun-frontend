@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import {CaseCreatorService} from "../services/creators/case-creator.service";
 import {CreatorService} from "../services/creators/creator.service";
 import {FolderCreatorService} from "../services/creators/folder-creator.service";
+import {CardCreatorDialogComponent} from "../components/create/shared/components/card-creator-dialog/card-creator-dialog.component";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {FolderCreatorService} from "../services/creators/folder-creator.service"
     CaseCreatorDialogComponent,
     FolderCreatorDialogComponent,
     DeskCreatorDialogComponent,
+    CardCreatorDialogComponent
   ],
   imports: [
     CommonModule,

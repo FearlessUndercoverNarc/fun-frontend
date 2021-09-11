@@ -7,6 +7,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
+import {RightClickModalComponent} from './shared/components/right-click-modal/right-click-modal.component';
+import {RightClickService} from "./shared/services/right-click.service";
+import {RightClickModule} from "./shared/modules/right-click/right-click.module";
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -23,12 +26,15 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RightClickModule
   ],
   providers: [
     AccountService,
+    RightClickService,
     INTERCEPTOR_PROVIDER
   ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

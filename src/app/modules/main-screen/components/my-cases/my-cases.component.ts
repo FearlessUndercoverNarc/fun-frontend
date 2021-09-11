@@ -9,6 +9,7 @@ import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
 import {map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
+import {RightClickService} from "../../../../shared/services/right-click.service";
 
 @Component({
   selector: 'app-my-cases',
@@ -26,7 +27,8 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _casesService: CasesService,
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
-    @SkipSelf() private _foldersService: FoldersService
+    @SkipSelf() private _foldersService: FoldersService,
+    @SkipSelf() private _rightClickService: RightClickService
   ) {
   }
 
@@ -67,6 +69,8 @@ export class MyCasesComponent implements OnInit {
     } else {
       this.unselectOthers();
     }
+
+    this._rightClickService.hideAllModals();
   }
 
 
@@ -78,6 +82,8 @@ export class MyCasesComponent implements OnInit {
     } else {
       alert('not implemented')
     }
+
+    this._rightClickService.hideAllModals();
   }
 
   private openSubFolder(subFolder: FolderDto) {
@@ -129,9 +135,23 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  onRightClick(event: MouseEvent) {
+  onRightClickElement(event: MouseEvent) {
     event.preventDefault();
 
-    console.log('right clicked!')
+    this._rightClickService.x = event.x;
+    this._rightClickService.y = event.y;
+
+    this._rightClickService.rightClickedElement.next();
+  }
+
+  onRightClickMilk(event: MouseEvent) {
+    if (event.target === event.currentTarget) {
+      event.preventDefault();
+
+      this._rightClickService.x = event.x;
+      this._rightClickService.y = event.y;
+
+      this._rightClickService.rightClickedMilk.next();
+    }
   }
 }

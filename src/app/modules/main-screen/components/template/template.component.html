@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <header class="header">
+  <header class="header" (contextmenu)="onRightClick($event)">
     <div class="header__logo">
       <a href="">
         <div class="header__logo-image"><img src="assets/icons/logo.svg" alt=""></div>
@@ -41,7 +41,8 @@
     </div>
   </header>
   <main class="main">
-    <div class="left-bar" [ngClass]="isMenuShown ? '_active' : ''">
+    <div class="left-bar" [ngClass]="isMenuShown ? '_active' : ''"
+         (contextmenu)="onRightClick($event)">
       <ul class="left-bar__list">
         <li class="left-bar__item">
           <a (click)="goToCreate()" class="left-bar__link">
@@ -105,5 +106,5 @@
       <router-outlet></router-outlet>
     </div>
   </main>
-<!--  TODO сделать затемнение router-outlet при просмотре нав-меню-->
+  <!--  TODO сделать затемнение router-outlet при просмотре нав-меню-->
 </div>

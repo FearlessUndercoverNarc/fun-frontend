@@ -8,7 +8,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {MyCasesModule} from "./my-cases.module";
 import {TrashBinModule} from "./trash-bin.module";
 import {CasesService} from "../services/cases.service";
-import {PathService} from "../services/path.service";
 import {CreateModule} from "./create.module";
 import {CreateComponent} from "../components/create/create.component";
 import {ProfileComponent} from "../components/profile/profile.component";
@@ -72,7 +71,7 @@ const routes: Routes = [
 
     SettingsComponent,
     ProfileComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
   ],
   imports: [
     CommonModule,
@@ -85,7 +84,7 @@ const routes: Routes = [
     CasesService,
     DesksLoaderService,
     FoldersService
-  ]
+  ],
 })
 export class MainScreenModule {
 }

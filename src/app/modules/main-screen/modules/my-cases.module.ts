@@ -1,25 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Routes} from "@angular/router";
 import {MyCasesComponent} from "../components/my-cases/my-cases.component";
 import {CreateCaseComponent} from "../components/create-case/create-case.component";
 import {CreateElementComponent} from "../components/create-element/create-element.component";
+import {RightClickModule} from "../../../shared/modules/right-click/right-click.module";
 
-
-const routes: Routes = [
-  {
-    path: '',
-    component: MyCasesComponent
-  },
-  {
-    path: 'create-case',
-    component: CreateCaseComponent
-  },
-  {
-    path: 'create-element',
-    component: CreateElementComponent
-  }
-]
 
 @NgModule({
   declarations: [
@@ -28,7 +13,8 @@ const routes: Routes = [
     CreateElementComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RightClickModule
   ],
   exports: [
     MyCasesComponent,
