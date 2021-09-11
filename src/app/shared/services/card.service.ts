@@ -6,6 +6,7 @@ import { AccountService } from "./account.service";
 import { Card } from "../interfaces/card.interface";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class CardService extends BasicCRUD<Card> {
@@ -19,6 +20,18 @@ export class CardService extends BasicCRUD<Card> {
 
 
     getAllByDesk(id: number): Observable<Card[]> {
-        return this._httpClient.get<Card[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAllByDesk`, {params: {id: id+''}})
+        return this._httpClient.get<Card[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAllByDesk`, { params: { id: id + '' } })
+    }
+
+    uploadImage(image: any): Observable<string> {
+
+        const uploadData = new FormData();
+        uploadData.append('image', image);
+
+        return this._httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/UploadImage`, uploadData).pipe(
+            map((response: any) => {
+                return response.image
+            })
+        )
     }
 }

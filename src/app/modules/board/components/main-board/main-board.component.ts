@@ -26,6 +26,8 @@ interface Position {
 })
 export class MainBoardComponent implements OnInit, AfterViewInit {
 
+  isCreateDialogDisplayed: boolean = false
+
   desk = {} as Desk
   isLoaded: boolean = false
 
@@ -46,7 +48,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
   draggingCard = {} as Card
   draggingPosition = {} as Position
-  creatingCardConnection = {cardLeftId: -1} as CardConnection
+  creatingCardConnection = { cardLeftId: -1 } as CardConnection
 
   constructor(
     private _router: Router,
@@ -59,58 +61,58 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this._route.params
-    .pipe(
-      switchMap(params => {
-        return this._deskService.getById(params.id)
-      })
-    )
-    .subscribe(desk => {
-      this.desk = desk
-
-      this._cardService.getAllByDesk(this.desk.id)
-      .subscribe(cards => {
-        this.cards = cards
-
-        this._cardConnectionService.getAllByDesk(this.desk.id)
-        .pipe(
-          map(connections => {
-            return connections.map(conn => {
-              const leftCard = this.getCardById(conn.cardLeftId)
-              const rightCard = this.getCardById(conn.cardRightId)
-
-              conn.x1 = leftCard.x
-              conn.y1 = leftCard.y
-
-              conn.x2 = rightCard.x
-              conn.y2 = rightCard.y
-
-              return conn
-            })
-          })
-        )
-        .subscribe(cardConnections => {
-
-          this.cardConnections = cardConnections
-          console.log(cardConnections)
-          
-          setTimeout(() => {
-            this.board?.directiveRef?.scrollTo(4800, 4800)
-          }, 100)
-
-          this.isLoaded = true
+      .pipe(
+        switchMap(params => {
+          return this._deskService.getById(params.id)
         })
+      )
+      .subscribe(desk => {
+        this.desk = desk
 
-        
+        this._cardService.getAllByDesk(this.desk.id)
+          .subscribe(cards => {
+            this.cards = cards
+
+            this._cardConnectionService.getAllByDesk(this.desk.id)
+              .pipe(
+                map(connections => {
+                  return connections.map(conn => {
+                    const leftCard = this.getCardById(conn.cardLeftId)
+                    const rightCard = this.getCardById(conn.cardRightId)
+
+                    conn.x1 = leftCard.x
+                    conn.y1 = leftCard.y
+
+                    conn.x2 = rightCard.x
+                    conn.y2 = rightCard.y
+
+                    return conn
+                  })
+                })
+              )
+              .subscribe(cardConnections => {
+
+                this.cardConnections = cardConnections
+                console.log(cardConnections)
+
+                setTimeout(() => {
+                  this.board?.directiveRef?.scrollTo(4800, 4800)
+                }, 100)
+
+                this.isLoaded = true
+              })
+
+
+
+          }, error => {
+            this._router.navigate(['/'])
+          })
+
+
 
       }, error => {
         this._router.navigate(['/'])
       })
-
-      
-
-    }, error => {
-      this._router.navigate(['/'])
-    })
   }
 
   ngAfterViewInit() {
@@ -126,12 +128,12 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
       const leftCard = this.getCardById(this.creatingCardConnection.cardLeftId)
 
-      this.creatingCardConnection.x2 = 
-      event.clientX + leftCard.x
-      - (document.getElementById(`card${leftCard.id || 0}`)?.offsetWidth || 0);
+      this.creatingCardConnection.x2 =
+        event.clientX + leftCard.x
+        - (document.getElementById(`card${leftCard.id || 0}`)?.offsetWidth || 0);
 
       this.creatingCardConnection.y2 = event.clientY + leftCard.y
-      - (document.getElementById(`card${leftCard.id || 0}`)?.offsetHeight || 0) - 50;
+        - (document.getElementById(`card${leftCard.id || 0}`)?.offsetHeight || 0) - 50;
 
     } else if (!this.isDragging) {
       const deltaX = this.position.x - event.clientX
@@ -151,7 +153,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
   mouseUpHandler(event: any) {
     this.isCursorDown = false
-    
+
 
     this.mainContainer.nativeElement.style.cursor = 'default';
   }
@@ -181,7 +183,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  scrollHandler(direction: number) {
+  zoomHandler(direction: number) {
 
     if (this.isCursorDown) return
 
@@ -200,8 +202,8 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     this.isDragging = false
 
     this._cardService.update(this.getCardById(id))
-    .subscribe(() => {
-    })
+      .subscribe(() => {
+      })
   }
 
   onConnectionButtonClicked(id: number) {
@@ -215,7 +217,7 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
 
       this.creatingCardConnection.x1 = this.getCardById(this.creatingCardConnection.cardLeftId).x
       this.creatingCardConnection.y1 = this.getCardById(this.creatingCardConnection.cardLeftId).y
-    
+
     } else {
       this.isConnectingCards = false
       this.creatingCardConnection.cardRightId = id
@@ -226,13 +228,13 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
       this.mainContainer.nativeElement.style.cursor = 'default';
 
       this._cardConnectionService.create(this.creatingCardConnection)
-      .subscribe(() => {
-        this.isConnectingCards = false
+        .subscribe((response: any) => {
+          this.isConnectingCards = false
 
-        this.cardConnections.push({...this.creatingCardConnection})
+          this.cardConnections.push({ ...this.creatingCardConnection, id: response.id })
 
-        this.creatingCardConnection.cardLeftId = -1
-      })
+          this.creatingCardConnection.cardLeftId = -1
+        })
     }
 
     console.log(this.creatingCardConnection)
@@ -243,11 +245,20 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   }
 
   removeConnection(id: number) {
+    console.log(id)
     this._cardConnectionService.remove(id)
-    .subscribe(() => {
-      this.cardConnections = this.cardConnections.filter(connection => connection.id != id)
-    })
+      .subscribe(() => {
+        this.cardConnections = this.cardConnections.filter(connection => connection.id != id)
+      })
   }
 
+  createCard(event: any) {
+    this.position = this.getCursorPosition(event)
+    this.isCreateDialogDisplayed = true
+  }
+
+  closeBoard() {
+    this._router.navigate(['/'])
+  }
 
 }
