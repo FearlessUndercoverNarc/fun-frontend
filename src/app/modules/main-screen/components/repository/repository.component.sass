@@ -17,7 +17,7 @@ ul
 		list-style-type: none
 		margin: 0
 
-.repository 
+.repository
 	padding-bottom: 30px
 	padding-top: 20px
 	font-family: 'Inter', sans-serif
@@ -25,35 +25,35 @@ ul
 	@include adaptiv-value("padding-left", 59, -17)
 	@include adaptiv-value("padding-right", 59, -17)
 
-	&__title 
+	&__title
 		display: flex
 		align-items: center
 		margin-bottom: 20px
 
-	&__name-title 
+	&__name-title
 		min-width: 284px
 		flex: 0 1 30%
 
-	&__dateCreation-title 
+	&__dateCreation-title
 		text-align: center
 		flex: 0 1 19%
 
-	&__dateChange-title 
+	&__dateChange-title
 		text-align: center
 		flex: 0 1 19%
 
-	&__team-title 
+	&__team-title
 		text-align: center
 		flex: 0 1 18%
 
-	&__size-title 
+	&__size-title
 		flex: 0 1 14%
 		text-align: end
 
-	&__list 
+	&__list
 		position: relative
 
-	&__item 
+	&__item
 		align-items: center
 		cursor: pointer
 		box-shadow: 0px 2px 4px rgba(39, 40, 51, 0.12)
@@ -66,12 +66,12 @@ ul
 		display: flex
 		&:not(:last-child)
 			margin-bottom: 12px
-			
+
 
 
 	&__name-wrapper
 		display: flex
-		align-items: center 
+		align-items: center
 		min-width: 284px
 
 	&__name
@@ -83,21 +83,21 @@ ul
 		img
 			margin-left: 15px
 
-	&__dateCreation 
+	&__dateCreation
 		text-align: center
 		flex: 0 1 19.7%
 
-	&__dateChange 
+	&__dateChange
 		text-align: center
 		flex: 0 1 19.7%
 
-	&__team 
+	&__team
 		flex: 0 1 20%
 		justify-content: center
 		align-items: center
 		display: flex
 
-	&__person 
+	&__person
 		width: 40px
 		height: 40px
 		background: #ffffff
@@ -116,9 +116,9 @@ ul
 		&:nth-child(4)
 			margin-left: -15px
 
-	&__person-counter 
+	&__person-counter
 
-	&__size 
+	&__size
 		min-width: 80px
 		margin-left: auto
 		text-align: end
@@ -127,16 +127,16 @@ ul
 
 @media (max-width: 1210px)
 	.repository
-		
-		&__dateChange-title 
+
+		&__dateChange-title
 			display: none
-		&__dateChange 
+		&__dateChange
 			display: none
-		
-		&__dateCreation 
+
+		&__dateCreation
 			flex: 0 1 25%
 
-		&__team 
+		&__team
 			flex: 0 1 20%
 
 		&__name
@@ -146,31 +146,31 @@ ul
 		&__name-wrapper
 			min-width: 230px
 
-		&__name-title 
+		&__name-title
 			min-width: 260px
 			flex: 0 1 20%
 
-		&__dateCreation-title 
+		&__dateCreation-title
 			flex: 0 1 19%
 
-		&__team-title 
+		&__team-title
 			flex: 0 1 25%
 
-		&__size-title 
+		&__size-title
 			margin-left: auto
 			flex: 0 1 14%
 
 
 @media (max-width: 1058px)
 	.repository
-		
+
 		&__name
 			max-width: 110px
 
 		&__name-wrapper
 			min-width: 170px
 
-		&__name-title 
+		&__name-title
 			min-width: 200px
 
 @media (max-width: 945px)
@@ -181,7 +181,7 @@ ul
 		&__name-wrapper
 			min-width: 150px
 
-		&__name-title 
+		&__name-title
 			min-width: 180px
 			flex: 0 1 10%
 
@@ -190,7 +190,7 @@ ul
 		&__name-wrapper
 			min-width: 120px
 
-		&__name-title 
+		&__name-title
 			min-width: 150px
 
 @media (max-width: 855px)
@@ -198,25 +198,25 @@ ul
 		&__name-wrapper
 			min-width: 100px
 
-		&__name-title 
+		&__name-title
 			min-width: 130px
 			flex: 0 1 1%
 
-	
+
 @media (max-width: 767px)
 	.repository
 		@include adaptiv-value("padding-left", 59, 10)
 		@include adaptiv-value("padding-right", 59, 10)
-		
-		&__dateChange-title 
+
+		&__dateChange-title
 			display: none
-		&__dateChange 
+		&__dateChange
 			display: none
-		
-		&__dateCreation 
+
+		&__dateCreation
 			flex: 0 1 25%
 
-		&__team 
+		&__team
 			flex: 0 1 37%
 		&__name
 			max-width: 180px
@@ -224,61 +224,61 @@ ul
 		&__name-wrapper
 			min-width: 230px
 
-		&__name-title 
+		&__name-title
 			min-width: 260px
 			flex: 0 1 20%
 
-		&__dateCreation-title 
+		&__dateCreation-title
 			flex: 0 1 19%
 
 
-		&__team-title 
+		&__team-title
 			flex: 0 1 25%
 
-		&__size-title 
+		&__size-title
 			margin-left: auto
 			flex: 0 1 14%
 @media (max-width: 657px)
 	.repository
-		
+
 		&__name
 			max-width: 110px
 
 		&__name-wrapper
 			min-width: 170px
 
-		&__name-title 
+		&__name-title
 			min-width: 200px
 
 @media (max-width: 609px)
 	.repository
-		
+
 		&__name
 			max-width: 80px
 			min-width: none
 		&__name-wrapper
 			min-width: 140px
 
-		&__dateCreation 
+		&__dateCreation
 			flex: 0 1 19%
 
-		&__name-title 
+		&__name-title
 			min-width: 160px
 			flex: 0 1 27%
 
-		&__dateCreation-title 
+		&__dateCreation-title
 			flex: 0 1 10%
 
 
-		&__team-title 
+		&__team-title
 			flex: 0 1 40%
 
-		&__size-title 
+		&__size-title
 			margin-left: auto
 			flex: 0 1 14%
 @media (max-width: 551px)
 	.repository
-		&__person 
+		&__person
 			width: 40px
 			height: 40px
 			background: #ffffff
@@ -298,10 +298,10 @@ ul
 		&__name-wrapper
 			min-width: 110px
 
-		&__name-title 
+		&__name-title
 			min-width: 120px
 
-		&__team-title 
+		&__team-title
 			flex: 0 1 100%
 
 		&__size
@@ -309,247 +309,20 @@ ul
 
 @media (max-width: 457px)
 	.repository
-		&__team-title 
+		&__team-title
 			padding-left: 20px
 			text-align: start
-		&__dateCreation-title 
+		&__dateCreation-title
 			display: none
-		&__dateCreation 
+		&__dateCreation
 			display: none
 @media (max-width: 457px)
 	.repository
-		&__team-title 
+		&__team-title
 			padding-left: 10px
 			text-align: start
 		&__name-wrapper
 			min-width: 80px
-		&__name-title 
+		&__name-title
 			min-width: 80px
 
-//========================================================================================================================================================
-//========================================================================================================================================================
-//-----<модальное окно>
-
-.popup 
-	color: $Detective_Black_2
-	font-family: 'Inter', sans-serif
-	z-index: 100
-	padding: 30px 10px
-	position: fixed
-	top: 0px
-	left: 0
-	width: 100%
-	height: 100%
-	transition: visibility 0.8s ease 0s
-	visibility: hidden
-	&._active 
-		overflow: auto
-		visibility: visible
-
-		.popup-space-closing 
-			cursor: pointer
-			opacity: 1
-		
-		.popup__body 
-			transition: all 0.3s ease 0.2s
-			transform: scale(1)
-			border-radius: 16px
-	
-	&__content 
-		display: flex
-		flex-direction: column
-		align-items: center
-		min-height: 100%
-		flex: 1 1 auto
-		width: 100%
-		display: flex
-		justify-content: center
-		align-items: center
-
-	&__body 
-		transform: scale(0)
-		transition: all 0.3s ease 0s
-		background-color: #fff
-		padding: 50px
-		width: 100%
-		max-width: 602px
-
-	&__title 
-		text-align: center
-		font-size: 24px
-		line-height: 32px
-		margin-bottom: 33px
-
-	&__search-wrapper 
-		width: 100%
-		margin-bottom: 33px
-
-	&__peaple-wrapper 
-		display: flex
-		flex-wrap: wrap
-		justify-content: center
-
-	&__peaple
-		max-width: 64px
-		margin: 0 7px 20px 7px
-
-	&__button-wrapper 
-		display: flex
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-
-	&__button-cancel 
-		margin-right: 24px
-		padding: 14px 70px
-		border: 1px solid $Detective_Black_2
-		background: none
-		border-radius: 100px
-		outline: none
-		font-family: 'Inter', sans-serif
-		line-height: 19px
-		transition: all 0.3s ease 0s
-		cursor: pointer
-		font-size: 16px
-		margin: 0px 10px 10px 10px 
-		&:hover
-			background: #f5f5f5
-
-	&__button-share
-		padding: 14px 62px
-		cursor: pointer
-		border-radius: 100px
-		outline: none
-		border: none
-		background: $bgColor
-		font-size: 16px
-		font-family: 'Inter', sans-serif
-		line-height: 19px
-		transition: all 0.3s ease 0s
-		margin: 0px 10px 10px 10px 
-		&:hover
-			background: $btnHoverColor
-
-
-.popup-space-closing 
-	background: rgba(50, 49, 48, 0.4)
-	position: fixed
-	width: 100%
-	height: 100%
-	top: 0
-	left: 0
-	opacity: 0
-	transition: opacity 0.8s ease 0s
-
-.search-popup 
-	display: flex
-	align-items: center
-
-	&__icon 
-		width: 40px
-		display: flex
-		align-items: center
-		justify-content: center
-		background: $mainColor
-		height: 40px
-		cursor: pointer
-		border-radius: 8px 0 0 8px
-
-	&__input 
-		width: 100%
-		border: none
-		outline: none
-		padding-right: 10px
-		background: $mainColor
-		height: 40px
-		border-radius: 0 8px 8px 0
-
-.peaple-popup 
-	
-	&._active .peaple-popup__image
-		border: 3px solid $bgColor
-		span
-			opacity: 1
-			visibility: visible
-	&__image 
-		cursor: pointer
-		position: relative
-		width: 64px
-		height: 64px
-		border-radius: 100%
-		span
-			position: absolute
-			bottom: -3px
-			right: -3px
-			width: 24px
-			height: 24px
-			background: $bgColor
-			display: flex
-			align-items: center
-			justify-content: center
-			border-radius: 100%
-			opacity: 0
-			visibility: hidden
-		&>img
-			width: 100%
-			height: 100%
-			border-radius: 100%
-
-	&__name 
-		text-align: center
-		color: #000
-		font-size: 14px
-		line-height: 22px
-//========================================================================================================================================================
-//========================================================================================================================================================
-//------<диалоговое окно>
-.dialog-box 
-	position: absolute
-	top: 120%
-	left: 0%
-	max-width: 342px
-	min-width: 170px
-	width: 100%
-	background: $whiteColor
-	border-radius: 8px
-	display: flex
-	flex-direction: column
-	box-shadow: 0 2px 4px rgba(39, 40, 51, 0.12)
-	&__item 
-		padding: 0 20px
-		height: 56px
-		display: flex
-		cursor: pointer
-		align-items: center
-		transition: all 0.3s ease 0s
-		&:hover
-			background: $mainColor
-		&:first-child
-			border-radius: 8px 8px 0 0
-		&:last-child
-			border-radius: 0 0 8px 8px
-
-
-	&__image 
-		width: 30px
-		height: 100%
-		display: flex
-		align-items: center
-		justify-content: center
-
-	&__button 
-		display: flex
-		align-items: center
-		padding-left: 20px
-		cursor: pointer
-		width: 100%
-		font-size: 16px
-		color: $Detective_Black_2
-		font-family: 'Inter', sans-serif
-		line-height: 19px
-		flex: 0 1 auto
-		height: 100%
-		border: none
-		background: none
-		outline: none
-		border: none
