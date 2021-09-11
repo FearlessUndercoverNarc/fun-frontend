@@ -1,0 +1,176 @@
+@import "~src/styles/global-variables"
+@import "~src/styles/var-variables"
+
+@mixin adaptiv-value($property, $startSize, $minSize)
+  $addSize: $startSize - $minSize
+  #{$property}: $startSize + px
+  @media (max-width: #{1440 + px})
+    #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
+
+*
+  box-sizing: border-box
+ul
+  padding: 0
+  margin: 0
+
+  li
+    list-style-type: none
+    padding: 0
+    margin: 0
+
+.profile
+  padding-bottom: 30px
+  font-family: 'Inter', sans-serif
+  color: $Detective_Black_2
+  @include adaptiv-value("padding-left", 59, 10)
+  @include adaptiv-value("padding-right", 59, 10)
+
+  &__title 
+    font-weight: 500
+    font-size: 18px
+    line-height: 22px
+    border-bottom: 1px solid $borderColor
+    padding: 20px 0
+
+  &__image 
+    display: flex
+    border-bottom: 1px solid $borderColor
+    padding: 14px 0
+
+
+.image-profile 
+
+  &__text 
+    min-width: 250px
+
+  &__image 
+    width: 64px
+    height: 64px
+    border-radius: 100%
+    img
+      width: 100%
+      height: 100%
+      border-radius: 100%
+
+.settings-profile 
+
+  &__item 
+    padding: 18px 0
+    border-bottom: 1px solid $borderColor
+    display: flex
+    &:last-child
+      border: none
+  
+  &__itemShow
+    padding: 18px 0
+    border-bottom: 1px solid $borderColor
+    display: flex
+    transition: all 0.8s ease 0s
+    &._active
+      transform: translateX(0)
+
+  .itemShow-wrapper
+    position: relative
+
+  &__itemSwitch
+    width: 100%
+    height: 100%
+    position: absolute
+    top: 0
+    background: $mainColor
+    transition: all 0.3s ease 0s
+    padding: 18px 0
+    &._active
+      top: 100%
+
+  &__text
+    flex: 0 1 250px
+
+  &__input-wrapper 
+    display: flex
+    min-width: 300px
+    align-items: center
+    flex: 0 1 40%
+    justify-content: space-between
+    background: $whiteColor
+    border-radius: 8px
+
+  &__input 
+    padding: 20px 0px 20px 20px
+    width: 100%
+    border: none
+    outline: none
+    background: $whiteColor
+    border-radius: 8px
+    font-size: 16px
+    line-height: 19px
+    color: $Detective_Black_2
+    font-family: 'Inter', sans-serif
+
+  &__icon
+    width: 50px
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+
+  &__button
+    color: $Detective_Black_2
+    cursor: pointer
+    padding: 14px 51px
+    outline: none
+    border: none
+    background: $bgColor
+    border-radius: 100px
+    line-height: 19px
+    transition: all 0.3s ease 0s
+    font-size: 16px
+    font-family: 'Inter', sans-serif
+    color: $fontColor
+    margin-top: 18px
+    @include adaptiv-value("margin-left", 340, 15)
+    &:hover
+      background: $btnHoverColor
+
+@media (max-width: 863px)
+  .settings-profile
+
+    &__input-wrapper 
+      flex: 0 1 100%
+
+    &__text
+      margin-bottom: 10px
+
+    &__item
+      flex-wrap: wrap
+@media (max-width: 768px)
+  .settings-profile
+
+    &__input-wrapper 
+      flex: 0 1 40%
+
+@media (max-width: 650px)
+  .settings-profile
+
+    &__item
+      flex-wrap: nowrap
+
+@media (max-width: 507px)
+  .settings-profile
+    
+    &__item
+      flex-wrap: wrap
+    &__itemShow
+      flex-wrap: wrap
+
+    &__input-wrapper 
+      flex: 0 1 100%
+      min-width: 0
+
+@media (max-width: 400px)
+  .image-profile
+    justify-content: space-between
+
+    &__text
+      min-width: 0
