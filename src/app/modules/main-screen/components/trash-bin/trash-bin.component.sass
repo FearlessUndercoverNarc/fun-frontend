@@ -50,6 +50,18 @@
     margin-left: 8px
     font-size: 16px !important
 
+
+    .selected
+      .folder-icon
+        background-image: url("~src/assets/icons/selected-folder-icon.svg") !important
+
+      .desk-icon
+        background-image: url("~src/assets/icons/selected-desk-icon.svg") !important
+
+      p
+        color: $golden
+
+
   .cases-container
     display: grid
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
@@ -72,6 +84,20 @@
 
       display: flex
       align-items: center
+
+      .element-icon
+        width: 26px
+        height: 24px
+        background-repeat: no-repeat
+        background-size: contain
+        background-position: center
+
+
+      .folder-icon
+        background-image: url("~src/assets/icons/folder-icon.svg")
+
+      .desk-icon
+        background-image: url("~src/assets/icons/desk-icon.svg")
 
       p
         margin-left: 16px

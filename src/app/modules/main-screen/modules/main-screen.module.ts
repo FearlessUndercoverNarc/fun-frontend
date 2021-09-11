@@ -19,6 +19,10 @@ import {RepositoryComponent} from "../components/repository/repository.component
 import {DesksLoaderService} from "../services/desks-loader.service";
 import {FoldersService} from "../services/folders.service";
 import {PathLineComponent} from "../components/template/path-line/path-line.component";
+import {DeleteService} from "../services/delete.service";
+import {PathService} from "../services/path.service";
+import {TrashedFoldersService} from "../services/trashed-folders.service";
+import {TrashedDesksService} from "../services/trashed-desks.service";
 
 
 const routes: Routes = [
@@ -83,7 +87,9 @@ const routes: Routes = [
   providers: [
     CasesService,
     DesksLoaderService,
-    FoldersService
+    FoldersService,
+    TrashedFoldersService,
+    TrashedDesksService
   ],
 })
 export class MainScreenModule {

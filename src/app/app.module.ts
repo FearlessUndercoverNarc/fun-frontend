@@ -10,6 +10,8 @@ import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
 import {RightClickModalComponent} from './shared/components/right-click-modal/right-click-modal.component';
 import {RightClickService} from "./shared/services/right-click.service";
 import {RightClickModule} from "./shared/modules/right-click/right-click.module";
+import {DeleteService} from "./modules/main-screen/services/delete.service";
+import {PathService} from "./modules/main-screen/services/path.service";
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -32,6 +34,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
   providers: [
     AccountService,
     RightClickService,
+    PathService,
     INTERCEPTOR_PROVIDER
   ],
   exports: [],
