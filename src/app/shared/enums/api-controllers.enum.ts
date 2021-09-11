@@ -14,4 +14,6 @@ export enum APIControllers {
   Desk = 'Desk',
   FolderTrashbin = 'FolderTrashbin',
   DeskTrashbin = 'DeskTrashbin',
+  Card = 'Card',
+  CardConnection = 'CardConnection',
 }

@@ -1,11 +1,13 @@
 <div class="container" [ngClass]="{grabbed: isDragging}" (mousedown)="startDragging()" (mouseup)="stopDragging()">
     <div class="header">
         <div class="title">
-            <span>Орудие убийства</span>
+            <span>{{ card.title }}</span>
         </div>
-        <div class="pin"></div>
+        <div class="pin">
+            <span class="button" (click)="connectionClicked()">+</span>
+        </div>
     </div>
     <div class="content">
-        <span>Пистолет, обнаруженный рядом с местом приступления.</span>
+        <span>{{ card.description }}</span>
     </div>
 </div>
