@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {CaseCreatorService} from "../../../services/creators/case-creator.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     selector: 'new-case-btn',
@@ -7,7 +9,10 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NewCaseBtnComponent implements OnInit {
 
-    constructor() {
+    constructor(
+      private _caseCreatorService: CaseCreatorService,
+      public dialog: MatDialog
+    ) {
     }
 
     ngOnInit(): void {

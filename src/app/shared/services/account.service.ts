@@ -7,23 +7,24 @@ import {environment} from 'src/environments/environment';
 import {LoginDto} from "../interfaces/dto/login-dto.interface";
 import {APIControllers} from "../enums/api-controllers.enum";
 import {UserDto} from "../interfaces/dto/user-dto.interface";
-import {BasicCRUD} from "./basic-crud.service";
 import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 import {ApiAreas} from "../enums/api-areas.enum";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService extends BasicCRUD<any> {
+export class AccountService {
   postfix: string;
   private _token = '';
   private _id = 0;
+  private _hasSubscription = false;
+
+  //TODO when subs made update it in LS
 
   constructor(
     private _httpClient: HttpClient,
     private router: Router
   ) {
-    super(ApiAreas.Shared, APIControllers.Account, _httpClient);
     this.postfix = APIControllers.Account;
   }
 
@@ -37,6 +38,18 @@ export class AccountService extends BasicCRUD<any> {
       this._token = localStorage.getItem('token') + '';
     }
     return this._token;
+  }
+
+  set hasSubscription(hasSubscription: boolean) {
+    this._hasSubscription = hasSubscription;
+    localStorage.setItem('hasSubscription', this._hasSubscription ? 'yes' : 'no');
+  }
+
+  get hasSubscription(): boolean {
+    if (!this._hasSubscription) {
+      this._hasSubscription = localStorage.getItem('hasSubscription') === 'yes';
+    }
+    return this._hasSubscription;
   }
 
   get id(): number {
@@ -58,6 +71,7 @@ export class AccountService extends BasicCRUD<any> {
         map((result: LoginResultDto) => {
           this.id = result.id
           this.token = result.token;
+          this.hasSubscription = result.hasSubscription
           return result;
         })
       );
@@ -66,15 +80,6 @@ export class AccountService extends BasicCRUD<any> {
   update(element: UserDto): Observable<void> {
     return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/UpdateAccount`, element)
   }
-
-
-  // getById(id: number): Observable<UserDto> {
-  //   return this._httpClient.get<UserDto>(`${environment.apiUrl}/${this.postfix}/GetById`, {
-  //     params: {
-  //       id: id.toString()
-  //     }
-  //   })
-  // }
 
   logoutAndNavigateToAuth(): void {
     this.killLocalStorage();
@@ -108,5 +113,13 @@ export class AccountService extends BasicCRUD<any> {
 
   authPageEntered() {
     if (this.isLoggedIn()) this.killLocalStorage();
+  }
+
+  create(data: any): Observable<any> {
+    return this._httpClient.post<any>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Create`, data)
+  }
+
+  get ApiVersion(): string {
+    return this.hasSubscription ? ApiAreas.v2 : ApiAreas.v1;
   }
 }

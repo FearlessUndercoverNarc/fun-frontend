@@ -12,9 +12,11 @@ import {PathService} from "../services/path.service";
 import {CreateModule} from "./create.module";
 import {CreateComponent} from "../components/create/create.component";
 import {ProfileComponent} from "../components/profile/profile.component";
+
 import {SettingsComponent} from "../components/settings/settings.component";
 import {SubscriptionComponent} from "../components/subscription/subscription.component";
 import {RepositoryComponent} from "../components/repository/repository.component";
+
 
 const routes: Routes = [
   {
@@ -62,6 +64,7 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     SharedCasesComponent,
+
     SettingsComponent,
     ProfileComponent,
     SubscriptionComponent
@@ -75,7 +78,8 @@ const routes: Routes = [
   ],
   providers: [
     CasesService,
-    PathService
+    PathService,
+    DesksLoaderService
   ]
 })
 export class MainScreenModule {

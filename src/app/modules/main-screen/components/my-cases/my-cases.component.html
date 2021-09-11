@@ -1,9 +1,17 @@
 <div class="my-cases-container">
   <h4>Дела</h4>
   <div class="cases-container">
-    <div class="folder" *ngFor="let case of cases">
-      <img src="assets/icons/folder-icon.svg" alt="case">
-      <p>{{ case.title }}</p>
+    <div class="folder" *ngFor="let case of foldersOnPage" (click)="selectFolder(case)"
+         [ngClass]="case.isSelected ? 'selected' : ''">
+      <div class="folder-icon"></div>
+      <p>{{ case.folder.title }}</p>
+    </div>
+  </div>
+  <div class="cases-container" *ngIf="desksOnPage.length != 0">
+    <div class="folder" *ngFor="let desk of desksOnPage" (click)="selectDesk(desk)"
+         [ngClass]="desk.isSelected ? 'selected' : ''">
+      <div class="folder-icon"></div>
+      <p>{{ desk.desk.title }}</p>
     </div>
   </div>
 </div>

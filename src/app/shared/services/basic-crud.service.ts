@@ -1,27 +1,30 @@
-import { HttpClient } from "@angular/common/http"
-import { Observable } from "rxjs"
-import { environment } from "src/environments/environment"
-import CreatedDto from "../interfaces/dto/created-dto.interface";
-import {CreateGroupDto} from "../interfaces/dto/create-group.dto";
+import {HttpClient} from "@angular/common/http"
+import {Observable} from "rxjs"
+import {environment} from "src/environments/environment"
+import {AccountService} from "./account.service";
+import {ApiAreas} from "../enums/api-areas.enum";
 
 export abstract class BasicCRUD<TParam> {
 
   // This is a simple abstract class which implements all basic CRUD methods
 
   protected constructor(
-    protected apiArea: string,
     protected postfix: string,
     protected httpClient: HttpClient,
+    protected _accountService: AccountService
   ) {
   }
 
+  get apiArea() {
+    return this._accountService.ApiVersion;
+  }
 
   getAll(): Observable<TParam[]> {
     return this.httpClient.get<TParam[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAll`)
   }
 
-  create(data: CreateGroupDto): Observable<CreatedDto> {
-    return this.httpClient.post<CreatedDto>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Create`, data)
+  create(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Create`, data)
   }
 
   remove(id: number): Observable<void> {

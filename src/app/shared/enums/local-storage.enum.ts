@@ -1,4 +1,5 @@
 export enum LocalStorageEnum {
   Token = 'token',
-  AccountId = 'accountId'
+  AccountId = 'accountId',
+  Path = 'path'
 }

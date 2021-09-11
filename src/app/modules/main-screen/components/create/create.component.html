@@ -1,9 +1,11 @@
 <div class="create-container">
   <div class="btn-layer new-case-btn-wrapper" *ngIf="isRoot">
-    <new-case-btn></new-case-btn>
+    <new-case-btn (click)="createNewCase()"></new-case-btn>
   </div>
   <div class="btn-layer new-folder-or-desk-btn-wrapper" *ngIf="!isRoot">
-    <new-folder-btn></new-folder-btn>
-    <new-desk-btn></new-desk-btn>
+    <new-folder-btn (click)="createNewFolder()"></new-folder-btn>
+    <new-desk-btn (click)="createNewDesk()"></new-desk-btn>
   </div>
 </div>
+
+<app-creator-dialog [isShown]="isModalShown" (modalClosed)="modalClosed($event)"></app-creator-dialog>
