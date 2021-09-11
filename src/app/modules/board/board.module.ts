@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MainBoardComponent } from './components/main-board/main-board.component';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MainBoardComponent} from './components/main-board/main-board.component';
+import {RouterModule} from '@angular/router';
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { CardComponent } from './components/card/card.component';
+import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {CardComponent} from './components/card/card.component';
+import {CardCreatorDialogComponent} from "./components/card-creator-dialog/card-creator-dialog.component";
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  
-};
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
 @NgModule({
   declarations: [
     MainBoardComponent,
-    CardComponent
+    CardComponent,
+    CardCreatorDialogComponent
   ],
   imports: [
     CommonModule,
@@ -31,4 +31,5 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     }
   ]
 })
-export class BoardModule { }
+export class BoardModule {
+}
