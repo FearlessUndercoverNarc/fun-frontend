@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
       profileItemShow[0].classList.toggle('_active');
       profileItemShow[0].classList.contains('_active') ? profileButton.innerHTML = 'Сохранить': profileButton.innerHTML = 'Изменить пароль';
     });
+
   }
 
 }
