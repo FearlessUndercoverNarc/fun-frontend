@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, SkipSelf} from '@angular/core';
+import {CasesService} from "../../services/cases.service";
+import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
 
 @Component({
   selector: 'app-my-cases',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyCasesComponent implements OnInit {
 
-  constructor() { }
+  cases: FolderDto[] = [];
+
+  constructor(
+    @SkipSelf() private _casesService: CasesService
+  ) {
+  }
 
   ngOnInit(): void {
+    this._casesService.loadCases()
+      .subscribe(() => {
+        this.cases = this._casesService.cases;
+      }, error => {
+        console.log(error)
+      })
   }
 
 }

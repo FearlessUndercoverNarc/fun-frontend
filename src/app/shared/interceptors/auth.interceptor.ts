@@ -29,8 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
           console.log(error)
           if (error.status == 401) {
             // this._accountService.logout()
-            this._accountService.killAuthorization()
-            this._router.navigate(['/auth'])
+            this._accountService.killLocalStorage();
+            this._router.navigate(['auth']);
           }
           return throwError(error)
         })

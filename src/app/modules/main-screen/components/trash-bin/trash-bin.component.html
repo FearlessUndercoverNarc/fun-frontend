@@ -1,1 +1,11 @@
-<p>trash-bin works!</p>
+<div class="trash-bin-container trash">
+  <h4>Дела</h4>
+  <div class="cases-container">
+  </div>
+</div>
+<div class="trash__button-wrapper">
+  <button (click)="showClearModal()" type="button" class="trash__button">Очистить</button>
+</div>
+
+<popup [isShown]="isModalShown" (modalClosed)="modalClosed($event)"></popup>
+

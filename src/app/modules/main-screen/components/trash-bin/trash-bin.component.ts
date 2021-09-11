@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-trash-bin',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrashBinComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) {
+  }
+
+  isModalShown: boolean = false;
 
   ngOnInit(): void {
   }
 
+  showClearModal() {
+    this.isModalShown = true;
+  }
+
+  modalClosed(result: boolean): void {
+    this.isModalShown = false;
+    if (result) {
+      this.clearTrashBin();
+    }
+  }
+
+  private clearTrashBin(): void {
+    alert('Not implemented yet.');
+  }
 }

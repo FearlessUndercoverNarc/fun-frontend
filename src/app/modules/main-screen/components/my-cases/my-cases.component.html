@@ -1,1 +1,9 @@
-<p>my-cases works!</p>
+<div class="my-cases-container">
+  <h4>Дела</h4>
+  <div class="cases-container">
+    <div class="folder" *ngFor="let case of cases">
+      <img src="assets/icons/folder-icon.svg" alt="case">
+      <p>{{ case.title }}</p>
+    </div>
+  </div>
+</div>
