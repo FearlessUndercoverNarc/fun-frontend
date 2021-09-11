@@ -17,6 +17,10 @@ import {SettingsComponent} from "../components/settings/settings.component";
 import {SubscriptionComponent} from "../components/subscription/subscription.component";
 import {RepositoryComponent} from "../components/repository/repository.component";
 
+import {DesksLoaderService} from "../services/desks-loader.service";
+import {FoldersService} from "../services/folders.service";
+import {PathLineComponent} from "../components/template/path-line/path-line.component";
+
 
 const routes: Routes = [
   {
@@ -63,6 +67,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     TemplateComponent,
+    PathLineComponent,
     SharedCasesComponent,
 
     SettingsComponent,
@@ -78,8 +83,8 @@ const routes: Routes = [
   ],
   providers: [
     CasesService,
-    PathService,
-    DesksLoaderService
+    DesksLoaderService,
+    FoldersService
   ]
 })
 export class MainScreenModule {

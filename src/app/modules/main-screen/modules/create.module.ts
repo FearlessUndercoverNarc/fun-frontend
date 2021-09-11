@@ -14,6 +14,9 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
+import {CaseCreatorService} from "../services/creators/case-creator.service";
+import {CreatorService} from "../services/creators/creator.service";
+import {FolderCreatorService} from "../services/creators/folder-creator.service";
 
 
 @NgModule({
@@ -25,7 +28,6 @@ import {FormsModule} from "@angular/forms";
     CaseCreatorDialogComponent,
     FolderCreatorDialogComponent,
     DeskCreatorDialogComponent,
-
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,11 @@ import {FormsModule} from "@angular/forms";
     MatOptionModule,
     MatInputModule
   ],
+  providers: [
+    CaseCreatorService,
+    DeskCreatorDialogComponent,
+    FolderCreatorService
+  ]
 })
 export class CreateModule {
 }

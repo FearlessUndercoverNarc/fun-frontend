@@ -12,7 +12,7 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class FoldersService extends BasicCRUD<any>{
-  private _folder: FolderDto[] = [];
+  private _folders: FolderDto[] = [];
 
   constructor(
     private _httpClient: HttpClient,
@@ -22,11 +22,11 @@ export class FoldersService extends BasicCRUD<any>{
   }
 
   set folders(cases: FolderDto[]) {
-    this._folder = cases;
+    this._folders = cases;
   }
 
   get folders(): FolderDto[] {
-    return this._folder;
+    return this._folders;
   }
 
   loadSubFolders(folderId: number): Observable<void> {
@@ -37,7 +37,7 @@ export class FoldersService extends BasicCRUD<any>{
     })
       .pipe(
         map((result: FolderDto[]) => {
-          this._folder = result;
+          this._folders = result;
         })
       )
   }

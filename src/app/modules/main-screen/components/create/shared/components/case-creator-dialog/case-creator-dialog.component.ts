@@ -3,7 +3,7 @@ import {CreationResponse} from "../../interfaces/creation-response.interface";
 import {NewCase} from "../../../../../interfaces/new-created/new-case.interface";
 
 @Component({
-  selector: 'app-creator-dialog',
+  selector: 'case-creator-dialog',
   templateUrl: './case-creator-dialog.component.html',
   styleUrls: ['../creator-dialog.style.sass']
 })

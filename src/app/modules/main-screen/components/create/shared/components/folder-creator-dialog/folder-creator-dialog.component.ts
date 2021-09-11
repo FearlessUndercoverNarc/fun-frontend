@@ -4,7 +4,7 @@ import {NewFolder} from "../../../../../interfaces/new-created/new-folder.interf
 import {PathService} from "../../../../../services/path.service";
 
 @Component({
-  selector: 'app-folder-creator-dialog',
+  selector: 'folder-creator-dialog',
   templateUrl: './folder-creator-dialog.component.html',
   styleUrls: ['../creator-dialog.style.sass']
 })
@@ -26,7 +26,7 @@ export class FolderCreatorDialogComponent implements OnInit {
 
   closeModal(decision: boolean): void {
     let response: CreationResponse = {
-      agreed: decision,
+      agreed: false,
       data: null
     }
     if (decision) {

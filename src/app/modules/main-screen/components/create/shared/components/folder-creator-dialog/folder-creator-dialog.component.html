@@ -4,15 +4,11 @@
   <div class="popup-space-closing" (click)="closeModal(false)"></div>
   <div class="popup__content">
     <div class="popup__body">
-      <h3>Создание нового дела</h3>
+      <h3>Создание новой папки</h3>
 
       <mat-form-field appearance="fill">
         <mat-label>Название</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Описание</mat-label>
-        <textarea matInput></textarea>
+        <input matInput [(ngModel)]="title">
       </mat-form-field>
 
       <div class="popup__button-wrapper">

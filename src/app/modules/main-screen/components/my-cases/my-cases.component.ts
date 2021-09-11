@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
 import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
@@ -31,22 +31,14 @@ export class MyCasesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._pathService.isRoot()) {
 
-      this._casesService.loadCases()
-        .subscribe(() => {
-          this.foldersOnPage = this._casesService.cases.map(c => {
-            return {folder: c, isSelected: false};
-          });
-        }, error => {
-          console.log(error)
-        })
+    this.loadAllElements();
 
-    } else {
 
-      this.processSubFolder(this._pathService.parentFolderId);
-
-    }
+    this._pathService.pathChanged.subscribe(() => {
+      console.log('pathChangedEvent.subscribe')
+      this.loadAllElements()
+    });
   }
 
   selectFolder(folderOnPage: FolderOnPage): void {
@@ -59,7 +51,7 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  private unselectOthers() {
+  unselectOthers() {
     for (let folder of this.foldersOnPage) {
       folder.isSelected = false;
     }
@@ -69,11 +61,22 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
+  selectMilk(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      event.preventDefault();
+    } else {
+      this.unselectOthers();
+    }
+  }
+
+
   selectDesk(deskOnPage: DeskOnPage): void {
     if (!deskOnPage.isSelected) {
+      this.unselectOthers();
+
       deskOnPage.isSelected = true;
     } else {
-      alert('not implemented.')
+      alert('not implemented')
     }
   }
 
@@ -94,20 +97,41 @@ export class MyCasesComponent implements OnInit {
           return {folder: f, isSelected: false};
         })
 
-        console.table(this.foldersOnPage)
-
         this._desksService.loadDesks()
           .subscribe(() => {
             this.desksOnPage = this._desksService.desks.map(d => {
               return {desk: d, isSelected: false}
             })
-
-            console.table(this.desksOnPage)
-
           })
       }, error => {
         alert('ERROR. Check console for details.');
         console.log(error);
       });
+  }
+
+  getHeaderTitle(): string {
+    return this._pathService.isRoot() ? 'Дела' : 'Папки';
+  }
+
+  private loadAllElements() {
+    if (this._pathService.isRoot()) {
+      this._casesService.loadCases()
+        .subscribe(() => {
+          this.foldersOnPage = this._casesService.cases.map(c => {
+            return {folder: c, isSelected: false};
+          });
+        }, error => {
+          console.log(error)
+        })
+
+    } else {
+      this.processSubFolder(this._pathService.parentFolderId);
+    }
+  }
+
+  onRightClick(event: MouseEvent) {
+    event.preventDefault();
+
+    console.log('right clicked!')
   }
 }

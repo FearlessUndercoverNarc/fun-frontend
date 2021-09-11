@@ -8,6 +8,7 @@ import {pipe} from "rxjs";
 import {map} from "rxjs/operators";
 import {LockFileWithChildProcess} from "@angular/compiler-cli/ngcc/src/locking/lock_file_with_child_process";
 import {Router} from "@angular/router";
+import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 
 @Component({
   selector: 'app-create',
@@ -17,7 +18,9 @@ import {Router} from "@angular/router";
 export class CreateComponent implements OnInit {
 
   isRoot = false;
-  isModalShown = false;
+  isCaseModalShown = false;
+  isFolderModalShown = false;
+  isDeskModalShown = false;
 
   private _creatingTarget = '';
 
@@ -33,57 +36,83 @@ export class CreateComponent implements OnInit {
   ngOnInit(): void {
     this.isRoot = this._pathService.isRoot();
 
-    console.log(this._pathService.path)
+    console.table(this._pathService.path)
   }
 
   modalClosed(result: CreationResponse): void {
-    this.isModalShown = false;
-    if (result) {
-      switch (this._creatingTarget) {
-        case 'case':
+    switch (this._creatingTarget) {
+      case 'case':
+        this.isCaseModalShown = false;
+        if (result.agreed) {
+          console.log('case: case')
           this._caseCreatorService.create(result.data)
-            .subscribe((result) => {
-                console.table(result);
+            .subscribe((response) => {
+                console.log('case was created!')
+                console.table(response);
+
+                // const newPathPart: PathPart = {
+                //   folderId: response.id,
+                //   folderTitle: result.data!.title
+                // }
+                //
+                // this._pathService.deeper(newPathPart);
+
                 this._router.navigate(['browse', 'my-cases']);
               }
             )
-          break;
+        }
+        break;
 
-        case 'folder':
+      case 'folder':
+        this.isFolderModalShown = false;
+        if (result.agreed) {
+          console.log('case: folder')
           console.table(result.data);
           this._folderCreatorService.create(result.data)
-            .subscribe((result) => {
-              console.table(result);
+            .subscribe((response) => {
+              console.log('folder was created!')
+              console.table(response);
+              //
+              // const newPathPart: PathPart = {
+              //   folderId: response.id,
+              //   folderTitle: result.data!.title
+              // }
+              //
+              // this._pathService.deeper(newPathPart);
+              //
               this._router.navigate(['browse', 'my-cases']);
             })
-          break;
+        }
+        break;
 
-        case 'desk':
+      case 'desk':
+        this.isDeskModalShown = false;
+        if (result.agreed) {
+          console.log('case: desk')
           this._deskCreatorService.create(result.data)
-            .subscribe((result) => {
-              console.table(result);
+            .subscribe((response) => {
               this._router.navigate(['browse', 'my-cases']);
             })
-          break;
+        }
+        break;
 
-        default:
-          break;
-      }
+      default:
+        break;
     }
   }
 
   createNewCase() {
-    this.isModalShown = true;
+    this.isCaseModalShown = true;
     this._creatingTarget = 'case';
   }
 
   createNewFolder() {
-    this.isModalShown = true;
+    this.isFolderModalShown = true;
     this._creatingTarget = 'folder';
   }
 
   createNewDesk() {
-    this.isModalShown = true;
+    this.isDeskModalShown = true;
     this._creatingTarget = 'desk';
   }
 }
