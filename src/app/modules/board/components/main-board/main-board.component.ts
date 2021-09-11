@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { map, switchMap } from 'rxjs/operators';
@@ -24,9 +24,10 @@ interface Position {
   templateUrl: './main-board.component.html',
   styleUrls: ['./main-board.component.sass']
 })
-export class MainBoardComponent implements OnInit, AfterViewInit {
+export class MainBoardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isCreateDialogDisplayed: boolean = false
+  isEditDialogDisplayed: boolean = false
 
   desk = {} as Desk
   isLoaded: boolean = false
@@ -93,23 +94,38 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
               .subscribe(cardConnections => {
 
                 this.cardConnections = cardConnections
-                console.log(cardConnections)
 
                 setTimeout(() => {
                   this.board?.directiveRef?.scrollTo(4800, 4800)
                 }, 100)
 
+                this._deskService.createSSEConnection(this.desk.id)
+
+                this._deskService.onDeskUpdate$.subscribe(() => {
+                  console.log('Updated')
+                  this.updateBoard()
+                })
+
                 this.isLoaded = true
               })
-
-
-
           }, error => {
             this._router.navigate(['/'])
           })
+      }, error => {
+        this._router.navigate(['/'])
+      })
+  }
 
+  updateBoard() {
+    this._cardService.getAllByDesk(this.desk.id)
+      .subscribe(cards => {
+        this.cards = cards
 
+        this._cardConnectionService.getAllByDesk(this.desk.id)
+          .subscribe(cardConnections => {
 
+            this.cardConnections = cardConnections
+          })
       }, error => {
         this._router.navigate(['/'])
       })
@@ -118,12 +134,15 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
+  ngOnDestroy() {
+    this._deskService.closeSSEConnection()
+  }
+
   mouseMoveHandler(event: any) {
     event.preventDefault()
 
     if (!this.isCursorDown && !this.isConnectingCards) return
 
-    console.log(this.isConnectingCards)
     if (this.isConnectingCards) {
 
       const leftCard = this.getCardById(this.creatingCardConnection.cardLeftId)
@@ -198,12 +217,19 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
     this.draggingCard = this.cards.find(card => card.id == id) || {} as Card
   }
 
+
   onDragStopped(id: number) {
     this.isDragging = false
 
-    this._cardService.update(this.getCardById(id))
-      .subscribe(() => {
-      })
+    setTimeout(() => {
+      if (this.isEditDialogDisplayed) return;
+
+      this._cardService.update(this.getCardById(id))
+        .subscribe(() => {
+        })
+    }, 100)
+
+    
   }
 
   onConnectionButtonClicked(id: number) {
@@ -237,7 +263,6 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
         })
     }
 
-    console.log(this.creatingCardConnection)
   }
 
   getCardById(id: number): Card {
@@ -245,7 +270,6 @@ export class MainBoardComponent implements OnInit, AfterViewInit {
   }
 
   removeConnection(id: number) {
-    console.log(id)
     this._cardConnectionService.remove(id)
       .subscribe(() => {
         this.cardConnections = this.cardConnections.filter(connection => connection.id != id)

@@ -16,6 +16,8 @@ export class CardComponent implements OnInit {
   @Output() onDragStarted: EventEmitter<number> = new EventEmitter<number>()
   @Output() onDragStopped: EventEmitter<number> = new EventEmitter<number>()
   @Output() onConnectionClicked: EventEmitter<number> = new EventEmitter<number>()
+  @Output() onEdit: EventEmitter<void> = new EventEmitter<void>()
+  @Output() onStopEdit: EventEmitter<void> = new EventEmitter<void>()
 
   @Input() card = {} as Card
   @Input() deskId: number = 1
@@ -46,6 +48,12 @@ export class CardComponent implements OnInit {
 
   openModal() {
     this.displayModal = true
+    this.onEdit.emit()
+  }
+
+  closeModal() {
+    this.displayModal = false
+    this.onStopEdit.emit()
   }
 
 }

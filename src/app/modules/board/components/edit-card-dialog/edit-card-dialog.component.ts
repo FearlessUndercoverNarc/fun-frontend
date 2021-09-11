@@ -44,6 +44,9 @@ export class EditCardDialogComponent implements OnInit {
   }
 
   submit(): void {
+
+    console.log('something submits a form')
+
     if (this.cardForm.invalid) return;
     
     const value = {
@@ -59,7 +62,7 @@ export class EditCardDialogComponent implements OnInit {
 
     this._cardService.update(value)
     .subscribe(() => {
-      this.onClose.emit()
+      // this.onClose.emit()
     })
 
   }

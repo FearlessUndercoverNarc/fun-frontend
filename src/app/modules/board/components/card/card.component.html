@@ -10,6 +10,7 @@
     <div class="content">
         <span>{{ card.description }}</span>
         <img [src]="baseUrl + card.image" *ngIf="card.image" />
+        <a [href]="card.externalUrl" *ngIf="card.externalUrl">Доступна ссылка</a>
     </div>
 </div>
-<app-edit-card-dialog [card]="card" [deskId]="deskId" *ngIf="displayModal" (onClose)="displayModal = false"></app-edit-card-dialog>
+<app-edit-card-dialog [card]="card" [deskId]="deskId" *ngIf="displayModal" (onClose)="closeModal()"></app-edit-card-dialog>

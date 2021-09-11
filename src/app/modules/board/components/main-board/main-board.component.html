@@ -30,6 +30,8 @@
                     (onDragStarted)="onDragStarted($event)"
                     (onDragStopped)="onDragStopped($event)"
                     (onConnectionClicked)="onConnectionButtonClicked($event)"
+                    (onEdit)="isEditDialogDisplayed = true"
+                    (onStopEdit)="isEditDialogDisplayed = false"
                     ></app-card>
                     <svg width="10000" height="10000">
                         <line
