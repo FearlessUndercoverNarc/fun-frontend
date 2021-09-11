@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, SkipSelf} from '@angular/core';
 import {RightClickService} from "../../services/right-click.service";
+import {DeleteService} from "../../../modules/main-screen/services/delete.service";
+import {skip} from "rxjs/operators";
 
 @Component({
   selector: 'app-right-click-modal',
@@ -15,7 +17,8 @@ export class RightClickModalComponent implements OnInit {
   isMilkModalShown: boolean = false;
 
   constructor(
-    @SkipSelf() private _rightClickService: RightClickService
+    @SkipSelf() private _rightClickService: RightClickService,
+    @SkipSelf() private _deleteService: DeleteService
   ) {
   }
 
@@ -50,5 +53,10 @@ export class RightClickModalComponent implements OnInit {
 
   private calcY() {
     return this._rightClickService.y;
+  }
+
+  deleteElement() {
+    this._rightClickService.hideAllModals();
+    this._deleteService.deleteSelectedElements();
   }
 }

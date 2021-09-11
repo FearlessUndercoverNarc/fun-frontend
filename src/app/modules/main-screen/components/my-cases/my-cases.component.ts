@@ -10,6 +10,7 @@ import {map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
+import {DeleteService} from "../../services/delete.service";
 
 @Component({
   selector: 'app-my-cases',
@@ -21,14 +22,15 @@ export class MyCasesComponent implements OnInit {
   foldersOnPage: FolderOnPage[] = [];
   desksOnPage: DeskOnPage[] = [];
 
-  // selectedItem:
+  onceClicked: boolean = false;
 
   constructor(
     @SkipSelf() private _casesService: CasesService,
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _rightClickService: RightClickService
+    @SkipSelf() private _rightClickService: RightClickService,
+    private _deleteService: DeleteService
   ) {
   }
 
@@ -38,22 +40,64 @@ export class MyCasesComponent implements OnInit {
 
 
     this._pathService.pathChanged.subscribe(() => {
-      console.log('pathChangedEvent.subscribe')
       this.loadAllElements()
     });
+
+    this._deleteService.selectedElementsDeleted
+      .subscribe(() => this.deleteSelectedElements())
+  }
+
+  private deleteSelectedElements() {
+    console.log('here 3')
+
+    console.table(this.foldersOnPage);
+
+    for (let i = 0; i < this.foldersOnPage.length; i++) {
+      if (this.foldersOnPage[i].isSelected) {
+        this._foldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+          .subscribe(() => {
+            this.foldersOnPage.splice(i, 1)
+          });
+      }
+    }
+
+    this._foldersService.folders = this.foldersOnPage.map(f => {
+      return f.folder
+    })
+
+    for (let i = 0; i < this.desksOnPage.length; i++) {
+      if (this.desksOnPage[i].isSelected) {
+        this._desksService.moveToTrash(this.desksOnPage[i].desk.id)
+          .subscribe(() => {
+            this.desksOnPage.splice(i, 1);
+          })
+      }
+    }
+
+    this._desksService.desks = this.desksOnPage.map(d => {
+      return d.desk
+    })
+
+    this.unselectAll();
   }
 
   selectFolder(folderOnPage: FolderOnPage): void {
     if (!folderOnPage.isSelected) {
-      this.unselectOthers();
+      this.unselectAll();
 
       folderOnPage.isSelected = true;
+
+      this.onceClicked = true;
     } else {
-      this.openSubFolder(folderOnPage.folder);
+      if (this.onceClicked) {
+        this.onceClicked = false;
+        this._rightClickService.hideAllModals();
+        this.openSubFolder(folderOnPage.folder);
+      }
     }
   }
 
-  unselectOthers() {
+  unselectAll() {
     for (let folder of this.foldersOnPage) {
       folder.isSelected = false;
     }
@@ -64,10 +108,12 @@ export class MyCasesComponent implements OnInit {
   }
 
   selectMilk(event: MouseEvent): void {
+    this.onceClicked = false;
+
     if (event.target !== event.currentTarget) {
       event.preventDefault();
     } else {
-      this.unselectOthers();
+      this.unselectAll();
     }
 
     this._rightClickService.hideAllModals();
@@ -76,14 +122,18 @@ export class MyCasesComponent implements OnInit {
 
   selectDesk(deskOnPage: DeskOnPage): void {
     if (!deskOnPage.isSelected) {
-      this.unselectOthers();
+      this.unselectAll();
 
       deskOnPage.isSelected = true;
-    } else {
-      alert('not implemented')
-    }
 
-    this._rightClickService.hideAllModals();
+      this.onceClicked = true;
+    } else {
+      if (this.onceClicked) {
+        this.onceClicked = false;
+        this._rightClickService.hideAllModals();
+        alert('Not implemented.')
+      }
+    }
   }
 
   private openSubFolder(subFolder: FolderDto) {
@@ -130,12 +180,19 @@ export class MyCasesComponent implements OnInit {
           console.log(error)
         })
 
+      this._desksService.desks = [];
+      this.desksOnPage = [];
+
     } else {
       this.processSubFolder(this._pathService.parentFolderId);
     }
   }
 
   onRightClickElement(event: MouseEvent) {
+    this.onceClicked = false;
+
+    event.stopImmediatePropagation();
+
     event.preventDefault();
 
     this._rightClickService.x = event.x;

@@ -1,5 +1,3 @@
-<!-- диалоговое окно -->
-
 <div class="dialog-box"
      *ngIf="isElementModalShown"
      [style.top]="y.toString() + 'px'"
@@ -12,16 +10,18 @@
   </div>
   <div class="dialog-box__item">
     <div class="dialog-box__image">
+      <img src="assets/icons/export-icon.svg" alt="">
+    </div>
+    <button type="button" class="dialog-box__button">Экспортировать</button>
+  </div>
+  <div class="dialog-box__item">
+    <div class="dialog-box__image">
       <img src="assets/icons/delete_dialog.svg" alt="">
     </div>
-    <button type="button" class="dialog-box__button">Удалить</button>
+    <button (click)="deleteElement()" type="button" class="dialog-box__button">Удалить</button>
   </div>
 </div>
 
-<!-- диалоговое окно -->
-
-
-<!-- диалоговое окно -->
 
 <div class="dialog-box"
      *ngIf="isMilkModalShown"
@@ -29,16 +29,9 @@
      [style.left]="x.toString() + 'px'">
   <div class="dialog-box__item">
     <div class="dialog-box__image">
-      <img src="assets/icons/share_dialog.svg" alt="">
+      <img src="assets/icons/import-icon.svg" alt="">
     </div>
-    <button type="button" class="dialog-box__button">Пойти нахуй</button>
-  </div>
-  <div class="dialog-box__item">
-    <div class="dialog-box__image">
-      <img src="assets/icons/delete_dialog.svg" alt="">
-    </div>
-    <button type="button" class="dialog-box__button">Удалиться нахуй</button>
+    <button type="button" class="dialog-box__button">Импортировать</button>
   </div>
 </div>
 
-<!-- диалоговое окно -->

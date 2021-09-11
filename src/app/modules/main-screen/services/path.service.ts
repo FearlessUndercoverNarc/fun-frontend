@@ -49,4 +49,9 @@ export class PathService {
   isRoot(): boolean {
     return !this.path.length;
   }
+
+  goToRoot(): void {
+    this.path = [];
+    this.pathChanged.next();
+  }
 }

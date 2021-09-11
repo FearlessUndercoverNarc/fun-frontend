@@ -1,28 +1,28 @@
 <div class="my-cases-container"
      (click)="selectMilk($event)"
      (contextmenu)="onRightClickMilk($event)">
-  <h4>{{ getHeaderTitle() }}</h4>
+  <h4 (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">{{ getHeaderTitle() }}</h4>
   <div class="cases-container"
        (contextmenu)="onRightClickMilk($event)"
        (click)="selectMilk($event)">
     <div class="folder" *ngFor="let caseOnPage of foldersOnPage"
-         (click)="selectFolder(caseOnPage)"
+         (click)="this.onceClicked = true; selectFolder(caseOnPage)"
          [ngClass]="caseOnPage.isSelected ? 'selected' : ''"
-         (contextmenu)="onRightClickElement($event)">
+         (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">
       <div class="folder-icon element-icon"></div>
       <p>{{ caseOnPage.folder.title }}</p>
     </div>
   </div>
-  <h4 *ngIf="desksOnPage.length != 0">Доски</h4>
+  <h4 *ngIf="desksOnPage.length != 0" (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">Доски</h4>
   <div class="cases-container" *ngIf="desksOnPage.length != 0"
        (contextmenu)="onRightClickMilk($event)"
        (click)="selectMilk($event)">
-    <div class="folder" *ngFor="let deckOnPage of desksOnPage"
-         (contextmenu)="onRightClickElement($event)"
-         (click)="selectDesk(deckOnPage)"
-         [ngClass]="deckOnPage.isSelected ? 'selected' : ''">
+    <div class="folder" *ngFor="let deskOnPage of desksOnPage"
+         (contextmenu)="onRightClickElement($event); selectDesk(deskOnPage)"
+         (click)="this.onceClicked = true; selectDesk(deskOnPage)"
+         [ngClass]="deskOnPage.isSelected ? 'selected' : ''">
       <div class="desk-icon element-icon"></div>
-      <p>{{ deckOnPage.desk.title }}</p>
+      <p>{{ deskOnPage.desk.title }}</p>
     </div>
   </div>
 </div>
