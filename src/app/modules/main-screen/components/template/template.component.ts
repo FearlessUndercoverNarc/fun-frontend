@@ -61,7 +61,7 @@ export class TemplateComponent implements OnInit {
 
   goToRepository() {
     this.toggleNavMenu();
-    alert('Not implemented yet.');
+    this._router.navigate(['browse', 'repository']);
   }
 
   goToSubscription() {

@@ -13,6 +13,7 @@ import {NewDeskBtnComponent} from './modules/main-screen/components/create/new-d
 import { ProfileComponent } from './modules/main-screen/components/profile/profile.component';
 import { SettingsComponent } from './modules/main-screen/components/settings/settings.component';
 import { SubscriptionComponent } from './modules/main-screen/components/subscription/subscription.component';
+import { RepositoryComponent } from './modules/main-screen/components/repository/repository.component';
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
