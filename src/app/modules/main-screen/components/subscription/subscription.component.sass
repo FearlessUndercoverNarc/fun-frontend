@@ -10,13 +10,89 @@
 	@media (max-width: #{1440 + px})
 		#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
 
+//========================================================================================================================================================
+//-------<страница без подписки>
+// .subscription
+// 	max-width: 1069px
+// 	@include adaptiv-value("padding-left",59,10)
+// 	@include adaptiv-value("padding-right",59,10)
+// 	display: flex
+// 	justify-content: space-between
+// 	flex-wrap: wrap
+// 	font-family: 'Inter', sans-serif
+
+// 	&__head 
+// 		margin-top: 32px
+// 		padding-bottom: 24px
+// 		border-bottom: 1px solid $borderColor
+// 		font-weight: 500
+// 		font-size: 18px
+// 		line-height: 22px
+// 		color: $Detective_Black_2
+// 		flex: 0 1 100%
+
+// 	&__item 
+// 		align-items: center
+// 		display: flex
+// 		flex-direction: column
+// 		margin-top: 20px
+// 		@include adaptiv-value("padding", 37, 5)
+// 		text-align: center
+// 		background: $whiteColor
+// 		flex: 0 1 47%
+// 		border-radius: 8px
+// 		box-shadow: 0px 2px 4px rgba(39, 40, 51, 0.12)
+
+// 	&__title 
+// 		width: 100%
+// 		font-weight: 500
+// 		@include adaptiv-value("font-size", 24, 18)
+// 		line-height: 32 / 24 * 100%
+// 		color: $Detective_Black_2
+// 		padding-bottom: 16px
+// 		border-bottom: 1px solid $borderColor
+// 		margin-bottom: 30px
+
+// 	&__text
+// 		@include adaptiv-value("font-size", 24, 18)
+// 		line-height: 32 / 24 * 100%
+// 		color: $Detective_Black_2
+// 		margin-bottom: 30px
+
+// 	&__button
+// 		font-family: 'Inter', sans-serif
+// 		transition: all 0.3s ease 0s
+// 		border-radius: 100px
+// 		outline: none
+// 		border: none
+// 		background: $bgColor
+// 		padding: 20px 0px
+// 		width: 85%
+// 		font-size: 16px
+// 		line-height: 19px
+// 		color: #110801
+// 		cursor: pointer
+// 		&:hover
+// 			background: $btnHoverColor
+
+
+// @media (max-width: 768px)
+// 	.subscription__item
+// 		flex: 0 1 47%
+// 		@include adaptiv-value("padding", 24, 20)
+// @media (max-width: 543px)
+// 	.subscription__item
+// 		flex: 0 1 100%
+// 		@include adaptiv-value("padding", 24, 20)
+
+
+//========================================================================================================================================================
+//-------<страница с подписки>
+
 .subscription
 	max-width: 1069px
 	@include adaptiv-value("padding-left",59,10)
 	@include adaptiv-value("padding-right",59,10)
-	display: flex
-	justify-content: space-between
-	flex-wrap: wrap
 	font-family: 'Inter', sans-serif
 
 	&__head 
@@ -28,18 +104,16 @@
 		line-height: 22px
 		color: $Detective_Black_2
 		flex: 0 1 100%
+		margin-bottom: 30px
 
 	&__item 
-		align-items: center
-		display: flex
-		flex-direction: column
-		margin-top: 20px
-		@include adaptiv-value("padding", 37, 5)
-		text-align: center
 		background: $whiteColor
+		text-align: center
 		border-radius: 8px
-		flex: 0 1 47%
 		box-shadow: 0px 2px 4px rgba(39, 40, 51, 0.12)
+		min-width: 430px
+		width: 50%
+		@include adaptiv-value("padding", 37, 20)
 
 	&__title 
 		width: 100%
@@ -51,20 +125,20 @@
 		border-bottom: 1px solid $borderColor
 		margin-bottom: 30px
 
-	&__text
+	&__text 
 		@include adaptiv-value("font-size", 24, 18)
 		line-height: 32 / 24 * 100%
 		color: $Detective_Black_2
 		margin-bottom: 30px
 
-	&__button
+	&__button 
 		font-family: 'Inter', sans-serif
 		transition: all 0.3s ease 0s
 		border-radius: 100px
 		outline: none
 		border: none
 		background: $bgColor
-		padding: 20px 0px
+		padding: 20px 10px
 		width: 85%
 		font-size: 16px
 		line-height: 19px
@@ -72,13 +146,199 @@
 		cursor: pointer
 		&:hover
 			background: $btnHoverColor
-
-
 @media (max-width: 768px)
-	.subscription__item
-		flex: 0 1 47%
-		@include adaptiv-value("padding", 24, 20)
-@media (max-width: 543px)
-	.subscription__item
-		flex: 0 1 100%
-		@include adaptiv-value("padding", 24, 20)
+	.subscription
+		&__item 
+			margin: 0 auto
+			min-width: 1px
+			width: 70%
+@media (max-width: 668px)
+	.subscription
+		&__item 
+			width: 80%
+@media (max-width: 500px)
+	.subscription
+		&__item 
+			width: 90%
+@media (max-width: 450px)
+	.subscription
+		&__item 
+			width: 100%
+
+//========================================================================================================================================================
+//-----<модалка при нажатии когда у пользователя нет подписки>
+
+// .popup
+// 	font-family: 'Inter', sans-serif
+// 	z-index: 100
+// 	padding: 30px 10px
+// 	position: fixed
+// 	top: 0px
+// 	left: 0
+// 	width: 100%
+// 	height: 100%
+// 	transition: visibility 0.8s ease 0s
+// 	visibility: hidden
+
+// 	&__title 
+// 		color: $Detective_Black_2
+// 		text-align: center
+// 		font-size: 24px
+// 		line-height: 32px
+// 		margin-bottom: 30px
+
+// 	&__text 
+// 		margin-bottom: 30px
+// 		font-size: 16px
+// 		line-height: 25px
+// 		text-align: center
+
+// 	&__button 
+// 		margin: 0 auto
+// 		font-family: 'Inter', sans-serif
+// 		width: 200px
+// 		display: flex
+// 		align-items: center
+// 		background: $bgColor
+// 		height: 48px
+// 		border-radius: 100px
+// 		font-size: 16px
+// 		line-height: 19px
+// 		color: $fontColor
+// 		justify-content: center
+// 		cursor: pointer
+// 		transition: all 0.3s ease 0s
+// 		&:hover
+// 			background: $btnHoverColor
+	
+// 	.popup-space-closing
+// 		background-color: rgba(50, 49, 48, 0.4)
+// 		position: fixed
+// 		width: 100%
+// 		height: 100%
+// 		top: 0
+// 		left: 0
+// 		opacity: 0
+// 		transition: opacity 0.8s ease 0s
+	
+// 	&._active 
+// 		overflow: auto
+// 		visibility: visible
+		
+// 		.popup-space-closing
+// 			opacity: 1
+// 			cursor: pointer
+		
+// 		.popup__body 
+// 			transition: all 0.3s ease 0.2s
+// 			transform: scale(1)
+		
+// 	&__content 
+// 		display: flex
+// 		flex-direction: column
+// 		align-items: center
+// 		min-height: 100%
+// 		flex: 1 1 auto
+// 		width: 100%
+// 		display: flex
+// 		justify-content: center
+// 		align-items: center
+	
+// 	&__body 
+// 		transform: scale(0)
+// 		transition: all 0.3s ease 0s
+// 		background-color: #fff
+// 		padding: 50px
+// 		width: 100%
+// 		max-width: 400px
+// 		border-radius: 16px
+
+
+//========================================================================================================================================================
+//-----<модалка подтверждение отмены подписки>
+
+.popup
+	font-family: 'Inter', sans-serif
+	z-index: 100
+	padding: 30px 10px
+	position: fixed
+	top: 0px
+	left: 0
+	width: 100%
+	height: 100%
+	transition: visibility 0.8s ease 0s
+	visibility: hidden
+
+	&__item
+		margin-bottom: 20px
+		font-size: 16px
+		line-height: 25px
+			
+
+	&__title 
+		color: $Detective_Black_2
+		text-align: center
+		font-size: 22px
+		line-height: 32px
+		margin-bottom: 30px
+
+	&__button 
+		margin: 0 auto
+		font-family: 'Inter', sans-serif
+		width: 200px
+		display: flex
+		align-items: center
+		background: $bgColor
+		height: 48px
+		border-radius: 100px
+		font-size: 16px
+		line-height: 19px
+		color: $fontColor
+		justify-content: center
+		cursor: pointer
+		margin-top: 35px
+		transition: all 0.3s ease 0s
+		&:hover
+			background: $btnHoverColor
+	
+	.popup-space-closing
+		background-color: rgba(50, 49, 48, 0.4)
+		position: fixed
+		width: 100%
+		height: 100%
+		top: 0
+		left: 0
+		opacity: 0
+		transition: opacity 0.8s ease 0s
+	
+	&._active 
+		overflow: auto
+		visibility: visible
+		
+		.popup-space-closing
+			opacity: 1
+			cursor: pointer
+		
+		.popup__body 
+			transition: all 0.3s ease 0.2s
+			transform: scale(1)
+		
+	&__content 
+		display: flex
+		flex-direction: column
+		align-items: center
+		min-height: 100%
+		flex: 1 1 auto
+		width: 100%
+		display: flex
+		justify-content: center
+		align-items: center
+	
+	&__body 
+		transform: scale(0)
+		transition: all 0.3s ease 0s
+		background-color: #fff
+		padding: 50px
+		width: 100%
+		max-width: 500px
+		border-radius: 16px
