@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {DeskDto} from "../interfaces/dto/desk-dto.interface";
 import {Observable} from "rxjs";
-import {FolderDto} from "../interfaces/dto/folder-dto.interface";
 import {environment} from "../../../../environments/environment";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";

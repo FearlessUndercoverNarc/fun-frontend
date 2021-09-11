@@ -16,7 +16,6 @@ import {ProfileComponent} from "../components/profile/profile.component";
 import {SettingsComponent} from "../components/settings/settings.component";
 import {SubscriptionComponent} from "../components/subscription/subscription.component";
 import {RepositoryComponent} from "../components/repository/repository.component";
-import { DesksLoaderService } from '../services/desks-loader.service';
 
 import {DesksLoaderService} from "../services/desks-loader.service";
 import {FoldersService} from "../services/folders.service";

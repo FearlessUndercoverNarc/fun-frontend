@@ -4,6 +4,7 @@ import { ApiAreas } from "../enums/api-areas.enum";
 import { APIControllers } from "../enums/api-controllers.enum";
 import { Desk } from "../interfaces/desk.interface";
 import { BasicCRUD } from "./basic-crud.service";
+import {AccountService} from "./account.service";
 
 @Injectable({providedIn: 'root'})
 export class DeskService extends BasicCRUD<Desk> {
