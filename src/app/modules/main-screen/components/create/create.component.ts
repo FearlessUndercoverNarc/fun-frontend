@@ -50,12 +50,12 @@ export class CreateComponent implements OnInit {
                 console.log('case was created!')
                 console.table(response);
 
-                const newPathPart: PathPart = {
-                  folderId: response.id,
-                  folderTitle: result.data!.title
-                }
-
-                this._pathService.deeper(newPathPart);
+                // const newPathPart: PathPart = {
+                //   folderId: response.id,
+                //   folderTitle: result.data!.title
+                // }
+                //
+                // this._pathService.deeper(newPathPart);
 
                 this._router.navigate(['browse', 'my-cases']);
               }
@@ -72,16 +72,14 @@ export class CreateComponent implements OnInit {
             .subscribe((response) => {
               console.log('folder was created!')
               console.table(response);
-
-              const newPathPart: PathPart = {
-                folderId: response.id,
-                folderTitle: result.data!.title
-              }
-
-              //,{"folderId":11,"folderTitle":"test-subfolder-zaebala"}
-
-              this._pathService.deeper(newPathPart);
-
+              //
+              // const newPathPart: PathPart = {
+              //   folderId: response.id,
+              //   folderTitle: result.data!.title
+              // }
+              //
+              // this._pathService.deeper(newPathPart);
+              //
               this._router.navigate(['browse', 'my-cases']);
             })
         }

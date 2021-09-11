@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./template.component.sass']
 })
 export class TemplateComponent implements OnInit {
-
   constructor(
     private _router: Router
   ) {
@@ -15,7 +14,6 @@ export class TemplateComponent implements OnInit {
 
   isMenuShown: boolean = false;
   isSearchShown: boolean = false;
-  isSettingsShown: boolean = false;
 
   ngOnInit(): void {
   }

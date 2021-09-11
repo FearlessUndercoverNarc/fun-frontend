@@ -3,7 +3,7 @@
   <div class="cases-container">
     <div class="folder" *ngFor="let caseOnPage of foldersOnPage" (click)="selectFolder(caseOnPage)"
          [ngClass]="caseOnPage.isSelected ? 'selected' : ''">
-      <div class="folder-icon"></div>
+      <div class="folder-icon element-icon"></div>
       <p>{{ caseOnPage.folder.title }}</p>
     </div>
   </div>
@@ -11,7 +11,7 @@
   <div class="cases-container" *ngIf="desksOnPage.length != 0">
     <div class="folder" *ngFor="let deckOnPage of desksOnPage" (click)="selectDesk(deckOnPage)"
          [ngClass]="deckOnPage.isSelected ? 'selected' : ''">
-      <div class="folder-icon"></div>
+      <div class="desk-icon element-icon"></div>
       <p>{{ deckOnPage.desk.title }}</p>
     </div>
   </div>
