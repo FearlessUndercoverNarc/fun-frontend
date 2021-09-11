@@ -11,6 +11,7 @@ export class CardComponent implements OnInit {
 
   @Output() onDragStarted: EventEmitter<number> = new EventEmitter<number>()
   @Output() onDragStopped: EventEmitter<number> = new EventEmitter<number>()
+  @Output() onConnectionClicked: EventEmitter<number> = new EventEmitter<number>()
 
   @Input() card = {} as Card
 
@@ -30,6 +31,11 @@ export class CardComponent implements OnInit {
   stopDragging() {
     this.isDragging = false
     this.onDragStopped.emit(this.card.id)
+  }
+
+
+  connectionClicked() {
+    this.onConnectionClicked.emit(this.card.id)
   }
 
 }

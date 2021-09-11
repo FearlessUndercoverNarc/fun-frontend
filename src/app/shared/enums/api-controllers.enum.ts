@@ -12,4 +12,6 @@ export enum APIControllers {
   User = 'User',
   Folder = 'Folder',
   Desk = 'Desk',
+  Card = 'Card',
+  CardConnection = 'CardConnection',
 }
