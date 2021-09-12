@@ -46,6 +46,8 @@ export class MyCasesComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this._pathService.goToRoot();
+
     this.loadAllElements();
 
 

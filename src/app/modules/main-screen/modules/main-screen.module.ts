@@ -24,6 +24,7 @@ import {PathService} from "../services/path.service";
 import {TrashedFoldersService} from "../services/trashed-folders.service";
 import {TrashedDesksService} from "../services/trashed-desks.service";
 import {ShareFolderService} from "../services/share-folder.service";
+import {SharedCasesModule} from "./shared-cases.module";
 
 
 const routes: Routes = [
@@ -72,7 +73,6 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     PathLineComponent,
-    SharedCasesComponent,
 
     SettingsComponent,
     ProfileComponent,
@@ -83,7 +83,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MyCasesModule,
     TrashBinModule,
-    CreateModule
+    CreateModule,
+    SharedCasesModule
   ],
   providers: [
     CasesService,

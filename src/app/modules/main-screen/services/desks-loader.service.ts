@@ -15,7 +15,15 @@ import {Desk} from "../../../shared/interfaces/desk.interface";
   providedIn: 'root'
 })
 export class DesksLoaderService extends BasicCRUD<any> {
+  get desksShared(): DeskDto[] {
+    return this._desksShared;
+  }
+
+  set desksShared(value: DeskDto[]) {
+    this._desksShared = value;
+  }
   private _desks: DeskDto[] = [];
+  private _desksShared: DeskDto[] = [];
 
   // private postfix = APIControllers.Desk
 
@@ -64,4 +72,14 @@ export class DesksLoaderService extends BasicCRUD<any> {
         })
       )
   }
+
+  loadSharedToMeDesks(): Observable<void> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMe`)
+      .pipe(
+        map((result: DeskDto[]) => {
+          this._desksShared = result;
+        })
+      )
+  }
+
 }
