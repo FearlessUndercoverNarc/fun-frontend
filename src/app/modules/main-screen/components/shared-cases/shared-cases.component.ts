@@ -1,22 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, SkipSelf } from '@angular/core';
-import { CasesService } from "../../services/cases.service";
-import { FolderDto } from "../../interfaces/dto/folder-dto.interface";
-import { DeskDto } from "../../interfaces/dto/desk-dto.interface";
-import { PathService } from "../../services/path.service";
-import { DesksLoaderService } from "../../services/desks-loader.service";
-import { FolderOnPage } from "../../interfaces/on-page/folder-on-page";
-import { DeskOnPage } from "../../interfaces/on-page/desk-on-page";
-import { map } from "rxjs/operators";
-import { PathPart } from "../../../../shared/interfaces/path-part.interface";
-import { FoldersService } from "../../services/folders.service";
-import { RightClickService } from "../../../../shared/services/right-click.service";
-import { DeleteService } from "../../services/delete.service";
-import { TrashedFoldersService } from "../../services/trashed-folders.service";
-import { TrashedDesksService } from "../../services/trashed-desks.service";
-import { CdkDrag, CdkDragDrop, CdkDropList } from "@angular/cdk/drag-drop";
-import { ShareModalService } from "../../../../shared/services/share-modal.service";
-import { AccountService } from "../../../../shared/services/account.service";
+
+import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
+import {CasesService} from "../../services/cases.service";
+import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
+import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
+import {PathService} from "../../services/path.service";
+import {DesksLoaderService} from "../../services/desks-loader.service";
+import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
+import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
+import {filter, map} from "rxjs/operators";
+import {PathPart} from "../../../../shared/interfaces/path-part.interface";
+import {FoldersService} from "../../services/folders.service";
+import {RightClickService} from "../../../../shared/services/right-click.service";
+import {DeleteService} from "../../services/delete.service";
+import {TrashedFoldersService} from "../../services/trashed-folders.service";
+import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
+import {ShareModalService} from "../../../../shared/services/share-modal.service";
+import {AccountService} from "../../../../shared/services/account.service";
 import { DeskService } from 'src/app/shared/services/desk.service';
+
 
 @Component({
   selector: 'app-shared-cases',
@@ -47,10 +49,9 @@ export class SharedCasesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._pathService.goToRoot();
 
     this.loadAllElements();
-
-    this._pathService.goToRoot();
 
     this._pathService.pathChanged.subscribe(() => {
       this.loadAllElements()
@@ -167,7 +168,6 @@ export class SharedCasesComponent implements OnInit {
     this._rightClickService.hideAllModals();
   }
 
-
   selectDesk(deskOnPage: DeskOnPage): void {
     if (!deskOnPage.isSelected) {
       this.unselectAll();
@@ -185,28 +185,49 @@ export class SharedCasesComponent implements OnInit {
   }
 
   private openSubFolder(subFolder: FolderDto) {
-    const newPathPart: PathPart = {
-      folderId: subFolder.id,
-      folderTitle: subFolder.title
-    }
-    this._pathService.deeper(newPathPart);
+    this._foldersService.loadSharedSubFolders(subFolder.id)
+      .subscribe(() => {
+        const newPathPart: PathPart = {
+          folderId: subFolder.id,
+          folderTitle: subFolder.title
+        }
+        this._pathService.deeper(newPathPart);
 
-    this.processSubFolder(subFolder.id);
+        //
+        // this.foldersOnPage = this._foldersService.foldersShared.map(f => {
+        //   return {folder: f, isSelected: false};
+        // })
+        //
+        // this._desksService.loadSharedDesks()
+        //   .subscribe(() => {
+        //     this.desksOnPage = this._desksService.desksShared.map(d => {
+        //       return {desk: d, isSelected: false}
+        //     })
+        //   })
+      }, error => {
+        // alert(error.message);
+        console.log(error);
+      });
   }
 
   private processSubFolder(subFolderId: number): void {
-    this._foldersService.loadSubFolders(subFolderId)
+    this._foldersService.loadSharedSubFolders(subFolderId)
       .subscribe(() => {
-        this.foldersOnPage = this._foldersService.folders.map(f => {
-          return { folder: f, isSelected: false };
+        this.foldersOnPage = this._foldersService.foldersShared.map(f => {
+          return {folder: f, isSelected: false};
         })
 
-        this._desksService.loadDesks()
-          .subscribe(() => {
-            this.desksOnPage = this._desksService.desks.map(d => {
-              return { desk: d, isSelected: false }
-            })
-          })
+
+      }, error => {
+        alert('ERROR. Check console for details.');
+        console.log(error);
+      });
+
+    this._desksService.loadSharedDesksByFolder(subFolderId)
+      .subscribe(() => {
+        this.desksOnPage = this._desksService.desksShared.map(d => {
+          return {desk: d, isSelected: false}
+        })
       }, error => {
         alert('ERROR. Check console for details.');
         console.log(error);
@@ -218,7 +239,48 @@ export class SharedCasesComponent implements OnInit {
   }
 
   private loadAllElements() {
-    this.loadEverything();
+    if (this._pathService.isRoot()) {
+      this._casesService.loadSharedToMeCases()
+        .subscribe(() => {
+          this.casesOnPage = this._casesService.casesShared
+            .filter(c => {
+              return c.parentId === null
+            })
+            .map(tc => {
+              return {folder: tc, isSelected: false}
+            })
+        }, error => {
+          console.log(error)
+        })
+
+      this._foldersService.loadSharedToMeFolders()
+        .subscribe(() => {
+          this.foldersOnPage = this._foldersService.foldersShared
+            .filter(f => {
+              return f.parentId!!
+            })
+            .map(f => {
+              return {folder: f, isSelected: false}
+            })
+        }, error => {
+          console.log(error)
+        })
+
+
+      this._desksService.loadSharedToMeDesks()
+        .subscribe(() => {
+          this.desksOnPage = this._desksService.desksShared.map(d => {
+            return {desk: d, isSelected: false}
+          })
+        }, error => {
+          console.log(error)
+        })
+    } else {
+      this._casesService.casesShared = [];
+      this.casesOnPage = [];
+
+      this.processSubFolder(this._pathService.parentFolderId);
+    }
   }
 
   onRightClickElement(event: MouseEvent) {
@@ -253,6 +315,22 @@ export class SharedCasesComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer !== event.container) {
+      console.log(event.previousContainer.data) //...OnPage
+      console.log(event.container.data)
+
+      this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
+        .subscribe(() => {
+          this.foldersOnPage = this.foldersOnPage.filter(f => {
+            return f.folder.id != event.previousContainer.data.folder.id
+          })
+          this._foldersService.foldersShared = this.foldersOnPage.map(f => {
+            return f.folder
+          })
+        }, error => {
+          console.table(error)
+        })
+    }
 
   }
 
@@ -261,7 +339,7 @@ export class SharedCasesComponent implements OnInit {
   }
 
   private loadEverything() {
-    this._foldersService.loadSharedToMeFolder()
+    this._foldersService.loadSharedToMeFolders()
       .subscribe(() => {
         this.casesOnPage = this._foldersService.foldersShared.filter(tc => {
           return tc.parentId === null

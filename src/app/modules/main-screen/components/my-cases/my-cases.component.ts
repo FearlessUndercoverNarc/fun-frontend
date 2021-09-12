@@ -1,23 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, SkipSelf } from '@angular/core';
-import { CasesService } from "../../services/cases.service";
-import { FolderDto } from "../../interfaces/dto/folder-dto.interface";
-import { DeskDto } from "../../interfaces/dto/desk-dto.interface";
-import { PathService } from "../../services/path.service";
-import { DesksLoaderService } from "../../services/desks-loader.service";
-import { FolderOnPage } from "../../interfaces/on-page/folder-on-page";
-import { DeskOnPage } from "../../interfaces/on-page/desk-on-page";
-import { map } from "rxjs/operators";
-import { PathPart } from "../../../../shared/interfaces/path-part.interface";
-import { FoldersService } from "../../services/folders.service";
-import { RightClickService } from "../../../../shared/services/right-click.service";
-import { DeleteService } from "../../services/delete.service";
-import { TrashedFoldersService } from "../../services/trashed-folders.service";
-import { TrashedDesksService } from "../../services/trashed-desks.service";
-import { CdkDrag, CdkDragDrop, CdkDropList } from "@angular/cdk/drag-drop";
-import { ShareModalService } from "../../../../shared/services/share-modal.service";
-import { AccountService } from "../../../../shared/services/account.service";
+
+import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
+import {CasesService} from "../../services/cases.service";
+import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
+import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
+import {PathService} from "../../services/path.service";
+import {DesksLoaderService} from "../../services/desks-loader.service";
+import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
+import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
+import {map} from "rxjs/operators";
+import {PathPart} from "../../../../shared/interfaces/path-part.interface";
+import {FoldersService} from "../../services/folders.service";
+import {RightClickService} from "../../../../shared/services/right-click.service";
+import {DeleteService} from "../../services/delete.service";
+import {TrashedFoldersService} from "../../services/trashed-folders.service";
+import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
+import {ShareModalService} from "../../../../shared/services/share-modal.service";
+import {AccountService} from "../../../../shared/services/account.service";
+import {Router} from "@angular/router";
+
 import { ImportService } from '../../services/import.service';
 import { DeskService } from 'src/app/shared/services/desk.service';
+
 
 @Component({
   selector: 'app-my-cases',
@@ -43,6 +47,7 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _shareModalService: ShareModalService,
     private _accountService: AccountService,
     private _deleteService: DeleteService,
+    private _router: Router,
     private _importService: ImportService,
     private _deskService: DeskService
   ) {
@@ -53,7 +58,6 @@ export class MyCasesComponent implements OnInit {
     this._pathService.goToRoot();
 
     this.loadAllElements();
-
 
     this._pathService.pathChanged.subscribe(() => {
       this.loadAllElements()
@@ -183,7 +187,8 @@ export class MyCasesComponent implements OnInit {
       if (this.onceClicked) {
         this.onceClicked = false;
         this._rightClickService.hideAllModals();
-        alert('Not implemented.')
+
+        this._router.navigate(['board', deskOnPage.desk.id.toString()])
       }
     }
   }
@@ -272,7 +277,20 @@ export class MyCasesComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer !== event.container) {
+      console.log(event.previousContainer.data) //...OnPage
+      console.log(event.container.data)
 
+      this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
+        .subscribe(() => {
+          this.foldersOnPage = this.foldersOnPage.filter(f => {
+            return f.folder.id != event.previousContainer.data.folder.id
+          })
+          this._foldersService.folders = this.foldersOnPage.map(f => {
+            return f.folder
+          })
+        })
+    }
   }
 
   isFolderPredicate(el: CdkDrag, drop: CdkDropList): boolean {

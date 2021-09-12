@@ -16,11 +16,10 @@
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
          [cdkDropListEnterPredicate]="isFolderPredicate"
-         *ngFor="let caseOnPage of casesOnPage">
+         *ngFor="let caseOnPage of casesOnPage"
+         [cdkDropListData]="caseOnPage">
 
       <div class="folder" cdkDrag
-           [cdkDragData]="casesOnPage"
-           *ngFor="let caseOnPage of casesOnPage"
            (cdkDragStarted)="this.onceClicked=false; selectFolder(caseOnPage)"
            (cdkDragDropped)="drop($event)"
            (mousedown)="isDragging = true"
@@ -48,10 +47,10 @@
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
          [cdkDropListEnterPredicate]="isFolderPredicate"
-         *ngFor="let folderOnPage of foldersOnPage">
+         *ngFor="let folderOnPage of foldersOnPage"
+         [cdkDropListData]="folderOnPage">
 
       <div class="folder" cdkDrag
-           [cdkDragData]="folderOnPage"
            (cdkDragStarted)="this.onceClicked=false; selectFolder(folderOnPage)"
            (cdkDragDropped)="drop($event)"
            (mousedown)="isDragging = true"
@@ -80,10 +79,10 @@
     <div class="folder-wrapper" cdkDropList
          [id]="'desk'"
          [cdkDropListEnterPredicate]="isFolderPredicate"
-         *ngFor="let deskOnPage of desksOnPage">
+         *ngFor="let deskOnPage of desksOnPage"
+         [cdkDropListData]="deskOnPage">
 
       <div class="folder" cdkDrag
-           [cdkDragData]="deskOnPage"
            (cdkDragStarted)="this.onceClicked=false; selectDesk(deskOnPage)"
            (cdkDragDropped)="drop($event)"
            (mousedown)="isDragging = true"

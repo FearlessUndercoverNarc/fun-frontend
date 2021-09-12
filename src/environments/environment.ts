@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl: 'http://memorize-cards.fun',
+  apiUrl: 'https://memorize-cards.fun',
   production: false
 };
 

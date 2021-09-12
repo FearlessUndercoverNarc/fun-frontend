@@ -27,6 +27,7 @@ import {ShareFolderService} from "../services/share-folder.service";
 import {SharedCasesModule} from "./shared-cases.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {ShareModalModule} from "../../../shared/modules/share-modal/share-modal.module";
 
 
 
@@ -92,8 +93,8 @@ const routes: Routes = [
 
     FormsModule,
     ReactiveFormsModule,
-    MatSnackBarModule
-
+    MatSnackBarModule,
+    ShareModalModule
   ],
   providers: [
     CasesService,

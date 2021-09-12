@@ -15,6 +15,18 @@ import { PathService } from "./path.service";
   providedIn: 'root'
 })
 export class FoldersService extends BasicCRUD<any> {
+  get lastSelectedFolderId(): number {
+    if (!this._lastSelectedFolderId) {
+      this._lastSelectedFolderId = ~~(localStorage.getItem('lastSelectedFolderId') + '');
+    }
+    return this._lastSelectedFolderId;
+  }
+
+  set lastSelectedFolderId(value: number) {
+    this._lastSelectedFolderId = value;
+    localStorage.setItem('lastSelectedFolderId', value.toString());
+  }
+
   get foldersShared(): FolderDto[] {
     return this._foldersShared;
   }
@@ -22,10 +34,11 @@ export class FoldersService extends BasicCRUD<any> {
   set foldersShared(value: FolderDto[]) {
     this._foldersShared = value;
   }
+
   private _folders: FolderDto[] = [];
   private _foldersShared: FolderDto[] = [];
 
-  lastSelectedFolderId: number = 0;
+  private _lastSelectedFolderId: number = 0;
 
 
   constructor(
@@ -59,7 +72,20 @@ export class FoldersService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedToMeFolder(): Observable<void> {
+  loadSharedSubFolders(folderId: number): Observable<void> {
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
+      params: {
+        id: folderId
+      }
+    })
+      .pipe(
+        map((result: FolderDto[]) => {
+          this._foldersShared = result;
+        })
+      )
+  }
+
+  loadSharedToMeFolders(): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
       .pipe(
         map((result: FolderDto[]) => {
@@ -67,6 +93,14 @@ export class FoldersService extends BasicCRUD<any> {
         })
       )
   }
+
+  moveToFolder(id: number, destinationId: number): Observable<void> {
+    return this._httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToFolder`, {
+      params: {
+        id: id,
+        destinationId: destinationId
+      }
+    });
 
   export(id: number): Observable<any> {
     return this._httpClient.get<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, { params: { id: id + '' } })
@@ -78,5 +112,6 @@ export class FoldersService extends BasicCRUD<any> {
     if (this._pathService.parentFolderId) form.append('parentId', this._pathService.parentFolderId + '');
 
     return this._httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/import`, form)
+
   }
 }
