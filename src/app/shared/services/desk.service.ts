@@ -6,7 +6,9 @@ import { Desk } from "../interfaces/desk.interface";
 import { BasicCRUD } from "./basic-crud.service";
 import {AccountService} from "./account.service";
 import { environment } from "src/environments/environment";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
+import { ImportService } from "src/app/modules/main-screen/services/import.service";
+import { PathService } from "src/app/modules/main-screen/services/path.service";
 
 @Injectable({providedIn: 'root'})
 export class DeskService extends BasicCRUD<Desk> {
@@ -16,7 +18,9 @@ export class DeskService extends BasicCRUD<Desk> {
   constructor(
     private _httpClient: HttpClient,
     protected _accountService: AccountService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _importService: ImportService,
+    private _pathService: PathService
   ) {
     super(APIControllers.Desk, _httpClient, _accountService);
   }
@@ -39,6 +43,19 @@ export class DeskService extends BasicCRUD<Desk> {
   closeSSEConnection() {
     if (!this.eventSource) return;
     this.eventSource.close()
+  }
+
+
+  export(id: number): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, { params: { id: id + '' } })
+  }
+
+  import(): Observable<any> {
+    const form: FormData = new FormData()
+    form.append('file', this._importService.folderImportFile)
+    if (this._pathService.parentFolderId) form.append('parentId', this._pathService.parentFolderId + '');
+
+    return this._httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/import`, form)
   }
 
 }
