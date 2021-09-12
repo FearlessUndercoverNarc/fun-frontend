@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
   fio: string = ''
   newPass: string = ''
   newPassR: string = ''
-  
+
   profile = {} as Profile
 
   constructor(
@@ -66,4 +66,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+    logout() {
+      this._accountService.logoutAndNavigateToAuth();
+    }
 }

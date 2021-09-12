@@ -91,6 +91,7 @@ export class DesksLoaderService extends BasicCRUD<any> {
     return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMe`)
       .pipe(
         map((result: DeskDto[]) => {
+          console.table(result);
           this._desksShared = result;
         })
       )

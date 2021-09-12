@@ -6,6 +6,9 @@ import {skip} from "rxjs/operators";
 import {AccountService} from "../../services/account.service";
 import {ShareFolderService} from "../../../modules/main-screen/services/share-folder.service";
 import {FoldersService} from "../../../modules/main-screen/services/folders.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
+import {ApiAreas} from "../../enums/api-areas.enum";
 
 @Component({
   selector: 'app-share-modal',
@@ -22,7 +25,8 @@ export class ShareModalComponent implements OnInit {
     @SkipSelf() private _shareFolderService: ShareFolderService,
     @SkipSelf() private _shareModalService: ShareModalService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _accountService: AccountService
+    @SkipSelf() private _accountService: AccountService,
+    private _httpClient: HttpClient
   ) {
   }
 
@@ -67,12 +71,27 @@ export class ShareModalComponent implements OnInit {
 
     for (let i = 0; i < this.usersOnPage.length; i++) {
       if (this.usersOnPage[i].isSelected) {
-        this._shareFolderService.share(this.getSelectedFolderId(), this.usersOnPage[i].user.id, this.usersOnPage[i].canEdit)
-          .subscribe(() => {
-            console.log('shared to user #' + this.usersOnPage[i].user.id)
-          }, error => {
-            console.log(error)
-          });
+        console.log(this.usersOnPage[i])
+
+        if (this._foldersService.isFolderSelected) {
+          this._shareFolderService.share(this.getSelectedFolderId(), this.usersOnPage[i].user.id, this.usersOnPage[i].canEdit)
+            .subscribe(() => {
+              console.log('shared to user #' + this.usersOnPage[i].user.id)
+            }, error => {
+              console.log(error)
+            });
+        } else {
+          this._httpClient.get<void>(`${environment.apiUrl}/${this._accountService.ApiVersion}/DeskShare/share`, {
+            params: {
+              id: this.getSelectedFolderId().toString(),
+              recipientId: this.usersOnPage[i].user.id.toString(),
+              hasWriteAccess: this.usersOnPage[i].canEdit ? 'true' : 'false'
+            }
+          }).subscribe(() => {
+
+          })
+
+        }
       }
     }
 

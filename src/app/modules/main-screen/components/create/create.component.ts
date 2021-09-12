@@ -42,9 +42,10 @@ export class CreateComponent implements OnInit {
   }
 
   modalClosed(result: CreationResponse): void {
+    this.isCaseModalShown = false;
+
     switch (this._creatingTarget) {
       case 'case':
-        this.isCaseModalShown = false;
         if (result.agreed) {
           console.log('case: case')
           this._caseCreatorService.create(result.data)

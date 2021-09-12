@@ -43,39 +43,41 @@ export class TemplateComponent implements OnInit {
   }
 
   goToMyCases(): void {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
     this._pathService.goToRoot();
     this._router.navigate(['browse', 'my-cases']);
   }
 
   goToSharedCases(): void {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
+    this._pathService.goToRoot();
     this._router.navigate(['browse', 'shared-cases']);
   }
 
   goToTrashBin(): void {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
     this._pathService.goToRoot();
     this._router.navigate(['browse', 'trash-bin']);
   }
 
   goToProfile(): void {
+    this.isMenuShown = false
     this._router.navigate(['browse', 'profile']);
   }
 
   goToRepository() {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
     this._router.navigate(['browse', 'repository']);
   }
 
   goToSubscription() {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
 
     this._router.navigate(['browse', 'subscription']);
   }
 
   goToSettings() {
-    this.toggleNavMenu();
+    this.isMenuShown = false;
 
     this._router.navigate(['browse', 'settings']);
   }

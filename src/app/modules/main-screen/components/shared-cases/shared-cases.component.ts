@@ -1,4 +1,3 @@
-
 import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
@@ -17,7 +16,8 @@ import {TrashedDesksService} from "../../services/trashed-desks.service";
 import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
 import {ShareModalService} from "../../../../shared/services/share-modal.service";
 import {AccountService} from "../../../../shared/services/account.service";
-import { DeskService } from 'src/app/shared/services/desk.service';
+import {DeskService} from 'src/app/shared/services/desk.service';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -43,6 +43,7 @@ export class SharedCasesComponent implements OnInit {
     @SkipSelf() private _trashedDesksService: TrashedDesksService,
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
+    private _router: Router,
     private _accountService: AccountService,
     private _deleteService: DeleteService
   ) {
@@ -124,7 +125,7 @@ export class SharedCasesComponent implements OnInit {
 
   downloadFile(content: string, fileName: string, contentType: string) {
     var a = document.createElement("a");
-    var file = new Blob([content], { type: contentType });
+    var file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
@@ -179,10 +180,12 @@ export class SharedCasesComponent implements OnInit {
       if (this.onceClicked) {
         this.onceClicked = false;
         this._rightClickService.hideAllModals();
-        alert('Not implemented.')
+
+        this._router.navigate(['board', deskOnPage.desk.id.toString()])
       }
     }
   }
+
 
   private openSubFolder(subFolder: FolderDto) {
     this._foldersService.loadSharedSubFolders(subFolder.id)
@@ -344,13 +347,13 @@ export class SharedCasesComponent implements OnInit {
         this.casesOnPage = this._foldersService.foldersShared.filter(tc => {
           return tc.parentId === null
         }).map(tc => {
-          return { folder: tc, isSelected: false }
+          return {folder: tc, isSelected: false}
         });
 
         this.foldersOnPage = this._foldersService.foldersShared.filter(tf => {
           return tf.parentId!!
         }).map(tf => {
-          return { folder: tf, isSelected: false }
+          return {folder: tf, isSelected: false}
         })
       }, error => {
         console.log(error)
@@ -358,7 +361,7 @@ export class SharedCasesComponent implements OnInit {
 
     this._desksService.loadSharedToMeDesks().subscribe(() => {
       this.desksOnPage = this._desksService.desksShared.map(d => {
-        return { desk: d, isSelected: false }
+        return {desk: d, isSelected: false}
       })
     })
   }

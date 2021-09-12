@@ -9,6 +9,7 @@
 
 *
   box-sizing: border-box
+
 ul
   padding: 0
   margin: 0
@@ -25,47 +26,66 @@ ul
   @include adaptiv-value("padding-left", 59, 10)
   @include adaptiv-value("padding-right", 59, 10)
 
-  &__title 
+  &__title
+    position: relative
     font-weight: 500
     font-size: 18px
     line-height: 22px
     border-bottom: 1px solid $borderColor
     padding: 20px 0
 
-  &__image 
+    .logout-btn
+      position: absolute
+      top: 0
+      right: 0
+      height: 46px
+      width: 120px
+      border-radius: 100px
+      background-color: $golden
+      display: flex
+      justify-content: center
+      align-items: center
+      font-family: 'Inter', sans-serif
+      color: #111
+      cursor: pointer
+
+  &__image
     display: flex
     border-bottom: 1px solid $borderColor
     padding: 14px 0
 
 
-.image-profile 
+.image-profile
 
-  &__text 
+  &__text
     min-width: 250px
 
-  &__image 
+  &__image
     width: 64px
     height: 64px
     border-radius: 100%
+
     img
       width: 100%
       height: 100%
       border-radius: 100%
 
-.settings-profile, .settings-fio 
+.settings-profile, .settings-fio
 
-  &__item 
+  &__item
     padding: 18px 0
     border-bottom: 1px solid $borderColor
     display: flex
+
     &:last-child
       border: none
-  
+
   &__itemShow
     padding: 18px 0
     border-bottom: 1px solid $borderColor
     display: flex
     transition: all 0.8s ease 0s
+
     &._active
       transform: translateX(0)
 
@@ -80,13 +100,14 @@ ul
     background: $mainColor
     transition: all 0.3s ease 0s
     padding: 18px 0
+
     &._active
       top: 100%
 
   &__text
     flex: 0 1 250px
 
-  &__input-wrapper 
+  &__input-wrapper
     display: flex
     min-width: 300px
     align-items: center
@@ -95,7 +116,7 @@ ul
     background: $whiteColor
     border-radius: 8px
 
-  &__input 
+  &__input
     padding: 20px 0px 20px 20px
     width: 100%
     border: none
@@ -130,13 +151,14 @@ ul
     color: $fontColor
     margin-top: 18px
     @include adaptiv-value("margin-left", 340, 15)
+
     &:hover
       background: $btnHoverColor
 
 @media (max-width: 863px)
   .settings-profile
 
-    &__input-wrapper 
+    &__input-wrapper
       flex: 0 1 100%
 
     &__text
@@ -144,10 +166,11 @@ ul
 
     &__item
       flex-wrap: wrap
+
 @media (max-width: 768px)
   .settings-profile
 
-    &__input-wrapper 
+    &__input-wrapper
       flex: 0 1 40%
 
 @media (max-width: 650px)
@@ -158,13 +181,14 @@ ul
 
 @media (max-width: 507px)
   .settings-profile
-    
+
     &__item
       flex-wrap: wrap
+
     &__itemShow
       flex-wrap: wrap
 
-    &__input-wrapper 
+    &__input-wrapper
       flex: 0 1 100%
       min-width: 0
 

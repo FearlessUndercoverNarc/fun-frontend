@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {AccountService} from "../../../../shared/services/account.service";
 import {Md5} from 'ts-md5/dist/md5';
 import {LoginDto} from "../../../../shared/interfaces/dto/login-dto.interface";
+import {PathService} from "../../../main-screen/services/path.service";
 
 @Component({
   selector: 'app-auth',
@@ -22,7 +23,8 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    @SkipSelf() private _accountService: AccountService
+    @SkipSelf() private _accountService: AccountService,
+    @SkipSelf() private _pathService: PathService
   ) {
   }
 
@@ -42,6 +44,7 @@ export class AuthComponent implements OnInit {
     this._accountService.login(values)
       .subscribe(() => {
           this.isFormSent = false
+          this._pathService.goToRoot();
           this._router.navigate(['browse'])
         },
 

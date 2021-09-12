@@ -9,7 +9,7 @@ import {APIControllers} from "../enums/api-controllers.enum";
 import {UserDto} from "../interfaces/dto/user-dto.interface";
 import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 import {ApiAreas} from "../enums/api-areas.enum";
-import { Profile } from '../interfaces/profile.interface';
+import {Profile} from '../interfaces/profile.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +79,10 @@ export class AccountService {
       );
   }
 
+  hasSub(): Observable<any> {
+    return this._httpClient.get<any>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/togglesubscription`, {withCredentials: true})
+  }
+
   update(user: Profile): Observable<void> {
     return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Update`, user)
   }
@@ -130,6 +134,6 @@ export class AccountService {
   }
 
   getMy(): Observable<Profile> {
-    return this._httpClient.get<Profile>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetMy`) 
+    return this._httpClient.get<Profile>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetMy`)
   }
 }
