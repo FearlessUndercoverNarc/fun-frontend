@@ -23,6 +23,8 @@ import {DeleteService} from "../services/delete.service";
 import {PathService} from "../services/path.service";
 import {TrashedFoldersService} from "../services/trashed-folders.service";
 import {TrashedDesksService} from "../services/trashed-desks.service";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 const routes: Routes = [
@@ -82,7 +84,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MyCasesModule,
     TrashBinModule,
-    CreateModule
+    CreateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
     CasesService,
