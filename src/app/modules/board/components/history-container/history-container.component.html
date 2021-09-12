@@ -1,0 +1,7 @@
+<div class="container">
+    <p *ngFor="let action of actions.reverse() | slice:0:10">
+        <ng-container *ngFor="let keyval of keyvalues | keyvalue">
+            <ng-container *ngIf="keyval.key == action.action">{{ keyval.value }}</ng-container>
+        </ng-container>
+    </p>
+</div>

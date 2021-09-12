@@ -1,8 +1,18 @@
 <div class="container" #mainContainer>
     <ng-container *ngIf="isLoaded">
         <header>
-            <span>{{ desk.title }} - {{ desk.description }}</span>
+            <span>{{ desk.title }} - {{ desk.description }}. Обновлено: {{ desk.lastUpdatedAt | date:"dd.MM.yyyy в HH:mm":"UTC" }}</span>
+            <!-- <button mat-mini-fab color="primary" (click)="zoomHandler(0.1)">
+                <mat-icon>zoom_in</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" (click)="zoomHandler(-0.1)">
+                <mat-icon>zoom_out</mat-icon>
+            </button> -->
+            <button mat-mini-fab color="primary" (click)="closeBoard()">
+                <mat-icon>home</mat-icon>
+            </button>
         </header>
+        <app-history-container [deskId]="desk.id"></app-history-container>
         <div class="board-container">
             <perfect-scrollbar #board style="max-width: 100vw; max-height: 100vh;">
                 <div class="board"
@@ -10,21 +20,26 @@
                 (mousemove)="mouseMoveHandler($event)"
                 (mouseup)="mouseUpHandler($event)"
                 (mousedown)="mouseDownHandler($event)"
+                (dblclick)="createCard($event)"
                 >
                     <app-card 
                     *ngFor="let card of cards"
                     [id]="'card' + card.id"
                     [card]="card" 
                     [ngStyle]="{top: card.y + 'px', left: card.x + 'px'}"
+                    [deskId]="desk.id"
                     (onDragStarted)="onDragStarted($event)"
                     (onDragStopped)="onDragStopped($event)"
                     (onConnectionClicked)="onConnectionButtonClicked($event)"
+                    (onEdit)="isEditDialogDisplayed = true"
+                    (onStopEdit)="isEditDialogDisplayed = false"
                     ></app-card>
                     <svg width="10000" height="10000">
                         <line
                         class="connectionLine"
                         *ngFor="let connection of cardConnections"
                         (click)="removeConnection(connection.id)"
+                        [attr.id]="'line' + connection.id"
                         [attr.x1]="getCardById(connection.cardLeftId).x" [attr.y1]="getCardById(connection.cardLeftId).y" [attr.x2]="getCardById(connection.cardRightId).x" [attr.y2]="getCardById(connection.cardRightId).y" stroke-width="2" stroke="red"/>
                         <!-- <line [attr.x1]="creatingCardConnection.x1" [attr.y1]="creatingCardConnection.y1" [attr.x2]="creatingCardConnection.x2" [attr.y2]="creatingCardConnection.y2" stroke-width="1" stroke="black"/> -->
                     </svg>
@@ -33,3 +48,4 @@
         </div>
     </ng-container>
 </div>
+<app-card-creator-dialog *ngIf="isCreateDialogDisplayed" (onClose)="isCreateDialogDisplayed = false" [position]="position" [deskId]="desk.id"></app-card-creator-dialog>

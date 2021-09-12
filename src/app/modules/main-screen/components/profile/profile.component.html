@@ -10,26 +10,18 @@
 		<div class="settings-profile__item">
 			<div class="settings-profile__text">Ф.И.О.</div>
 			<div class="settings-profile__input-wrapper">
-				<input class="settings-profile__input" type="text" placeholder="Антонов Евгений Иванович">
+				<input class="settings-profile__input" type="text" [(ngModel)]="fio" placeholder="Антонов Евгений Иванович">
 				<div class="settings-profile__icon">
 					<img src="assets/icons/pencil.svg" alt="">
 				</div>
 			</div>
 		</div>
+		<button type="button" class="settings-fio__button" (click)="update()">Сохранить</button>
 		<div class="itemShow-wrapper">
-			<div class="settings-profile__itemShow">
-				<div class="settings-profile__text">Старый пароль</div>
-				<div class="settings-profile__input-wrapper">
-					<input class="settings-profile__input" type="text" placeholder="JoHnny1829">
-					<div class="settings-profile__icon">
-						<img src="assets/icons/toggle_password.svg" alt="">
-					</div>
-				</div>
-			</div>
 			<div class="settings-profile__itemShow">
 				<div class="settings-profile__text">Новый пароль</div>
 				<div class="settings-profile__input-wrapper">
-					<input class="settings-profile__input" type="text" placeholder="JoHnny1829">
+					<input [(ngModel)]="newPass" class="settings-profile__input" type="text" placeholder="JoHnny1829">
 					<div class="settings-profile__icon">
 						<img src="assets/icons/toggle_password.svg" alt="">
 					</div>
@@ -38,14 +30,14 @@
 			<div class="settings-profile__itemShow">
 				<div class="settings-profile__text">Новый пароль <br>(ещё раз)</div>
 				<div class="settings-profile__input-wrapper">
-					<input class="settings-profile__input" type="text" placeholder="JoHnny1829">
+					<input [(ngModel)]="newPassR" class="settings-profile__input" type="text" placeholder="JoHnny1829">
 					<div class="settings-profile__icon">
 						<img src="assets/icons/toggle_password.svg" alt="">
 					</div>
 				</div>
 			</div>
-			<div class="settings-profile__itemSwitch">
-				<button type="submit" class="settings-profile__button">Изменить пароль</button>
+			<div class="settings-profile__itemSwitch  _active">
+				<button type="submit" class="settings-profile__button" (click)="changePassword()">Изменить пароль</button>
 			</div>
 		</div>
 	</div>

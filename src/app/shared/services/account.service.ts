@@ -9,6 +9,7 @@ import {APIControllers} from "../enums/api-controllers.enum";
 import {UserDto} from "../interfaces/dto/user-dto.interface";
 import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 import {ApiAreas} from "../enums/api-areas.enum";
+import { Profile } from '../interfaces/profile.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -78,8 +79,8 @@ export class AccountService {
       );
   }
 
-  update(element: UserDto): Observable<void> {
-    return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/UpdateAccount`, element)
+  update(user: Profile): Observable<void> {
+    return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Update`, user)
   }
 
   getAll(): Observable<UserDto[]> {
@@ -126,5 +127,9 @@ export class AccountService {
 
   get ApiVersion(): string {
     return this.hasSubscription ? ApiAreas.v2 : ApiAreas.v1;
+  }
+
+  getMy(): Observable<Profile> {
+    return this._httpClient.get<Profile>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetMy`) 
   }
 }

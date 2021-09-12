@@ -2,7 +2,7 @@
   <div class="popup-space-closing"></div>
   <div class="popup__content">
     <form class="popup__body" [formGroup]="cardForm" (submit)="submit()">
-      <div class="popup__title">Новая карточка</div>
+      <div class="popup__title">Изменение карточки</div>
       <!-- item -->
       <div class="popup__item item-popup item-name">
         <div class="item-popup__name">
@@ -70,7 +70,10 @@
       <!-- item -->
       <div class="popup__button-wrapper">
         <button type="button" class="popup__button" (click)="onClose.emit()">Отмена</button>
-        <button type="submit" class="popup__button" [disabled]="cardForm.invalid">Создать</button>
+        <button type="submit" class="popup__button" [disabled]="cardForm.invalid">Сохранить</button>
+      </div>
+      <div class="popup__button-wrapper">
+        <button type="button" class="popup__button remove" (click)="removeCard()">Удалить</button>
       </div>
     </form>
   </div>

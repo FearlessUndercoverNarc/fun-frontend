@@ -12,6 +12,7 @@ export enum APIControllers {
   User = 'User',
   Folder = 'Folder',
   Desk = 'Desk',
+  DeskAction = 'DeskAction',
   FolderTrashbin = 'FolderTrashbin',
   DeskTrashbin = 'DeskTrashbin',
   Card = 'Card',

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Card } from 'src/app/shared/interfaces/card.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-card',
@@ -9,11 +10,17 @@ import { Card } from 'src/app/shared/interfaces/card.interface';
 })
 export class CardComponent implements OnInit {
 
+  displayModal: boolean = false
+  baseUrl: string = `${environment.apiUrl}/images/Cards/`
+
   @Output() onDragStarted: EventEmitter<number> = new EventEmitter<number>()
   @Output() onDragStopped: EventEmitter<number> = new EventEmitter<number>()
   @Output() onConnectionClicked: EventEmitter<number> = new EventEmitter<number>()
+  @Output() onEdit: EventEmitter<void> = new EventEmitter<void>()
+  @Output() onStopEdit: EventEmitter<void> = new EventEmitter<void>()
 
   @Input() card = {} as Card
+  @Input() deskId: number = 1
 
   isDragging: boolean = false
 
@@ -34,8 +41,19 @@ export class CardComponent implements OnInit {
   }
 
 
-  connectionClicked() {
+  connectionClicked(event: any) {
+    event.preventDefault()
     this.onConnectionClicked.emit(this.card.id)
+  }
+
+  openModal() {
+    this.displayModal = true
+    this.onEdit.emit()
+  }
+
+  closeModal() {
+    this.displayModal = false
+    this.onStopEdit.emit()
   }
 
 }
