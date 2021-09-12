@@ -56,6 +56,19 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
+  loadSharedDesks(): Observable<void> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
+      params: {
+        id: this._pathService.parentFolderId
+      }
+    })
+      .pipe(
+        map((result: DeskDto[]) => {
+          this._desksShared = result;
+        })
+      )
+  }
+
   moveToTrash(id: number) {
     return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
       params: {

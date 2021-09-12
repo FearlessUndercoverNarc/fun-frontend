@@ -55,6 +55,19 @@ export class FoldersService extends BasicCRUD<any> {
       )
   }
 
+  loadSharedSubFolders(folderId: number): Observable<void> {
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
+      params: {
+        id: folderId
+      }
+    })
+      .pipe(
+        map((result: FolderDto[]) => {
+          this._foldersShared = result;
+        })
+      )
+  }
+
   loadSharedToMeFolder(): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
       .pipe(

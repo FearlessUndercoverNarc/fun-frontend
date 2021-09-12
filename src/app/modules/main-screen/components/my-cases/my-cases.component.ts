@@ -50,7 +50,6 @@ export class MyCasesComponent implements OnInit {
 
     this.loadAllElements();
 
-
     this._pathService.pathChanged.subscribe(() => {
       this.loadAllElements()
     });
