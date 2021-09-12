@@ -16,6 +16,7 @@ import {TrashedDesksService} from "../../services/trashed-desks.service";
 import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
 import {ShareModalService} from "../../../../shared/services/share-modal.service";
 import {AccountService} from "../../../../shared/services/account.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-my-cases',
@@ -40,7 +41,8 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
     private _accountService: AccountService,
-    private _deleteService: DeleteService
+    private _deleteService: DeleteService,
+    private _router: Router
   ) {
   }
 
@@ -142,7 +144,8 @@ export class MyCasesComponent implements OnInit {
       if (this.onceClicked) {
         this.onceClicked = false;
         this._rightClickService.hideAllModals();
-        alert('Not implemented.')
+
+        this._router.navigate(['board', deskOnPage.desk.id.toString()])
       }
     }
   }

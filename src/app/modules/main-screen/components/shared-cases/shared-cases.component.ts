@@ -6,7 +6,7 @@ import {PathService} from "../../services/path.service";
 import {DesksLoaderService} from "../../services/desks-loader.service";
 import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
 import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {map} from "rxjs/operators";
+import {filter, map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
@@ -178,17 +178,21 @@ export class SharedCasesComponent implements OnInit {
           return {folder: f, isSelected: false};
         })
 
-        this._desksService.loadSharedDesks()
-          .subscribe(() => {
-            this.desksOnPage = this._desksService.desksShared.map(d => {
-              return {desk: d, isSelected: false}
-            })
-          })
+
       }, error => {
         alert('ERROR. Check console for details.');
         console.log(error);
       });
 
+    this._desksService.loadSharedDesksByFolder(subFolderId)
+      .subscribe(() => {
+        this.desksOnPage = this._desksService.desksShared.map(d => {
+          return {desk: d, isSelected: false}
+        })
+      }, error => {
+        alert('ERROR. Check console for details.');
+        console.log(error);
+      });
   }
 
   getHeaderTitle(): string {
@@ -199,20 +203,39 @@ export class SharedCasesComponent implements OnInit {
     if (this._pathService.isRoot()) {
       this._casesService.loadSharedToMeCases()
         .subscribe(() => {
-          this.casesOnPage = this._casesService.casesShared.filter(tc => {
-            return tc.parentId === null
-          }).map(tc => {
-            return {folder: tc, isSelected: false}
-          })
+          this.casesOnPage = this._casesService.casesShared
+            .filter(c => {
+              return c.parentId === null
+            })
+            .map(tc => {
+              return {folder: tc, isSelected: false}
+            })
         }, error => {
           console.log(error)
         })
 
-      this._foldersService.foldersShared = [];
-      this.foldersOnPage = []
+      this._foldersService.loadSharedToMeFolders()
+        .subscribe(() => {
+          this.foldersOnPage = this._foldersService.foldersShared
+            .filter(f => {
+              return f.parentId!!
+            })
+            .map(f => {
+              return {folder: f, isSelected: false}
+            })
+        }, error => {
+          console.log(error)
+        })
 
-      this._desksService.desksShared = [];
-      this.desksOnPage = [];
+
+      this._desksService.loadSharedToMeDesks()
+        .subscribe(() => {
+          this.desksOnPage = this._desksService.desksShared.map(d => {
+            return {desk: d, isSelected: false}
+          })
+        }, error => {
+          console.log(error)
+        })
     } else {
       this._casesService.casesShared = [];
       this.casesOnPage = [];
@@ -277,7 +300,7 @@ export class SharedCasesComponent implements OnInit {
   }
 
   private loadEverything() {
-    this._foldersService.loadSharedToMeFolder()
+    this._foldersService.loadSharedToMeFolders()
       .subscribe(() => {
         this.casesOnPage = this._foldersService.foldersShared.filter(tc => {
           return tc.parentId === null

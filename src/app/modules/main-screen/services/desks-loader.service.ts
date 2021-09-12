@@ -22,6 +22,7 @@ export class DesksLoaderService extends BasicCRUD<any> {
   set desksShared(value: DeskDto[]) {
     this._desksShared = value;
   }
+
   private _desks: DeskDto[] = [];
   private _desksShared: DeskDto[] = [];
 
@@ -56,10 +57,10 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedDesks(): Observable<void> {
+  loadSharedDesksByFolder(id: number): Observable<void> {
     return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
       params: {
-        id: this._pathService.parentFolderId
+        id: id
       }
     })
       .pipe(
