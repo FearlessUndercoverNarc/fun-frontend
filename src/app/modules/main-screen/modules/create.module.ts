@@ -18,6 +18,8 @@ import {CaseCreatorService} from "../services/creators/case-creator.service";
 import {CreatorService} from "../services/creators/creator.service";
 import {FolderCreatorService} from "../services/creators/folder-creator.service";
 import {CardCreatorDialogComponent} from "../../board/components/card-creator-dialog/card-creator-dialog.component";
+import {FolderEditComponent} from "../components/create/shared/folder-edit/folder-edit.component";
+import {DeskEditComponent} from "../components/create/shared/desk-edit/desk-edit.component";
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import {CardCreatorDialogComponent} from "../../board/components/card-creator-di
     CaseCreatorDialogComponent,
     FolderCreatorDialogComponent,
     DeskCreatorDialogComponent,
+
   ],
   imports: [
     CommonModule,

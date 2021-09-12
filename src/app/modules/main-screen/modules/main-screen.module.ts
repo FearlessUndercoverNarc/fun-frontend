@@ -25,10 +25,9 @@ import {TrashedFoldersService} from "../services/trashed-folders.service";
 import {TrashedDesksService} from "../services/trashed-desks.service";
 import {ShareFolderService} from "../services/share-folder.service";
 import {SharedCasesModule} from "./shared-cases.module";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {ShareModalModule} from "../../../shared/modules/share-modal/share-modal.module";
-
 
 
 const routes: Routes = [
@@ -89,6 +88,7 @@ const routes: Routes = [
     TrashBinModule,
     CreateModule,
 
+
     SharedCasesModule,
 
     FormsModule,
@@ -101,6 +101,7 @@ const routes: Routes = [
     DesksLoaderService,
     TrashedFoldersService,
     TrashedDesksService,
+
   ],
 })
 export class MainScreenModule {

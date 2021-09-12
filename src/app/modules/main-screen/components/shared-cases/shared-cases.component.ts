@@ -114,7 +114,7 @@ export class SharedCasesComponent implements OnInit {
       console.log('?')
       if (this.desksOnPage[i].isSelected) {
         console.log('dick')
-        this._deskService.export(this.desksOnPage[i].desk.id)
+        this._deskService.doExport(this.desksOnPage[i].desk.id)
           .subscribe(response => {
             this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
           })

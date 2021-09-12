@@ -6,6 +6,7 @@ import { ShareModalService } from "../../services/share-modal.service";
 import { ImportService } from 'src/app/modules/main-screen/services/import.service';
 import { FoldersService } from 'src/app/modules/main-screen/services/folders.service';
 import { DeskService } from '../../services/desk.service';
+import {EditElementsService} from "../../services/edit-elements.service";
 
 @Component({
   selector: 'app-right-click-modal',
@@ -28,8 +29,9 @@ export class RightClickModalComponent implements OnInit {
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _deleteService: DeleteService,
     @SkipSelf() private _shareModalService: ShareModalService,
+    @SkipSelf() private _editElementsService: EditElementsService,
     private _importService: ImportService,
-    private _foldersService: FoldersService,
+    @SkipSelf() private _foldersService: FoldersService,
     private _deskService: DeskService
   ) {
   }
@@ -126,5 +128,27 @@ export class RightClickModalComponent implements OnInit {
       .subscribe(response => {
         location.reload()
       })
+  }
+
+  editElement(): void {
+    console.log('id: ' + this._foldersService.lastSelectedFolderId.toString())
+    console.log('isFolder: ' + this._foldersService.isFolderSelected)
+
+
+    if (this._foldersService.isFolderSelected) {
+      this.editFolder()
+    } else {
+      this.editDesk();
+    }
+  }
+
+  editFolder() {
+    this._rightClickService.hideAllModals();
+    this._editElementsService.editFolder();
+  }
+
+  private editDesk() {
+    this._rightClickService.hideAllModals();
+    this._editElementsService.editDesk()
   }
 }

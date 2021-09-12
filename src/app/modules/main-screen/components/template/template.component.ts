@@ -39,7 +39,7 @@ export class TemplateComponent implements OnInit {
 
   goToRecent() {
     this.toggleNavMenu();
-    alert('Not implemented yet.');
+    alert('Coming soon... Stay tuned!');
   }
 
   goToMyCases(): void {

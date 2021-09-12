@@ -46,7 +46,7 @@ export class DeskService extends BasicCRUD<Desk> {
   }
 
 
-  export(id: number): Observable<any> {
+  doExport(id: number): Observable<any> {
     return this._httpClient.get<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, { params: { id: id + '' } })
   }
 

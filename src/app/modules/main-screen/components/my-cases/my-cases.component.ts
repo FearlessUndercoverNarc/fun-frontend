@@ -1,4 +1,3 @@
-
 import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
@@ -19,8 +18,11 @@ import {ShareModalService} from "../../../../shared/services/share-modal.service
 import {AccountService} from "../../../../shared/services/account.service";
 import {Router} from "@angular/router";
 
-import { ImportService } from '../../services/import.service';
-import { DeskService } from 'src/app/shared/services/desk.service';
+import {ImportService} from '../../services/import.service';
+import {DeskService} from 'src/app/shared/services/desk.service';
+import {CreationResponse} from "../create/shared/interfaces/creation-response.interface";
+import {EditElementsService} from "../../../../shared/services/edit-elements.service";
+import {EditedResponse} from "../../../../shared/interfaces/edited-response";
 
 
 @Component({
@@ -35,6 +37,7 @@ export class MyCasesComponent implements OnInit {
 
   onceClicked: boolean = false;
   isDragging: boolean = false;
+  private _creatingTarget: string = '';
 
   constructor(
     @SkipSelf() private _casesService: CasesService,
@@ -45,6 +48,7 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _trashedDesksService: TrashedDesksService,
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
+    private _editElementsService: EditElementsService,
     private _accountService: AccountService,
     private _deleteService: DeleteService,
     private _router: Router,
@@ -53,9 +57,12 @@ export class MyCasesComponent implements OnInit {
   ) {
   }
 
+  isFolderEditShown: boolean = false;
+  isDeskEditShown: boolean = false;
+
   ngOnInit(): void {
 
-    this._pathService.goToRoot();
+    // this._pathService.goToRoot();
 
     this.loadAllElements();
 
@@ -68,6 +75,20 @@ export class MyCasesComponent implements OnInit {
 
     this._importService.selectedElementsExported
       .subscribe(() => this.exportElement())
+
+    this._editElementsService.editedDesk.subscribe(() => {
+      this.isDeskEditShown = true;
+      this._creatingTarget = 'desk'
+
+    })
+    this._editElementsService.editedFolder.subscribe(() => {
+      this.isFolderEditShown = true;
+      this._creatingTarget = 'folder'
+    })
+    this._editElementsService.hidden.subscribe(() => {
+      this.isFolderEditShown = false;
+      this.isDeskEditShown = false;
+    })
   }
 
   private moveToTrashbinSelectedElements() {
@@ -110,10 +131,10 @@ export class MyCasesComponent implements OnInit {
         console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
 
         this._foldersService.export(this.foldersOnPage[i].folder.id)
-        .subscribe(response => {
-          this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
-        })
-        
+          .subscribe(response => {
+            this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
+          })
+
       }
     }
 
@@ -121,7 +142,7 @@ export class MyCasesComponent implements OnInit {
       console.log('?')
       if (this.desksOnPage[i].isSelected) {
         console.log('dick')
-        this._deskService.export(this.desksOnPage[i].desk.id)
+        this._deskService.doExport(this.desksOnPage[i].desk.id)
           .subscribe(response => {
             this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
           })
@@ -207,13 +228,13 @@ export class MyCasesComponent implements OnInit {
     this._foldersService.loadSubFolders(subFolderId)
       .subscribe(() => {
         this.foldersOnPage = this._foldersService.folders.map(f => {
-          return { folder: f, isSelected: false };
+          return {folder: f, isSelected: false};
         })
 
         this._desksService.loadDesks()
           .subscribe(() => {
             this.desksOnPage = this._desksService.desks.map(d => {
-              return { desk: d, isSelected: false }
+              return {desk: d, isSelected: false}
             })
           })
       }, error => {
@@ -231,7 +252,7 @@ export class MyCasesComponent implements OnInit {
       this._casesService.loadCases()
         .subscribe(() => {
           this.foldersOnPage = this._casesService.cases.map(c => {
-            return { folder: c, isSelected: false };
+            return {folder: c, isSelected: false};
           });
         }, error => {
           console.log(error)
@@ -245,19 +266,33 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  onRightClickElement(event: MouseEvent) {
+  onRightClickElement(event: MouseEvent, itemId: number, isFolder: boolean) {
     this.onceClicked = false;
 
     event.stopImmediatePropagation();
 
     event.preventDefault();
 
-    for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
-        break;
-      }
-    }
+    console.log('id: ' + itemId.toString())
+    console.log('isFolder: ' + isFolder)
+    this._foldersService.lastSelectedFolderId = itemId;
+    this._foldersService.isFolderSelected = isFolder;
+
+    // for (let i = 0; i < this.foldersOnPage.length; i++) {
+    //   if (this.foldersOnPage[i].isSelected) {
+    //     this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
+    //     this._foldersService.isFolderSelected = true;
+    //     break;
+    //   }
+    // }
+    //
+    // for (let i = 0; i < this.desksOnPage.length; i++) {
+    //   if (this.desksOnPage[i].isSelected) {
+    //     this._foldersService.lastSelectedFolderId = this.desksOnPage[i].desk.id;
+    //     this._foldersService.isFolderSelected = false;
+    //     break;
+    //   }
+    // }
 
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
@@ -278,22 +313,86 @@ export class MyCasesComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer !== event.container) {
-      console.log(event.previousContainer.data) //...OnPage
+      console.log() //...OnPage
       console.log(event.container.data)
 
-      this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
-        .subscribe(() => {
-          this.foldersOnPage = this.foldersOnPage.filter(f => {
-            return f.folder.id != event.previousContainer.data.folder.id
+      if (typeof event.previousContainer.data?.desk === 'object') {
+        this._desksService.moveToFolder(event.previousContainer.data.desk.id as number, event.container.data.folder.id as number)
+          .subscribe(() => {
+            this.foldersOnPage = this.foldersOnPage.filter(f => {
+              return f.folder.id != event.previousContainer.data.desk.id
+            })
+            this._foldersService.folders = this.foldersOnPage.map(f => {
+              return f.folder
+            })
           })
-          this._foldersService.folders = this.foldersOnPage.map(f => {
-            return f.folder
+      } else {
+        this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
+          .subscribe(() => {
+            this.foldersOnPage = this.foldersOnPage.filter(f => {
+              return f.folder.id != event.previousContainer.data.folder.id
+            })
+            this._foldersService.folders = this.foldersOnPage.map(f => {
+              return f.folder
+            })
           })
-        })
+      }
+
+      this.loadAllElements();
     }
   }
 
   isFolderPredicate(el: CdkDrag, drop: CdkDropList): boolean {
     return drop.id === 'folder';
+  }
+
+  modalClosed(result: EditedResponse): void {
+    this._editElementsService.hide();
+
+    console.log(result)
+
+    switch (this._creatingTarget) {
+      case 'folder':
+        if (result.agreed) {
+          this._foldersService.update(result.data)
+            .subscribe((response) => {
+                console.log('case was created!')
+                console.table(response);
+
+                // const newPathPart: PathPart = {
+                //   folderId: response.id,
+                //   folderTitle: result.data!.title
+                // }
+                //
+                // this._pathService.deeper(newPathPart);
+
+                this._router.navigate(['browse', 'my-cases']);
+              }
+            )
+        }
+        break;
+
+      case 'desk':
+        if (result.agreed) {
+          this._desksService.update(result.data)
+            .subscribe((response) => {
+                console.log('case was created!')
+                console.table(response);
+
+                // const newPathPart: PathPart = {
+                //   folderId: response.id,
+                //   folderTitle: result.data!.title
+                // }
+                //
+                // this._pathService.deeper(newPathPart);
+
+                this._router.navigate(['browse', 'my-cases']);
+              }
+            )
+        }
+        break;
+    }
+
+    this.loadAllElements();
   }
 }

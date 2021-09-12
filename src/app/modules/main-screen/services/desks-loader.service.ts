@@ -96,4 +96,12 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
+  moveToFolder(id: number, destinationId: number): Observable<void> {
+    return this._httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToFolder`, {
+      params: {
+        id: id,
+        destinationId: destinationId
+      }
+    });
+  }
 }

@@ -23,6 +23,8 @@ export class CreateComponent implements OnInit {
   isDeskModalShown = false;
 
   private _creatingTarget = '';
+  isFolderEditShown: boolean = false;
+  isDeskEditShown: boolean = false;
 
   constructor(
     @SkipSelf() private _pathService: PathService,

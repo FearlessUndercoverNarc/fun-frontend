@@ -25,7 +25,7 @@
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
            (click)="this.onceClicked = true; selectFolder(folderOnPage)"
            [ngClass]="folderOnPage.isSelected ? 'selected' : ''"
-           (contextmenu)="onRightClickElement($event); this.selectFolder(folderOnPage)">
+           (contextmenu)="onRightClickElement($event, folderOnPage.folder.id, true); this.selectFolder(folderOnPage)">
 
         <div class="folder-icon element-icon"></div>
         <p>{{ folderOnPage.folder.title }}</p>
@@ -55,7 +55,7 @@
            (mousedown)="isDragging = true"
            (mouseup)="isDragging = false"
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
-           (contextmenu)="onRightClickElement($event); selectDesk(deskOnPage)"
+           (contextmenu)="onRightClickElement($event, deskOnPage.desk.id, false); selectDesk(deskOnPage)"
            (click)="this.onceClicked = true; selectDesk(deskOnPage)"
            [ngClass]="deskOnPage.isSelected ? 'selected' : ''">
 
@@ -65,3 +65,6 @@
     </div>
   </div>
 </div>
+
+<app-folder-edit [isShown]="isFolderEditShown" (modalClosed)="modalClosed($event)"></app-folder-edit>
+<app-desk-edit [isShown]="isDeskEditShown" (modalClosed)="modalClosed($event)"></app-desk-edit>
