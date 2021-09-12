@@ -23,6 +23,7 @@ import {DeleteService} from "../services/delete.service";
 import {PathService} from "../services/path.service";
 import {TrashedFoldersService} from "../services/trashed-folders.service";
 import {TrashedDesksService} from "../services/trashed-desks.service";
+import {ShareFolderService} from "../services/share-folder.service";
 
 
 const routes: Routes = [
@@ -87,9 +88,8 @@ const routes: Routes = [
   providers: [
     CasesService,
     DesksLoaderService,
-    FoldersService,
     TrashedFoldersService,
-    TrashedDesksService
+    TrashedDesksService,
   ],
 })
 export class MainScreenModule {

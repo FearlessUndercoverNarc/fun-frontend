@@ -5,6 +5,7 @@ import {CreateCaseComponent} from "../components/create-case/create-case.compone
 import {CreateElementComponent} from "../components/create-element/create-element.component";
 import {RightClickModule} from "../../../shared/modules/right-click/right-click.module";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {ShareModalModule} from "../../../shared/modules/share-modal/share-modal.module";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
   imports: [
     CommonModule,
     RightClickModule,
-    DragDropModule
+    DragDropModule,
+    ShareModalModule
   ],
   exports: [
     MyCasesComponent,

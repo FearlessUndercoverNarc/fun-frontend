@@ -12,6 +12,9 @@ import {RightClickService} from "./shared/services/right-click.service";
 import {RightClickModule} from "./shared/modules/right-click/right-click.module";
 import {DeleteService} from "./modules/main-screen/services/delete.service";
 import {PathService} from "./modules/main-screen/services/path.service";
+import {ShareModalModule} from "./shared/modules/share-modal/share-modal.module";
+import {ShareFolderService} from "./modules/main-screen/services/share-folder.service";
+import {FoldersService} from "./modules/main-screen/services/folders.service";
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -29,12 +32,16 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RightClickModule
+    RightClickModule,
+    ShareModalModule
   ],
   providers: [
-    AccountService,
     RightClickService,
     PathService,
+    ShareFolderService,
+
+    FoldersService,
+
     INTERCEPTOR_PROVIDER
   ],
   exports: [],

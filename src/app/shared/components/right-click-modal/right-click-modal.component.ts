@@ -2,6 +2,7 @@ import {Component, Input, OnInit, SkipSelf} from '@angular/core';
 import {RightClickService} from "../../services/right-click.service";
 import {DeleteService} from "../../../modules/main-screen/services/delete.service";
 import {skip} from "rxjs/operators";
+import {ShareModalService} from "../../services/share-modal.service";
 
 @Component({
   selector: 'app-right-click-modal',
@@ -19,7 +20,8 @@ export class RightClickModalComponent implements OnInit {
 
   constructor(
     @SkipSelf() private _rightClickService: RightClickService,
-    @SkipSelf() private _deleteService: DeleteService
+    @SkipSelf() private _deleteService: DeleteService,
+    @SkipSelf() private _shareModalService: ShareModalService
   ) {
   }
 
@@ -78,5 +80,10 @@ export class RightClickModalComponent implements OnInit {
   deleteElement() {
     this._rightClickService.hideAllModals();
     this._deleteService.deleteSelectedElements();
+  }
+
+  shareElement() {
+    this._rightClickService.hideAllModals();
+    this._shareModalService.shareModalShown.next();
   }
 }

@@ -13,6 +13,9 @@ import {RightClickService} from "../../../../shared/services/right-click.service
 import {DeleteService} from "../../services/delete.service";
 import {TrashedFoldersService} from "../../services/trashed-folders.service";
 import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
+import {ShareModalService} from "../../../../shared/services/share-modal.service";
+import {AccountService} from "../../../../shared/services/account.service";
 
 @Component({
   selector: 'app-my-cases',
@@ -35,6 +38,8 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
     @SkipSelf() private _trashedDesksService: TrashedDesksService,
     @SkipSelf() private _rightClickService: RightClickService,
+    @SkipSelf() private _shareModalService: ShareModalService,
+    private _accountService: AccountService,
     private _deleteService: DeleteService
   ) {
   }
@@ -200,6 +205,13 @@ export class MyCasesComponent implements OnInit {
 
     event.preventDefault();
 
+    for (let i = 0; i < this.foldersOnPage.length; i++) {
+      if (this.foldersOnPage[i].isSelected) {
+        this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
+        break;
+      }
+    }
+
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
 
@@ -215,5 +227,13 @@ export class MyCasesComponent implements OnInit {
 
       this._rightClickService.rightClickedMilk.next();
     }
+  }
+
+  drop(event: CdkDragDrop<any>) {
+
+  }
+
+  isFolderPredicate(el: CdkDrag, drop: CdkDropList): boolean {
+    return drop.id === 'folder';
   }
 }

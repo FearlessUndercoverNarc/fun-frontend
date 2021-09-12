@@ -14,10 +14,12 @@ import {map} from "rxjs/operators";
 export class FoldersService extends BasicCRUD<any> {
   private _folders: FolderDto[] = [];
 
+  lastSelectedFolderId: number = 0;
+
 
   constructor(
     private _httpClient: HttpClient,
-    @SkipSelf() protected _accountService: AccountService
+    protected _accountService: AccountService
   ) {
     super(APIControllers.Folder, _httpClient, _accountService);
   }
@@ -29,7 +31,6 @@ export class FoldersService extends BasicCRUD<any> {
   get folders(): FolderDto[] {
     return this._folders;
   }
-
 
 
   loadSubFolders(folderId: number): Observable<void> {

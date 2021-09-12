@@ -20,6 +20,7 @@ export class AccountService {
   private _hasSubscription = false;
 
   //TODO when subs made update it in LS
+  // lastSelectedFolderId: number = 0;
 
   constructor(
     private _httpClient: HttpClient,
@@ -79,6 +80,10 @@ export class AccountService {
 
   update(element: UserDto): Observable<void> {
     return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/UpdateAccount`, element)
+  }
+
+  getAll(): Observable<UserDto[]> {
+    return this._httpClient.get<UserDto[]>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetAll`)
   }
 
   logoutAndNavigateToAuth(): void {
