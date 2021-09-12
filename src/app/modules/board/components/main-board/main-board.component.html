@@ -1,7 +1,7 @@
 <div class="container" #mainContainer>
     <ng-container *ngIf="isLoaded">
         <header>
-            <span>{{ desk.title }} - {{ desk.description }}</span>
+            <span>{{ desk.title }} - {{ desk.description }}. Обновлено: {{ desk.lastUpdatedAt | date:"dd.MM.yyyy в HH:mm":"UTC" }}</span>
             <!-- <button mat-mini-fab color="primary" (click)="zoomHandler(0.1)">
                 <mat-icon>zoom_in</mat-icon>
             </button>
