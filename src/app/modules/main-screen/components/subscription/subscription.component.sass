@@ -28,6 +28,9 @@
 		line-height: 22px
 		color: $Detective_Black_2
 		flex: 0 1 100%
+		&._accessibility
+			color: $accessibility-font-color
+			border-bottom: 4px solid $accessibility-input-border
 
 	&__item 
 		align-items: center
@@ -50,12 +53,16 @@
 		padding-bottom: 16px
 		border-bottom: 1px solid $borderColor
 		margin-bottom: 30px
+		&._accessibility
+			color: $accessibility-font-color
 
 	&__text
 		@include adaptiv-value("font-size", 24, 18)
 		line-height: 32 / 24 * 100%
 		color: $Detective_Black_2
 		margin-bottom: 30px
+		&._accessibility
+			color: $accessibility-font-color
 
 	&__button
 		font-family: 'Inter', sans-serif
@@ -70,6 +77,15 @@
 		line-height: 19px
 		color: #110801
 		cursor: pointer
+		&:hover
+			background: $btnHoverColor
+		&._accessibility
+			font-weight: 700
+			letter-spacing: 2px
+			background: $accessibility-button-background
+			color: $accessibility-button-fontColor
+			&:hover
+				background: $accessibility-button-background
 		&:hover
 			background: $btnHoverColor
 

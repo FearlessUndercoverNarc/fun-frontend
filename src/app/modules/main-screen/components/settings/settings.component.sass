@@ -18,14 +18,25 @@ ul
     padding: 0
     margin: 0
 
-
 .settings
+  h3
+    &._accessibility
+      color: $accessibility-font-color
+      font-weight: 700
+      letter-spacing: 2px
   @include adaptiv-value("padding-left", 59, 10)
   @include adaptiv-value("padding-right", 59, 10)
-
+  ._accessibility
+    font-weight: 700
+    letter-spacing: 2px
+    color: $accessibility-font-color 
   .cloud-item
     h4
       flex: 0 1 250px
+      &._accessibility
+        color: $accessibility-font-color
+        font-weight: 700
+        letter-spacing: 2px
 
     .range-settings
       flex: 0 1 190px
@@ -33,6 +44,10 @@ ul
       &__text
         font-size: 14px
         line-height: 22px
+        &._accessibility
+          color: $accessibility-font-color
+          font-weight: 700
+          letter-spacing: 1px
 
     .settings__button
       margin-left: 32px
@@ -46,6 +61,13 @@ ul
       cursor: pointer
       outline: none
       font-family: 'Inter', sans-serif
+      &._accessibility
+        font-weight: 700
+        letter-spacing: 2px
+        background: $accessibility-button-background
+        color: $accessibility-button-fontColor
+        &:hover
+          background: $accessibility-button-background
       &:hover
         background: $btnHoverColor
       
@@ -67,14 +89,23 @@ ul
 
     h4
       flex: 0 1 250px
+      &._accessibility
+        color: $accessibility-font-color
+        font-weight: 700
+        letter-spacing: 2px
 
     &:not(:last-child)
       border-bottom: 1px solid $borderColor
+      &._accessibility
+        border-bottom: 4px solid $accessibility-input-border
 
 
 .language, .ui
   box-shadow: 0 2px 4px rgba(39, 40, 51, 0.12)
   border-radius: 8px
+  &._accessibility
+    color: $accessibility-font-color !important
+    border: 4px solid $accessibility-input-border
 
   &__list
     width: 100%
@@ -84,9 +115,12 @@ ul
         opacity: 1
         visibility: visible
         z-index: 50
+        border: 4px solid $accessibility-input-border
+        border-top: 0px
 
       .preview-language__body, .preview-ui__body
         border-radius: 8px 8px 0 0
+        border-bottom: 0px 
 
         img
           transform: rotate(0deg)

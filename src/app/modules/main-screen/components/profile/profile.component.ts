@@ -17,6 +17,21 @@ export class ProfileComponent implements OnInit {
       profileItemShow[0].classList.contains('_active') ? profileButton.innerHTML = 'Сохранить': profileButton.innerHTML = 'Изменить пароль';
     });
 
+    let profileInputToggle = document.querySelectorAll('.settings-profile__icon:not(.settings-profile__icon-text)')
+    profileInputToggle.forEach(element => {
+      element.addEventListener('click', () => {
+        let wrapper = element.parentElement
+        wrapper?.classList.toggle('_password')
+        if(wrapper?.classList.contains('_password')){
+          let input = wrapper.querySelector('.settings-profile__input')
+          input?.setAttribute("type", "password");
+        }else if(wrapper){
+          let input = wrapper.querySelector('.settings-profile__input')
+          input?.setAttribute("type", "text");
+        }
+      })
+    });
+
   }
 
 }

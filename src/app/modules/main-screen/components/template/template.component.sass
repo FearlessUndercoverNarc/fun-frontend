@@ -24,6 +24,7 @@ ul
   justify-content: center
   align-items: center
   min-height: 930px
+  
 
   .header
     background: $whiteColor
@@ -47,6 +48,8 @@ ul
         justify-content: center
         border-radius: 5px
         margin-right: 13px
+        &._accessibility
+          background: $accessibility-button-background
 
       a
         font-weight: 500
@@ -87,6 +90,15 @@ ul
 
         &:hover
           background: $btnHoverColor
+        &._accessibility
+          font-weight: 700
+          letter-spacing: 2px
+          background: $accessibility-button-background
+          color: $accessibility-button-fontColor
+          &:hover
+            background: $accessibility-button-background
+        &:hover
+          background: $btnHoverColor
 
       &::after
         content: ''
@@ -123,6 +135,10 @@ ul
         font-size: 16px
         line-height: 24px
         color: $Detective_Black_2
+        &._accessibility
+          color: $accessibility-font-color
+          font-weight: 700
+          letter-spacing: 1px
 
         img
           margin-right: 16px
@@ -140,6 +156,11 @@ ul
     color: #5B5953
     font-size: 14px
     line-height: 22px
+    &._accessibility
+      color: $accessibility-font-color
+      font-size: 16px
+      font-weight: 700
+      letter-spacing: 1px
 
 .search-header
   margin: 0 15px
@@ -162,6 +183,9 @@ ul
     background: $mainColor
     border-radius: 8px
     margin-right: 7px
+    &._accessibility
+      background: none
+      right: -40px
 
   &__wrapper
     position: relative
@@ -171,6 +195,8 @@ ul
     width: 100%
     background: $mainColor
     border-radius: 8px
+    &._accessibility
+      background: $accessibility-button-background
 
     input
       padding: 10px 16px
@@ -181,6 +207,14 @@ ul
       font-size: 16px
       line-height: 19px
       color: #5B5953
+      &._accessibility::placeholder 
+        font-weight: 700
+        letter-spacing: 2px
+        color: $accessibility-input-color
+      &._accessibility
+        font-weight: 700
+        letter-spacing: 2px
+        color: $accessibility-input-color
 
 .user-header
   display: flex
@@ -206,6 +240,10 @@ ul
     background-repeat: no-repeat
     background-position: center center
     background-size: cover
+    &._accessibility
+      background: $accessibility-button-background
+      img
+        display: none
 
   & > a
     width: 40px
@@ -399,8 +437,12 @@ ul
 
     .search-header__wrapper
       background: $input_bg_650
+      &._accessibility
+        background: $accessibility-button-background
 
     .search-header__icon
       background: $input_bg_650
+      &._accessibility
+        display: none
 
 //========================================================================================================================================================

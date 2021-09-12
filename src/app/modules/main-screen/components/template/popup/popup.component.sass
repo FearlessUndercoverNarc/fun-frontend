@@ -1,12 +1,5 @@
-$bgColor: #F0C352
-$btnHoverColor: #e9b83b
-$fontColor: #110801
-$whiteColor: #fff
-$mainColor: #F5F5F5
-$borderColor: #EAE9E5
-$Detective_Black_2:#5B5953
-$scrollColor: #666
-$input_bg_650: #c5c5c5
+@import "~src/styles/global-variables"
+@import "~src/styles/var-variables"
 
 .popup
   z-index: 999
@@ -57,12 +50,16 @@ $input_bg_650: #c5c5c5
       line-height: 32px
       font-weight: normal
       color: $Detective_Black_2
+      &._accessibility
+        color: $accessibility-font-color
     p
       margin-top: 30px
       font-size: 16px
       line-height: 19px
       font-weight: normal
       color: $Detective_Black_2
+      &._accessibility
+        color: $accessibility-font-color
   .popup__button-wrapper
     margin-top: 36px
     width: 100%
@@ -82,6 +79,13 @@ $input_bg_650: #c5c5c5
       background: none
       border: none
       cursor: pointer
+      &._accessibility
+        font-weight: 700
+        letter-spacing: 2px
+        background: $accessibility-button-background
+        color: $accessibility-button-fontColor
+        &:hover
+          background: $accessibility-button-background
     .popup__button-cancel
       border: 1px solid $Detective_Black_2
       &:hover

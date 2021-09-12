@@ -25,23 +25,36 @@ ul
   @include adaptiv-value("padding-left", 59, 10)
   @include adaptiv-value("padding-right", 59, 10)
 
+  &._accessibility
+    color: $accessibility-font-color
   &__title 
     font-weight: 500
     font-size: 18px
     line-height: 22px
     border-bottom: 1px solid $borderColor
     padding: 20px 0
+    &._accessibility
+      border-bottom: 4px solid $accessibility-input-border
+      color: $accessibility-font-color
+      font-weight: 700
+      letter-spacing: 2px
 
   &__image 
     display: flex
     border-bottom: 1px solid $borderColor
     padding: 14px 0
+    &._accessibility
+      border-bottom: 4px solid $accessibility-input-border
 
 
 .image-profile 
 
   &__text 
     min-width: 250px
+    &._accessibility
+      color: $accessibility-font-color
+      font-weight: 700
+      letter-spacing: 2px
 
   &__image 
     width: 64px
@@ -51,6 +64,10 @@ ul
       width: 100%
       height: 100%
       border-radius: 100%
+    &._accessibility
+      background: $accessibility-button-background
+      img
+        display: none
 
 .settings-profile 
 
@@ -60,12 +77,16 @@ ul
     display: flex
     &:last-child
       border: none
+    &._accessibility
+      border-bottom: 4px solid $accessibility-input-border
   
   &__itemShow
     padding: 18px 0
     border-bottom: 1px solid $borderColor
     display: flex
     transition: all 0.8s ease 0s
+    &._accessibility
+      border-bottom: 4px solid $accessibility-input-border
     &._active
       transform: translateX(0)
 
@@ -85,6 +106,10 @@ ul
 
   &__text
     flex: 0 1 250px
+    &._accessibility
+      color: $accessibility-font-color
+      font-weight: 700
+      letter-spacing: 2px
 
   &__input-wrapper 
     display: flex
@@ -94,6 +119,8 @@ ul
     justify-content: space-between
     background: $whiteColor
     border-radius: 8px
+    &._accessibility
+      border: 4px solid $accessibility-input-border
 
   &__input 
     padding: 20px 0px 20px 20px
@@ -106,6 +133,15 @@ ul
     line-height: 19px
     color: $Detective_Black_2
     font-family: 'Inter', sans-serif
+    &._accessibility::placeholder 
+      font-weight: 700
+      letter-spacing: 2px
+      color: $accessibility-input-color-dark
+    &._accessibility
+      font-weight: 700
+      letter-spacing: 2px
+      color: $accessibility-input-color-dark
+
 
   &__icon
     width: 50px
@@ -132,7 +168,13 @@ ul
     @include adaptiv-value("margin-left", 340, 15)
     &:hover
       background: $btnHoverColor
-
+    &._accessibility
+      font-weight: 700
+      letter-spacing: 2px
+      background: $accessibility-button-background
+      color: $accessibility-button-fontColor
+      &:hover
+        background: $accessibility-button-background
 @media (max-width: 863px)
   .settings-profile
 
