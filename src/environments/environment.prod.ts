@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: 'http://memorize-cards.fun',
+  apiUrl: 'https://memorize-cards.fun',
   production: true
 };

@@ -19,6 +19,7 @@ export class FoldersService extends BasicCRUD<any> {
   set foldersShared(value: FolderDto[]) {
     this._foldersShared = value;
   }
+
   private _folders: FolderDto[] = [];
   private _foldersShared: FolderDto[] = [];
 
@@ -61,5 +62,14 @@ export class FoldersService extends BasicCRUD<any> {
           this._foldersShared = result;
         })
       )
+  }
+
+  moveToFolder(id: number, destinationId: number): Observable<void> {
+    return this._httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToFolder`, {
+      params: {
+        id: id,
+        destinationId: destinationId
+      }
+    });
   }
 }

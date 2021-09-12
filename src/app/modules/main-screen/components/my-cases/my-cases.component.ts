@@ -232,7 +232,20 @@ export class MyCasesComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer !== event.container) {
+      console.log(event.previousContainer.data) //...OnPage
+      console.log(event.container.data)
 
+      this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
+        .subscribe(() => {
+          this.foldersOnPage = this.foldersOnPage.filter(f => {
+            return f.folder.id != event.previousContainer.data.folder.id
+          })
+          this._foldersService.folders = this.foldersOnPage.map(f => {
+            return f.folder
+          })
+        })
+    }
   }
 
   isFolderPredicate(el: CdkDrag, drop: CdkDropList): boolean {
