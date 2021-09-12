@@ -1,21 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
-import {CasesService} from "../../services/cases.service";
-import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
-import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
-import {PathService} from "../../services/path.service";
-import {DesksLoaderService} from "../../services/desks-loader.service";
-import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
-import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {map} from "rxjs/operators";
-import {PathPart} from "../../../../shared/interfaces/path-part.interface";
-import {FoldersService} from "../../services/folders.service";
-import {RightClickService} from "../../../../shared/services/right-click.service";
-import {DeleteService} from "../../services/delete.service";
-import {TrashedFoldersService} from "../../services/trashed-folders.service";
-import {TrashedDesksService} from "../../services/trashed-desks.service";
-import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
-import {ShareModalService} from "../../../../shared/services/share-modal.service";
-import {AccountService} from "../../../../shared/services/account.service";
+import { Component, EventEmitter, Input, OnInit, SkipSelf } from '@angular/core';
+import { CasesService } from "../../services/cases.service";
+import { FolderDto } from "../../interfaces/dto/folder-dto.interface";
+import { DeskDto } from "../../interfaces/dto/desk-dto.interface";
+import { PathService } from "../../services/path.service";
+import { DesksLoaderService } from "../../services/desks-loader.service";
+import { FolderOnPage } from "../../interfaces/on-page/folder-on-page";
+import { DeskOnPage } from "../../interfaces/on-page/desk-on-page";
+import { map } from "rxjs/operators";
+import { PathPart } from "../../../../shared/interfaces/path-part.interface";
+import { FoldersService } from "../../services/folders.service";
+import { RightClickService } from "../../../../shared/services/right-click.service";
+import { DeleteService } from "../../services/delete.service";
+import { TrashedFoldersService } from "../../services/trashed-folders.service";
+import { TrashedDesksService } from "../../services/trashed-desks.service";
+import { CdkDrag, CdkDragDrop, CdkDropList } from "@angular/cdk/drag-drop";
+import { ShareModalService } from "../../../../shared/services/share-modal.service";
+import { AccountService } from "../../../../shared/services/account.service";
+import { ImportService } from '../../services/import.service';
+import { DeskService } from 'src/app/shared/services/desk.service';
 
 @Component({
   selector: 'app-my-cases',
@@ -40,7 +42,9 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
     private _accountService: AccountService,
-    private _deleteService: DeleteService
+    private _deleteService: DeleteService,
+    private _importService: ImportService,
+    private _deskService: DeskService
   ) {
   }
 
@@ -57,6 +61,9 @@ export class MyCasesComponent implements OnInit {
 
     this._deleteService.selectedElementsToTrashbinMoved
       .subscribe(() => this.moveToTrashbinSelectedElements())
+
+    this._importService.selectedElementsExported
+      .subscribe(() => this.exportElement())
   }
 
   private moveToTrashbinSelectedElements() {
@@ -91,6 +98,39 @@ export class MyCasesComponent implements OnInit {
     })
 
     this.unselectAll();
+  }
+
+  exportElement() {
+    for (let i = 0; i < this.foldersOnPage.length; i++) {
+      if (this.foldersOnPage[i].isSelected) {
+        console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
+
+        this._foldersService.export(this.foldersOnPage[i].folder.id)
+        .subscribe(response => {
+          this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
+        })
+        
+      }
+    }
+
+    for (let i = 0; i < this.desksOnPage.length; i++) {
+      console.log('?')
+      if (this.desksOnPage[i].isSelected) {
+        console.log('dick')
+        this._deskService.export(this.desksOnPage[i].desk.id)
+          .subscribe(response => {
+            this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
+          })
+      }
+    }
+  }
+
+  downloadFile(content: string, fileName: string, contentType: string) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
   }
 
   selectFolder(folderOnPage: FolderOnPage): void {
@@ -162,13 +202,13 @@ export class MyCasesComponent implements OnInit {
     this._foldersService.loadSubFolders(subFolderId)
       .subscribe(() => {
         this.foldersOnPage = this._foldersService.folders.map(f => {
-          return {folder: f, isSelected: false};
+          return { folder: f, isSelected: false };
         })
 
         this._desksService.loadDesks()
           .subscribe(() => {
             this.desksOnPage = this._desksService.desks.map(d => {
-              return {desk: d, isSelected: false}
+              return { desk: d, isSelected: false }
             })
           })
       }, error => {
@@ -186,7 +226,7 @@ export class MyCasesComponent implements OnInit {
       this._casesService.loadCases()
         .subscribe(() => {
           this.foldersOnPage = this._casesService.cases.map(c => {
-            return {folder: c, isSelected: false};
+            return { folder: c, isSelected: false };
           });
         }, error => {
           console.log(error)

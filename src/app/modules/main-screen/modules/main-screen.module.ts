@@ -88,7 +88,7 @@ const routes: Routes = [
     TrashBinModule,
     CreateModule,
 
-    SharedCasesModule
+    SharedCasesModule,
 
     FormsModule,
     ReactiveFormsModule,

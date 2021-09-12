@@ -12,7 +12,7 @@
     <div class="dialog-box__image">
       <img src="assets/icons/export-icon.svg" alt="">
     </div>
-    <button type="button" class="dialog-box__button">Экспортировать</button>
+    <button type="button" class="dialog-box__button" (click)="exportElement()">Экспортировать</button>
   </div>
   <div class="dialog-box__item">
     <div class="dialog-box__image">
@@ -31,7 +31,17 @@
     <div class="dialog-box__image">
       <img src="assets/icons/import-icon.svg" alt="">
     </div>
-    <button type="button" class="dialog-box__button">Импортировать</button>
+    <button type="button" class="dialog-box__button" (click)="importFolder()">Импортировать папку</button>
+    <input type="file" style="display: none" (change)="uploadFolderImportFile()" #importFolderInput />
+    <!-- <button type="button" class="dialog-box__button" (click)="importBoard()">Импортировать доску</button> -->
+  </div>
+  <div class="dialog-box__item">
+    <div class="dialog-box__image">
+      <img src="assets/icons/import-icon.svg" alt="">
+    </div>
+    <button type="button" class="dialog-box__button" (click)="importBoard()">Импортировать доску</button>
+    <input type="file" style="display: none" (change)="uploadDeskImportFile()" #importDeskInput />
+    <!-- <button type="button" class="dialog-box__button" (click)="importBoard()">Импортировать доску</button> -->
   </div>
 </div>
 

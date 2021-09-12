@@ -1,8 +1,11 @@
-import {Component, Input, OnInit, SkipSelf} from '@angular/core';
-import {RightClickService} from "../../services/right-click.service";
-import {DeleteService} from "../../../modules/main-screen/services/delete.service";
-import {skip} from "rxjs/operators";
-import {ShareModalService} from "../../services/share-modal.service";
+import { Component, ElementRef, Input, OnInit, SkipSelf, ViewChild } from '@angular/core';
+import { RightClickService } from "../../services/right-click.service";
+import { DeleteService } from "../../../modules/main-screen/services/delete.service";
+import { skip } from "rxjs/operators";
+import { ShareModalService } from "../../services/share-modal.service";
+import { ImportService } from 'src/app/modules/main-screen/services/import.service';
+import { FoldersService } from 'src/app/modules/main-screen/services/folders.service';
+import { DeskService } from '../../services/desk.service';
 
 @Component({
   selector: 'app-right-click-modal',
@@ -18,10 +21,16 @@ export class RightClickModalComponent implements OnInit {
   isMilkModalShown: boolean = false;
   isRecoverModalShown: boolean = false;
 
+  @ViewChild('importFolderInput') importFolderInput?: ElementRef
+  @ViewChild('importDeskInput') importDeskInput?: ElementRef
+
   constructor(
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _deleteService: DeleteService,
-    @SkipSelf() private _shareModalService: ShareModalService
+    @SkipSelf() private _shareModalService: ShareModalService,
+    private _importService: ImportService,
+    private _foldersService: FoldersService,
+    private _deskService: DeskService
   ) {
   }
 
@@ -85,5 +94,37 @@ export class RightClickModalComponent implements OnInit {
   shareElement() {
     this._rightClickService.hideAllModals();
     this._shareModalService.shareModalShown.next();
+  }
+
+  exportElement() {
+    this._rightClickService.hideAllModals();
+    this._importService.exportSelectedElements()
+  }
+
+  importFolder() {
+    this.importFolderInput?.nativeElement.click()
+  }
+
+  uploadFolderImportFile() {
+    this._importService.folderImportFile = this.importFolderInput?.nativeElement.files[0]
+
+    this._foldersService.import()
+      .subscribe(response => {
+        location.reload()
+      })
+
+  }
+
+  importBoard() {
+    this.importDeskInput?.nativeElement.click()
+  }
+
+  uploadDeskImportFile() {
+    this._importService.folderImportFile = this.importFolderInput?.nativeElement.files[0]
+
+    this._foldersService.import()
+      .subscribe(response => {
+        location.reload()
+      })
   }
 }

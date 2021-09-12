@@ -12,7 +12,7 @@ export class PathService {
   pathChanged: ReplaySubject<void> = new ReplaySubject<void>();
 
   get parentFolderId(): number {
-    return this._path[this._path.length - 1].folderId;
+    return this._path.length > 0 ? this._path[this._path.length - 1].folderId : 0;
   }
 
   set path(newPath: PathPart[]) {
