@@ -1,4 +1,5 @@
 @import './styles/var-variables'
+@import "~src/styles/global-variables"
 @import "~@angular/material/prebuilt-themes/indigo-pink.css"
 
 body, html
@@ -12,6 +13,46 @@ body, html
   font-family: 'Roboto', sans-serif
 
   overflow: hidden
+
+  & > .folder
+    width: auto
+    height: 56px
+
+    box-sizing: border-box
+
+    background-color: #fff
+
+    filter: drop-shadow(0px 2px 4px rgba(39, 40, 51, 0.12))
+    border-radius: 8px
+
+    padding: 16px
+
+    display: flex
+    align-items: center
+
+    cursor: pointer
+
+    user-select: none
+
+    .element-icon
+      width: 26px
+      height: 24px
+      background-repeat: no-repeat
+      background-size: contain
+      background-position: center
+
+
+    .folder-icon
+      background-image: url("~src/assets/icons/selected-folder-icon.svg") !important
+
+    .desk-icon
+      background-image: url("~src/assets/icons/selected-desk-icon.svg") !important
+
+    p
+      margin-left: 16px
+      width: 100%
+      color: $golden
+
 
 a
   text-decoration: none
@@ -98,3 +139,5 @@ button.error-button
 
   &.active
     background: $var-3
+
+

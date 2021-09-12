@@ -1,6 +1,6 @@
 export interface UserDto {
   id: number,
-  username: string,
+  fio: string,
   login: string,
   password: string,
 }

@@ -13,8 +13,17 @@ import {AccountService} from "../../../shared/services/account.service";
   providedIn: 'root'
 })
 export class CasesService extends BasicCRUD<any> {
+  get casesShared(): FolderDto[] {
+    return this._casesShared;
+  }
+
+  set casesShared(value: FolderDto[]) {
+    this._casesShared = value;
+  }
 
   private _cases: FolderDto[] = [];
+  private _casesShared: FolderDto[] = [];
+
 
   constructor(
     private _httpClient: HttpClient,
@@ -40,4 +49,12 @@ export class CasesService extends BasicCRUD<any> {
       )
   }
 
+  loadSharedToMeCases(): Observable<void> {
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
+      .pipe(
+        map((result: FolderDto[]) => {
+          this._casesShared = result;
+        })
+      )
+  }
 }

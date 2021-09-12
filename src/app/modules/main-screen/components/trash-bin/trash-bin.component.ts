@@ -39,6 +39,8 @@ export class TrashBinComponent implements OnInit {
   isModalShown: boolean = false;
 
   ngOnInit(): void {
+    this._pathService.goToRoot();
+
     this._trashedFoldersService.loadTrashedFolders()
       .subscribe(() => {
         console.table(this._trashedFoldersService.trashedFolders)

@@ -12,12 +12,22 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class FoldersService extends BasicCRUD<any> {
+  get foldersShared(): FolderDto[] {
+    return this._foldersShared;
+  }
+
+  set foldersShared(value: FolderDto[]) {
+    this._foldersShared = value;
+  }
   private _folders: FolderDto[] = [];
+  private _foldersShared: FolderDto[] = [];
+
+  lastSelectedFolderId: number = 0;
 
 
   constructor(
     private _httpClient: HttpClient,
-    @SkipSelf() protected _accountService: AccountService
+    protected _accountService: AccountService
   ) {
     super(APIControllers.Folder, _httpClient, _accountService);
   }
@@ -29,7 +39,6 @@ export class FoldersService extends BasicCRUD<any> {
   get folders(): FolderDto[] {
     return this._folders;
   }
-
 
 
   loadSubFolders(folderId: number): Observable<void> {
@@ -45,4 +54,12 @@ export class FoldersService extends BasicCRUD<any> {
       )
   }
 
+  loadSharedToMeFolder(): Observable<void> {
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
+      .pipe(
+        map((result: FolderDto[]) => {
+          this._foldersShared = result;
+        })
+      )
+  }
 }

@@ -23,8 +23,11 @@ import {DeleteService} from "../services/delete.service";
 import {PathService} from "../services/path.service";
 import {TrashedFoldersService} from "../services/trashed-folders.service";
 import {TrashedDesksService} from "../services/trashed-desks.service";
+import {ShareFolderService} from "../services/share-folder.service";
+import {SharedCasesModule} from "./shared-cases.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 const routes: Routes = [
@@ -73,7 +76,6 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     PathLineComponent,
-    SharedCasesComponent,
 
     SettingsComponent,
     ProfileComponent,
@@ -85,16 +87,19 @@ const routes: Routes = [
     MyCasesModule,
     TrashBinModule,
     CreateModule,
+
+    SharedCasesModule
+
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule
+
   ],
   providers: [
     CasesService,
     DesksLoaderService,
-    FoldersService,
     TrashedFoldersService,
-    TrashedDesksService
+    TrashedDesksService,
   ],
 })
 export class MainScreenModule {
