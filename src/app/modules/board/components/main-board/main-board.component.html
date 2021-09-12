@@ -12,6 +12,7 @@
                 <mat-icon>home</mat-icon>
             </button>
         </header>
+        <app-history-container [deskId]="desk.id"></app-history-container>
         <div class="board-container">
             <perfect-scrollbar #board style="max-width: 100vw; max-height: 100vh;">
                 <div class="board"

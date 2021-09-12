@@ -13,6 +13,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { EditCardDialogComponent } from './components/edit-card-dialog/edit-card-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { HistoryContainerComponent } from './components/history-container/history-container.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -21,7 +22,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     MainBoardComponent,
     CardComponent,
     CardCreatorDialogComponent,
-    EditCardDialogComponent
+    EditCardDialogComponent,
+    HistoryContainerComponent
   ],
   imports: [
     CommonModule,

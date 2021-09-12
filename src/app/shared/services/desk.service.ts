@@ -40,4 +40,5 @@ export class DeskService extends BasicCRUD<Desk> {
     if (!this.eventSource) return;
     this.eventSource.close()
   }
+
 }
