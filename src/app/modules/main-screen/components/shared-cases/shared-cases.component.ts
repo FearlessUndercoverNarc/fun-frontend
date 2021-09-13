@@ -11,8 +11,8 @@ import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
-import {TrashedFoldersService} from "../../services/trashed-folders.service";
-import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {FolderTrashBinService} from "../../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../../services/desk-trash-bin.service";
 import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
 import {ShareModalService} from "../../../../shared/services/share-modal.service";
 import {AccountService} from "../../../../shared/services/account.service";
@@ -39,8 +39,8 @@ export class SharedCasesComponent implements OnInit {
     private _deskService: DeskService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
-    @SkipSelf() private _trashedDesksService: TrashedDesksService,
+    @SkipSelf() private _trashedFoldersService: FolderTrashBinService,
+    @SkipSelf() private _trashedDesksService: DeskTrashBinService,
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
     private _router: Router,

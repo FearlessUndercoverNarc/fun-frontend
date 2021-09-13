@@ -7,40 +7,38 @@ import {FolderDto} from "../interfaces/dto/folder-dto.interface";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {map} from "rxjs/operators";
-import {DeskDto} from "../interfaces/dto/desk-dto.interface";
-import {Desk} from "../../../shared/interfaces/desk.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TrashedDesksService extends BasicCRUD<any> {
-  private _trashedDesks: DeskDto[] = [];
+export class FolderTrashBinService extends BasicCRUD<any> {
+  private _trashedFolders: FolderDto[] = [];
 
   constructor(
     protected _httpClient: HttpClient,
     protected _accountService: AccountService
   ) {
-    super(APIControllers.DeskTrashbin, _httpClient, _accountService);
+    super(APIControllers.FolderTrashbin, _httpClient, _accountService);
   }
 
-  set trashedDesks(cases: DeskDto[]) {
-    this._trashedDesks = cases;
+  set trashedFolders(cases: FolderDto[]) {
+    this._trashedFolders = cases;
   }
 
-  get trashedDesks(): DeskDto[] {
-    return this._trashedDesks;
+  get trashedFolders(): FolderDto[] {
+    return this._trashedFolders;
   }
 
   getMyTrashBin(): Observable<void> {
-    return this._httpClient.get<Desk[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
       .pipe(
-        map((result: DeskDto[]) => {
-          this._trashedDesks = result;
+        map((result: FolderDto[]) => {
+          this._trashedFolders = result;
         })
       )
   }
 
-  moveToTrashBin(id: number): Observable<void> {
+  moveToTrashBin(id: number) {
     return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashBin`, {
       params: {
         id: id.toString(),

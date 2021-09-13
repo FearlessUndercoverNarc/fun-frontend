@@ -8,8 +8,8 @@ import {DesksLoaderService} from "../../services/desks-loader.service";
 import {PathService} from "../../services/path.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
-import {TrashedFoldersService} from "../../services/trashed-folders.service";
-import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {FolderTrashBinService} from "../../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../../services/desk-trash-bin.service";
 
 @Component({
   selector: 'app-trash-bin',
@@ -28,8 +28,8 @@ export class TrashBinComponent implements OnInit {
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
-    @SkipSelf() private _trashedDesksService: TrashedDesksService,
+    @SkipSelf() private _trashedFoldersService: FolderTrashBinService,
+    @SkipSelf() private _trashedDesksService: DeskTrashBinService,
     @SkipSelf() private _rightClickService: RightClickService,
     private _deleteService: DeleteService
   ) {
