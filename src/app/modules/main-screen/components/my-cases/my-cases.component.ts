@@ -155,7 +155,7 @@ export class MyCasesComponent implements OnInit {
       if (this.onceClicked) {
         this.onceClicked = false;
         this._rightClickService.hideAllModals();
-        this.openSubFolder(folderOnPage.folder);
+        this.gotoSubFolder(folderOnPage.folder);
       }
     }
   }
@@ -195,17 +195,17 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  private openSubFolder(subFolder: FolderDto) {
+  private gotoSubFolder(subFolder: FolderDto) {
     const newPathPart: PathPart = {
       folderId: subFolder.id,
       folderTitle: subFolder.title
     }
     this._pathService.deeper(newPathPart);
 
-    this.processSubFolder(subFolder.id);
+    this.loadSubFolder(subFolder.id);
   }
 
-  private processSubFolder(subFolderId: number): void {
+  private loadSubFolder(subFolderId: number): void {
     this.foldersOnPage = []
     this.desksOnPage = []
 
@@ -235,8 +235,8 @@ export class MyCasesComponent implements OnInit {
     if (this._pathService.isRoot()) {
       this._casesService.getMyRoot()
         .subscribe(() => {
-          this.foldersOnPage = this._casesService.myRoot.map(c => {
-            return {folder: c, isSelected: false};
+          this.foldersOnPage = this._casesService.myRoot.map(folder => {
+            return {folder: folder, isSelected: false};
           });
         }, error => {
           console.log(error)
@@ -246,7 +246,7 @@ export class MyCasesComponent implements OnInit {
       this.desksOnPage = [];
 
     } else {
-      this.processSubFolder(this._pathService.parentFolderId);
+      this.loadSubFolder(this._pathService.parentFolderId);
     }
   }
 

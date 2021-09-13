@@ -28,11 +28,7 @@ export class PathService {
   }
 
   private getPathFromLocalStorage(): string {
-    if (localStorage.getItem(LocalStorageEnum.Path) === null) {
-      return '[]';
-    } else {
-      return localStorage.getItem(LocalStorageEnum.Path) + ''
-    }
+    return localStorage.getItem(LocalStorageEnum.Path) || '[]'
   }
 
   upper(): void {
