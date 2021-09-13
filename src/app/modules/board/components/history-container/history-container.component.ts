@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DeskAction } from 'src/app/shared/interfaces/desk-action.interface';
-import { DeskActionService } from 'src/app/shared/services/desk-action.service';
-import { DeskService } from 'src/app/shared/services/desk.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {DeskAction} from 'src/app/shared/interfaces/desk-action.interface';
+import {DeskActionService} from 'src/app/shared/services/desk-action.service';
+import {DeskService} from 'src/app/shared/services/desk.service';
 
 @Component({
   selector: 'app-history-container',
@@ -10,7 +10,15 @@ import { DeskService } from 'src/app/shared/services/desk.service';
 })
 export class HistoryContainerComponent implements OnInit {
 
-  keyvalues = new Map([[0, 'DeskInit'], [1, 'DeskUpdate'], [2, 'Создание карточки'], [3, 'Соединение'], [4, 'Отсоединение'], [5, 'Удаление карточки'], [6, 'Обновление/перемещение']])
+  keyvalues = new Map([
+    [0, 'DeskInit'],
+    [1, 'DeskUpdate'],
+    [2, 'Создание карточки'],
+    [3, 'Соединение'],
+    [4, 'Отсоединение'],
+    [5, 'Удаление карточки'],
+    [6, 'Обновление/перемещение']
+  ])
 
   @Input() deskId: number = 0
   actions: DeskAction[] = []
@@ -19,7 +27,8 @@ export class HistoryContainerComponent implements OnInit {
   constructor(
     private _deskActionService: DeskActionService,
     private _deskService: DeskService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -31,13 +40,12 @@ export class HistoryContainerComponent implements OnInit {
   }
 
   loadHistory() {
+    this.isLoading = true
     this._deskActionService.getAllByDesk(this.deskId)
-    .subscribe(actions => {
-      this.actions = actions
-      this.isLoading = true
-
-      console.log(actions)
-    })
+      .subscribe(actions => {
+        this.actions = actions
+        this.isLoading = false;
+      })
   }
 
 }

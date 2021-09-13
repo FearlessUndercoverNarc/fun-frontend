@@ -21,7 +21,6 @@ export class ShareCasesService extends BasicCRUD<any> {
   }
 
   share(id: number, recipientId: number, hasWriteAccess: boolean) {
-
     return this.httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/share`, {
       params: {
         id: id.toString(),
@@ -29,7 +28,6 @@ export class ShareCasesService extends BasicCRUD<any> {
         hasWriteAccess: hasWriteAccess ? 'true' : 'false'
       }
     })
-
   }
 }
 

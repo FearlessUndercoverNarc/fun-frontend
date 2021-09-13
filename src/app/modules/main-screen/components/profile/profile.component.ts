@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Profile } from 'src/app/shared/interfaces/profile.interface';
-import { AccountService } from 'src/app/shared/services/account.service';
-import { Md5 } from 'ts-md5';
+import {Component, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AccountService} from 'src/app/shared/services/account.service';
+import {Md5} from 'ts-md5';
+import {AccountDto, UpdateAccountDto} from "../../../../shared/interfaces/account-dto.interface";
 
 @Component({
   selector: 'app-profile',
@@ -15,12 +15,13 @@ export class ProfileComponent implements OnInit {
   newPass: string = ''
   newPassR: string = ''
 
-  profile = {} as Profile
+  profile = {} as AccountDto
 
   constructor(
     private _accountService: AccountService,
     private _matSnackBar: MatSnackBar
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const profileButton = document.querySelector('.settings-profile__button');
@@ -31,11 +32,11 @@ export class ProfileComponent implements OnInit {
     });
 
     this._accountService.getMy()
-    .subscribe(profile => {
-      this.profile = profile
+      .subscribe(profile => {
+        this.profile = profile
 
-      this.fio = profile.fio
-    })
+        this.fio = profile.fio
+      })
 
   }
 
@@ -45,28 +46,34 @@ export class ProfileComponent implements OnInit {
       return
     }
 
-    this._accountService.update({...this.profile, password: new Md5().appendStr(this.newPass).end().toString()})
-    .subscribe(() => {
-      this._matSnackBar.open('Вы успешно изменили пароль', '', {duration: 3000})
-      this.newPass = ''
-      this.newPassR = ''
-    }, error => {
-      this._matSnackBar.open(error.error.error, '', {duration: 3000})
-    })
+    let updateDto: UpdateAccountDto = {
+      fio: this.profile.fio,
+      password: new Md5().appendStr(this.newPass).end().toString()
+    }
+
+    this._accountService.update(updateDto)
+      .subscribe(() => {
+        this._matSnackBar.open('Вы успешно изменили пароль', '', {duration: 3000})
+        this.newPass = ''
+        this.newPassR = ''
+      }, error => {
+        this._matSnackBar.open(error.error.error, '', {duration: 3000})
+      })
   }
 
   update() {
-    this._accountService.update({fio: this.fio, password: ''})
-    .subscribe(() => {
-      this._matSnackBar.open('Вы успешно изменили ФИО', '', {duration: 3000})
-      this.newPass = ''
-      this.newPassR = ''
-    }, error => {
-      this._matSnackBar.open(error.error.error, '', {duration: 3000})
-    })
+    let updateDto: UpdateAccountDto = {fio: this.fio, password: ''};
+    this._accountService.update(updateDto)
+      .subscribe(() => {
+        this._matSnackBar.open('Вы успешно изменили ФИО', '', {duration: 3000})
+        this.newPass = ''
+        this.newPassR = ''
+      }, error => {
+        this._matSnackBar.open(error.error.error, '', {duration: 3000})
+      })
   }
 
-    logout() {
-      this._accountService.logoutAndNavigateToAuth();
-    }
+  logout() {
+    this._accountService.logoutAndNavigateToAuth();
+  }
 }

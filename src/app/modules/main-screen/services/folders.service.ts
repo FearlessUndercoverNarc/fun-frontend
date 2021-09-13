@@ -1,4 +1,4 @@
-import {Injectable, SkipSelf} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {FolderDto} from "../interfaces/dto/folder-dto.interface";
 import {HttpClient} from "@angular/common/http";
 import {AccountService} from "../../../shared/services/account.service";
@@ -7,7 +7,6 @@ import {APIControllers} from "../../../shared/enums/api-controllers.enum";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {map} from "rxjs/operators";
-import {Byte} from "@angular/compiler/src/util";
 import {ImportService} from "./import.service";
 import {PathService} from "./path.service";
 
@@ -60,13 +59,16 @@ export class FoldersService extends BasicCRUD<any> {
     return this._folders;
   }
 
-
-  loadSubFolders(folderId: number): Observable<void> {
+  getSubFoldersByFolder(id: number): Observable<FolderDto[]> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
       params: {
-        id: folderId
+        id: id
       }
     })
+  }
+
+  loadSubFolders(folderId: number): Observable<void> {
+    return this.getSubFoldersByFolder(folderId)
       .pipe(
         map((result: FolderDto[]) => {
           this._folders = result;
@@ -75,11 +77,7 @@ export class FoldersService extends BasicCRUD<any> {
   }
 
   loadSharedSubFolders(folderId: number): Observable<void> {
-    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSubFoldersByFolder`, {
-      params: {
-        id: folderId
-      }
-    })
+    return this.getSubFoldersByFolder(folderId)
       .pipe(
         map((result: FolderDto[]) => {
           this._foldersShared = result;
@@ -87,7 +85,7 @@ export class FoldersService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedToMeFolders(): Observable<void> {
+  getSharedToMeRoot(): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
       .pipe(
         map((result: FolderDto[]) => {
@@ -105,8 +103,16 @@ export class FoldersService extends BasicCRUD<any> {
     });
   }
 
-  export(id: number): Observable<any> {
-    return this._httpClient.get<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, {params: {id: id + ''}})
+  export(id: number): Observable<ArrayBuffer> {
+    return this._httpClient.get(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, {
+      params: {id: id + ''},
+      observe: 'response',
+      responseType: 'arraybuffer'
+    }).pipe(
+      map((response) => {
+        return response.body!
+      })
+    )
   }
 
   import(): Observable<any> {
@@ -115,6 +121,5 @@ export class FoldersService extends BasicCRUD<any> {
     if (this._pathService.parentFolderId) form.append('parentId', this._pathService.parentFolderId + '');
 
     return this._httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/import`, form)
-
   }
 }

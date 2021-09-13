@@ -45,16 +45,20 @@ export class DesksLoaderService extends BasicCRUD<any> {
   }
 
   loadDesks(): Observable<void> {
-    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
-      params: {
-        id: this._pathService.parentFolderId
-      }
-    })
+    return this.getByFolder(this._pathService.parentFolderId)
       .pipe(
         map((result: DeskDto[]) => {
           this._desks = result;
         })
       )
+  }
+
+  getByFolder(id: number): Observable<DeskDto[]> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
+      params: {
+        id: id.toString()
+      }
+    });
   }
 
   loadSharedDesksByFolder(id: number): Observable<void> {
@@ -70,16 +74,16 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  moveToTrash(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
+  moveToTrashBin(id: number) {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  loadTrashedDesks(): Observable<void> {
-    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashbin`)
+  getMyTrashBin(): Observable<void> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
       .pipe(
         map((result: DeskDto[]) => {
           this._desks = result;
@@ -87,7 +91,7 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedToMeDesks(): Observable<void> {
+  getSharedToMe(): Observable<void> {
     return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMe`)
       .pipe(
         map((result: DeskDto[]) => {

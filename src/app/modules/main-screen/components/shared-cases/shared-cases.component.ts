@@ -59,17 +59,15 @@ export class SharedCasesComponent implements OnInit {
     });
 
     this._deleteService.selectedElementsToTrashbinMoved
-      .subscribe(() => this.moveToTrashbinSelectedElements())
+      .subscribe(() => this.moveToTrashBinSelectedElements())
   }
 
-  private moveToTrashbinSelectedElements() {
-    console.log('here 3')
-
+  private moveToTrashBinSelectedElements() {
     console.table(this.foldersOnPage);
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.moveToTrashBin(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -82,7 +80,7 @@ export class SharedCasesComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._trashedDesksService.moveToTrash(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.moveToTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })
@@ -100,35 +98,31 @@ export class SharedCasesComponent implements OnInit {
     console.log(1)
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
-
         this._foldersService.export(this.foldersOnPage[i].folder.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, this.foldersOnPage[i].folder.title + '.fun', 'application/binary')
           })
-
       }
     }
 
-
     for (let i = 0; i < this.desksOnPage.length; i++) {
-      console.log('?')
       if (this.desksOnPage[i].isSelected) {
         console.log('dick')
-        this._deskService.doExport(this.desksOnPage[i].desk.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
+        this._deskService.export(this.desksOnPage[i].desk.id)
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, this.desksOnPage[i].desk.title + '.fun', 'application/binary')
           })
       }
     }
   }
 
-  downloadFile(content: string, fileName: string, contentType: string) {
+  downloadFile(content: ArrayBuffer, fileName: string, contentType: string) {
     var a = document.createElement("a");
     var file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.click();
+    a.remove();
   }
 
   selectFolder(folderOnPage: FolderOnPage): void {
@@ -243,9 +237,9 @@ export class SharedCasesComponent implements OnInit {
 
   private loadAllElements() {
     if (this._pathService.isRoot()) {
-      this._casesService.loadSharedToMeCases()
+      this._casesService.getSharedToMeRoot()
         .subscribe(() => {
-          this.casesOnPage = this._casesService.casesShared
+          this.casesOnPage = this._casesService.sharedToMeRoot
             .filter(c => {
               return c.parentId === null
             })
@@ -256,7 +250,7 @@ export class SharedCasesComponent implements OnInit {
           console.log(error)
         })
 
-      this._foldersService.loadSharedToMeFolders()
+      this._foldersService.getSharedToMeRoot()
         .subscribe(() => {
           this.foldersOnPage = this._foldersService.foldersShared
             .filter(f => {
@@ -270,7 +264,7 @@ export class SharedCasesComponent implements OnInit {
         })
 
 
-      this._desksService.loadSharedToMeDesks()
+      this._desksService.getSharedToMe()
         .subscribe(() => {
           this.desksOnPage = this._desksService.desksShared.map(d => {
             return {desk: d, isSelected: false}
@@ -279,7 +273,7 @@ export class SharedCasesComponent implements OnInit {
           console.log(error)
         })
     } else {
-      this._casesService.casesShared = [];
+      this._casesService.sharedToMeRoot = [];
       this.casesOnPage = [];
 
       this.processSubFolder(this._pathService.parentFolderId);
@@ -342,7 +336,7 @@ export class SharedCasesComponent implements OnInit {
   }
 
   private loadEverything() {
-    this._foldersService.loadSharedToMeFolders()
+    this._foldersService.getSharedToMeRoot()
       .subscribe(() => {
         this.casesOnPage = this._foldersService.foldersShared.filter(tc => {
           return tc.parentId === null
@@ -359,7 +353,7 @@ export class SharedCasesComponent implements OnInit {
         console.log(error)
       })
 
-    this._desksService.loadSharedToMeDesks().subscribe(() => {
+    this._desksService.getSharedToMe().subscribe(() => {
       this.desksOnPage = this._desksService.desksShared.map(d => {
         return {desk: d, isSelected: false}
       })

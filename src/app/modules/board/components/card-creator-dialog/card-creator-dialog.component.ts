@@ -1,8 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Position } from 'ngx-perfect-scrollbar';
-import { CardService } from 'src/app/shared/services/card.service';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {CardService} from 'src/app/shared/services/card.service';
 
 @Component({
   selector: 'app-card-creator-dialog',
@@ -14,20 +13,21 @@ export class CardCreatorDialogComponent implements OnInit {
   colors: string[] = ['#7BC86C', '#81e66d', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5']
   selectedColor: string = this.colors[0]
   selectedColorId: number = 0
-  uploadedFile: string = ''
-  @Input() deskId: number = 1 
+  uploadedImageFileName: string = ''
+  @Input() deskId: number = 1
 
-  @Input() position = {} as {offsetX: number, offsetY: number}
+  @Input() position = {} as { offsetX: number, offsetY: number }
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>()
 
-  @ViewChild('fileInput') fileInput?: ElementRef
+  @ViewChild('fileInput') fileInput!: ElementRef
 
   cardForm = {} as FormGroup
 
   constructor(
     private _matSnackBar: MatSnackBar,
     private _cardService: CardService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.cardForm = new FormGroup({
@@ -39,24 +39,22 @@ export class CardCreatorDialogComponent implements OnInit {
 
   submit(): void {
     if (this.cardForm.invalid) return;
-    
+
     const value = this.cardForm.value
-    value.image = this.uploadedFile
+    value.image = this.uploadedImageFileName
     value.deskId = this.deskId
     value.colorHex = this.selectedColor
     value.x = this.position.offsetX
     value.y = this.position.offsetY
-    
+
     this._cardService.create(value)
-    .subscribe(() => {
-      this.cardForm.reset()
-      this.selectedColor = this.colors[0]
-      this.selectedColorId = 0
-      this.uploadedFile = ''
-
-      this.onClose.emit()
-    })
-
+      .subscribe(() => {
+        this.cardForm.reset()
+        this.selectedColor = this.colors[0]
+        this.selectedColorId = 0
+        this.uploadedImageFileName = ''
+        this.onClose.emit()
+      })
   }
 
   selectColor(id: number) {
@@ -65,13 +63,13 @@ export class CardCreatorDialogComponent implements OnInit {
   }
 
   uploadFile() {
-    console.log(this.fileInput?.nativeElement.files[0])
+    console.log(this.fileInput.nativeElement.files[0])
 
-    this._cardService.uploadImage(this.fileInput?.nativeElement.files[0])
-    .subscribe(image => {
-      this._matSnackBar.open('Изображение загружено', '', {duration: 3000})
-      this.uploadedFile = image
-    })
+    this._cardService.uploadImage(this.fileInput.nativeElement.files[0])
+      .subscribe(imageDto => {
+        this._matSnackBar.open('Изображение загружено', '', {duration: 3000})
+        this.uploadedImageFileName = imageDto.image
+      })
   }
 
 }

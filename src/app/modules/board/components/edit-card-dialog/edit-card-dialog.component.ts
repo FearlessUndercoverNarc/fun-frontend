@@ -1,8 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Card } from 'src/app/shared/interfaces/card.interface';
-import { CardService } from 'src/app/shared/services/card.service';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Card} from 'src/app/shared/interfaces/card.interface';
+import {CardService} from 'src/app/shared/services/card.service';
 
 @Component({
   selector: 'app-edit-card-dialog',
@@ -16,20 +16,21 @@ export class EditCardDialogComponent implements OnInit {
   colors: string[] = ['#7BC86C', '#81e66d', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5']
   selectedColor: string = this.colors[0]
   selectedColorId: number = 0
-  uploadedFile: string = ''
-  @Input() deskId: number = 1
+  uploadedImageFileName: string = ''
+  @Input() deskId: number = 0
 
-  @Input() position = {} as {offsetX: number, offsetY: number}
+  @Input() position = {} as { offsetX: number, offsetY: number }
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>()
 
-  @ViewChild('fileInput') fileInput?: ElementRef
+  @ViewChild('fileInput') fileInput!: ElementRef
 
   cardForm = {} as FormGroup
 
   constructor(
     private _matSnackBar: MatSnackBar,
     private _cardService: CardService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.cardForm = new FormGroup({
@@ -40,7 +41,7 @@ export class EditCardDialogComponent implements OnInit {
 
     this.selectedColor = this.card.colorHex
     this.selectedColorId = this.colors.findIndex(color => color == this.selectedColor)
-    this.uploadedFile = this.card.image || ''
+    this.uploadedImageFileName = this.card.image || ''
   }
 
   submit(): void {
@@ -48,23 +49,21 @@ export class EditCardDialogComponent implements OnInit {
     console.log('something submits a form')
 
     if (this.cardForm.invalid) return;
-    
+
     const value = {
+      id: this.card.id,
       ...this.cardForm.value,
-      image: this.uploadedFile,
+      image: this.uploadedImageFileName,
       deskId: this.deskId,
       colorHex: this.selectedColor,
       x: this.card.x,
-      y: this.card.y,
-      id: this.card.id
-    } 
-    
+      y: this.card.y
+    }
 
     this._cardService.update(value)
-    .subscribe(() => {
-      // this.onClose.emit()
-    })
-
+      .subscribe(() => {
+        // this.onClose.emit()
+      })
   }
 
   selectColor(id: number) {
@@ -73,20 +72,19 @@ export class EditCardDialogComponent implements OnInit {
   }
 
   uploadFile() {
-    console.log(this.fileInput?.nativeElement.files[0])
+    console.log(this.fileInput.nativeElement.files[0])
 
-    this._cardService.uploadImage(this.fileInput?.nativeElement.files[0])
-    .subscribe(image => {
-      this._matSnackBar.open('Изображение загружено', '', {duration: 3000})
-      this.uploadedFile = image
-    })
+    this._cardService.uploadImage(this.fileInput.nativeElement.files[0])
+      .subscribe(imageDto => {
+        this._matSnackBar.open('Изображение загружено', '', {duration: 3000})
+        this.uploadedImageFileName = imageDto.image
+      })
   }
 
   removeCard() {
-    this._cardService.remove(this.card.id || -1)
-    .subscribe(() => {
-      this.onClose.emit()
-    })
+    this._cardService.remove(this.card.id)
+      .subscribe(() => {
+        this.onClose.emit()
+      })
   }
-
 }

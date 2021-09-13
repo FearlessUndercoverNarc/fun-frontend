@@ -22,6 +22,4 @@ export class DeskActionService extends BasicCRUD<DeskAction> {
     getAllByDesk(id: number): Observable<DeskAction[]> {
         return this._httpClient.get<DeskAction[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAllByDesk`, { params: { id: id + '' } })
     }
-
-
 }

@@ -16,9 +16,7 @@ export class ShareFolderService extends BasicCRUD<any> {
     super(APIControllers.FolderShare, _httpClient, _accountService);
   }
 
-
   share(id: number, recipientId: number, hasWriteAccess: boolean) {
-
     return this.httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/share`, {
       params: {
         id: id.toString(),
@@ -26,7 +24,6 @@ export class ShareFolderService extends BasicCRUD<any> {
         hasWriteAccess: hasWriteAccess ? 'true' : 'false'
       }
     })
-
   }
 }
 

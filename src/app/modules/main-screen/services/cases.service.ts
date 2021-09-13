@@ -13,16 +13,16 @@ import {AccountService} from "../../../shared/services/account.service";
   providedIn: 'root'
 })
 export class CasesService extends BasicCRUD<any> {
-  get casesShared(): FolderDto[] {
-    return this._casesShared;
+  get sharedToMeRoot(): FolderDto[] {
+    return this._sharedToMeRoot;
   }
 
-  set casesShared(value: FolderDto[]) {
-    this._casesShared = value;
+  set sharedToMeRoot(value: FolderDto[]) {
+    this._sharedToMeRoot = value;
   }
 
-  private _cases: FolderDto[] = [];
-  private _casesShared: FolderDto[] = [];
+  private _myRoot: FolderDto[] = [];
+  private _sharedToMeRoot: FolderDto[] = [];
 
 
   constructor(
@@ -32,28 +32,28 @@ export class CasesService extends BasicCRUD<any> {
     super(APIControllers.Folder, _httpClient, _accountService);
   }
 
-  set cases(cases: FolderDto[]) {
-    this._cases = cases;
+  set myRoot(value: FolderDto[]) {
+    this._myRoot = value;
   }
 
-  get cases(): FolderDto[] {
-    return this._cases;
+  get myRoot(): FolderDto[] {
+    return this._myRoot;
   }
 
-  loadCases(): Observable<void> {
+  getMyRoot(): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyRoot`)
       .pipe(
         map((result: FolderDto[]) => {
-          this._cases = result;
+          this._myRoot = result;
         })
       )
   }
 
-  loadSharedToMeCases(): Observable<void> {
+  getSharedToMeRoot(): Observable<void> {
     return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMeRoot`)
       .pipe(
         map((result: FolderDto[]) => {
-          this._casesShared = result;
+          this._sharedToMeRoot = result;
         })
       )
   }

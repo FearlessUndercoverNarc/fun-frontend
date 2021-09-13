@@ -98,7 +98,7 @@ export class MyCasesComponent implements OnInit {
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.moveToTrashBin(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -111,7 +111,7 @@ export class MyCasesComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._trashedDesksService.moveToTrash(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.moveToTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })
@@ -131,8 +131,8 @@ export class MyCasesComponent implements OnInit {
         console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
 
         this._foldersService.export(this.foldersOnPage[i].folder.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, this.foldersOnPage[i].folder.title + '.fun', 'application/binary')
           })
 
       }
@@ -142,15 +142,15 @@ export class MyCasesComponent implements OnInit {
       console.log('?')
       if (this.desksOnPage[i].isSelected) {
         console.log('dick')
-        this._deskService.doExport(this.desksOnPage[i].desk.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
+        this._deskService.export(this.desksOnPage[i].desk.id)
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, this.desksOnPage[i].desk.title + '.fun', 'application/binary')
           })
       }
     }
   }
 
-  downloadFile(content: string, fileName: string, contentType: string) {
+  downloadFile(content: ArrayBuffer, fileName: string, contentType: string) {
     var a = document.createElement("a");
     var file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
@@ -249,9 +249,9 @@ export class MyCasesComponent implements OnInit {
 
   private loadAllElements() {
     if (this._pathService.isRoot()) {
-      this._casesService.loadCases()
+      this._casesService.getMyRoot()
         .subscribe(() => {
-          this.foldersOnPage = this._casesService.cases.map(c => {
+          this.foldersOnPage = this._casesService.myRoot.map(c => {
             return {folder: c, isSelected: false};
           });
         }, error => {

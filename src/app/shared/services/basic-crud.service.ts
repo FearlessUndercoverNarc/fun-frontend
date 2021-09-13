@@ -43,7 +43,6 @@ export abstract class BasicCRUD<TParam> {
   }
 
   update(element: TParam): Observable<void> {
-
     return this.httpClient.post<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Update`, element)
   }
 

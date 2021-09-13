@@ -8,13 +8,13 @@
 			{{getStatus()}}
 		</div>
 	</div>
-	<div class="subscription__item" *ngIf="!hasSub">
+	<div class="subscription__item" *ngIf="!hasSubscription">
 		<div class="subscription__title">
 			Подписка
 		</div>
 		<div class="subscription__text">
 			Неограниченное количество досок и карточек
 		</div>
-		<button type="button" class="subscription__button" (click)="toggleSub()">139 ₽ в месяц</button>
+		<button type="button" class="subscription__button" (click)="toggleSubscription()">139 ₽ в месяц</button>
 	</div>
 </div>

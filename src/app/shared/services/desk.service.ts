@@ -1,14 +1,15 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, NgZone } from "@angular/core";
-import { ApiAreas } from "../enums/api-areas.enum";
-import { APIControllers } from "../enums/api-controllers.enum";
-import { Desk } from "../interfaces/desk.interface";
-import { BasicCRUD } from "./basic-crud.service";
+import {HttpClient} from "@angular/common/http";
+import {Injectable, NgZone} from "@angular/core";
+import {APIControllers} from "../enums/api-controllers.enum";
+import {Desk} from "../interfaces/desk.interface";
+import {BasicCRUD} from "./basic-crud.service";
 import {AccountService} from "./account.service";
-import { environment } from "src/environments/environment";
-import { Observable, Subject } from "rxjs";
-import { ImportService } from "src/app/modules/main-screen/services/import.service";
-import { PathService } from "src/app/modules/main-screen/services/path.service";
+import {environment} from "src/environments/environment";
+import {Observable, Subject} from "rxjs";
+import {ImportService} from "src/app/modules/main-screen/services/import.service";
+import {PathService} from "src/app/modules/main-screen/services/path.service";
+import CreatedDto from "../interfaces/dto/created-dto.interface";
+import {map} from "rxjs/operators";
 
 @Injectable({providedIn: 'root'})
 export class DeskService extends BasicCRUD<Desk> {
@@ -29,7 +30,7 @@ export class DeskService extends BasicCRUD<Desk> {
 
 
   createSSEConnection(id: number) {
-    this.eventSource = new EventSource(`${environment.apiUrl}/v1/deskaction/sse?id=${id}`)
+    this.eventSource = new EventSource(`${environment.apiUrl}/v1/DeskAction/sse?id=${id}`)
 
     console.log(this.eventSource)
 
@@ -46,16 +47,24 @@ export class DeskService extends BasicCRUD<Desk> {
   }
 
 
-  doExport(id: number): Observable<any> {
-    return this._httpClient.get<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, { params: { id: id + '' } })
+  export(id: number): Observable<ArrayBuffer> {
+    return this._httpClient.get(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/export`, {
+      params: {id: id + ''},
+      observe: 'response',
+      responseType: 'arraybuffer'
+    }).pipe(
+      map((response) => {
+        return response.body!
+      })
+    )
   }
 
-  import(): Observable<any> {
+  import(): Observable<CreatedDto> {
     const form: FormData = new FormData()
     form.append('file', this._importService.folderImportFile)
     if (this._pathService.parentFolderId) form.append('parentId', this._pathService.parentFolderId + '');
 
-    return this._httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/import`, form)
+    return this._httpClient.post<CreatedDto>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/import`, form)
   }
 
 }
