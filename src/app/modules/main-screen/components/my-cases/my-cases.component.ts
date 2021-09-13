@@ -21,6 +21,7 @@ import {DeskService} from 'src/app/shared/services/desk.service';
 import {EditElementsService} from "../../../../shared/services/edit-elements.service";
 import {EditedResponse} from "../../../../shared/interfaces/edited-response";
 import {BasicCRUD} from "../../../../shared/services/basic-crud.service";
+import {zip} from "rxjs";
 
 
 @Component({
@@ -57,6 +58,8 @@ export class MyCasesComponent implements OnInit {
 
   isFolderEditShown: boolean = false;
   isDeskEditShown: boolean = false;
+
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.loadAllElements();
@@ -165,7 +168,7 @@ export class MyCasesComponent implements OnInit {
     this.desksOnPage.forEach(d => d.isSelected = false);
   }
 
-  onMilkClick(event: MouseEvent): void {
+  onMilkClicked(event: MouseEvent): void {
     this.onceClicked = false;
 
     if (event.target !== event.currentTarget) {
@@ -205,70 +208,95 @@ export class MyCasesComponent implements OnInit {
     this.loadSubFolder(subFolder.id);
   }
 
-  private loadSubFolder(subFolderId: number): void {
-    this.foldersOnPage = []
-    this.desksOnPage = []
-
-    this._foldersService.loadSubFolders(subFolderId)
-      .subscribe(() => {
-        this.foldersOnPage = this._foldersService.folders.map(f => {
-          return {folder: f, isSelected: false};
-        })
-      }, error => {
-        alert('ERROR. Check console for details.');
-        console.log(error);
-      });
-
-    this._desksService.loadDesksInFolder(subFolderId)
-      .subscribe(() => {
-        this.desksOnPage = this._desksService.desks.map(d => {
-          return {desk: d, isSelected: false}
-        })
-      })
-  }
-
   getHeaderTitle(): string {
     return this._pathService.isRoot() ? 'Дела' : 'Папки';
   }
 
   private loadAllElements() {
     if (this._pathService.isRoot()) {
-      this._casesService.getMyRoot()
-        .subscribe(() => {
-          this.foldersOnPage = this._casesService.myRoot.map(folder => {
-            return {folder: folder, isSelected: false};
-          });
-        }, error => {
-          console.log(error)
-        })
-
+      this.loadRoot();
       this._desksService.desks = [];
       this.desksOnPage = [];
-
     } else {
       this.loadSubFolder(this._pathService.parentFolderId);
     }
   }
 
-  onRightClickElement(event: MouseEvent, itemId: number, isFolder: boolean) {
+  private loadRoot() {
+    this.isLoading = true;
+    this._casesService.getMyRoot()
+      .subscribe(() => {
+        this.foldersOnPage = this._casesService.myRoot.map(folder => {
+          return {folder: folder, isSelected: false};
+        });
+        this.isLoading = false;
+      }, error => {
+        console.log(error)
+      })
+  }
+
+  private loadSubFolder(subFolderId: number): void {
+    this.foldersOnPage = []
+    this.desksOnPage = []
+
+    this.isLoading = true;
+
+    zip(this._foldersService.loadSubFolders(subFolderId), this._desksService.loadDesksInFolder(subFolderId))
+      .subscribe(() => {
+        this.foldersOnPage = this._foldersService.folders.map(f => {
+          return {folder: f, isSelected: false};
+        })
+        this.desksOnPage = this._desksService.desks.map(d => {
+          return {desk: d, isSelected: false}
+        })
+        this.isLoading = false;
+      }, error => {
+        alert('ERROR. Check console for details.');
+        console.log(error);
+      });
+  }
+
+  onFolderRightClicked(event: MouseEvent, folderOnPage: FolderOnPage) {
     this.onceClicked = false;
 
     event.stopImmediatePropagation();
 
     event.preventDefault();
 
-    console.log('id: ' + itemId.toString())
-    console.log('isFolder: ' + isFolder)
-    this._foldersService.lastSelectedFolderId = itemId;
-    this._foldersService.isFolderSelected = isFolder;
+    console.log('id: ' + folderOnPage.folder.id.toString())
+    console.log('isFolder: ' + true)
+    this._foldersService.lastSelectedFolderId = folderOnPage.folder.id;
+    this._foldersService.isFolderSelected = true;
 
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
 
     this._rightClickService.rightClickedElement.next();
+
+    this.selectFolder(folderOnPage)
   }
 
-  onMilkRightClick(event: MouseEvent) {
+  onDeskRightClicked(event: MouseEvent, deskOnPage: DeskOnPage) {
+    this.onceClicked = false;
+
+    event.stopImmediatePropagation();
+
+    event.preventDefault();
+
+    console.log('id: ' + deskOnPage.desk.id.toString())
+    console.log('isFolder: ' + false)
+
+    this._rightClickService.x = event.x;
+    this._rightClickService.y = event.y;
+
+    this._deskService.lastSelectedDeskId = deskOnPage.desk.id;
+    this._deskService.isDeskSelected = true;
+    this._rightClickService.rightClickedElement.next();
+    // TODO: Implement logic for desk, similar to 'onDeskRightClicked'
+    this.selectDesk(deskOnPage);
+  }
+
+  onMilkRightClicked(event: MouseEvent) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
 

@@ -1,17 +1,26 @@
 <!--=============================Trash bin==========================================-->
 
 <div class="shared-cases-container" cdkDropListGroup
-     (click)="selectMilk($event)"
+     (click)="onMilkClicked($event)"
      (contextmenu)="onRightClickMilk($event)">
 
-  <h4 (click)="selectMilk($event)"
+  <div *ngIf="casesOnPage.length == 0 && foldersOnPage.length == 0 && desksOnPage.length == 0 && !isLoading"
+    class="seems-empty">
+    <p>Похоже тут совсем пусто.</p>
+    <p *ngIf="isInRoot()">Попросите кого-нибудь поделиться с вами делом, папкой или доской</p>
+    <p *ngIf="!isInRoot()">Попробуйте создать что-нибудь.</p>
+  </div>
+
+  <h4 *ngIf="casesOnPage.length != 0"
+      (click)="onMilkClicked($event)"
       (contextmenu)="onRightClickMilk($event)">
     Дела
   </h4>
 
-  <div class="folders-container"
+  <div *ngIf="casesOnPage.length != 0"
+       class="folders-container"
        (contextmenu)="onRightClickMilk($event)"
-       (click)="selectMilk($event)">
+       (click)="onMilkClicked($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
@@ -25,7 +34,7 @@
            (mousedown)="isDragging = true"
            (mouseup)="isDragging = false"
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
-           (click)="this.onceClicked = true; selectFolder(caseOnPage)"
+           (click)="onCaseOnPageClicked(caseOnPage)"
            [ngClass]="caseOnPage.isSelected ? 'selected' : ''"
            (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">
 
@@ -35,14 +44,16 @@
     </div>
   </div>
 
-  <h4 (click)="selectMilk($event)"
+  <h4 *ngIf="foldersOnPage.length != 0"
+      (click)="onMilkClicked($event)"
       (contextmenu)="onRightClickMilk($event)">
     Папки
   </h4>
 
-  <div class="folders-container"
+  <div *ngIf="foldersOnPage.length != 0"
+       class="folders-container"
        (contextmenu)="onRightClickMilk($event)"
-       (click)="selectMilk($event)">
+       (click)="onMilkClicked($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
@@ -67,14 +78,16 @@
 
   </div>
 
-  <h4 (click)="selectMilk($event)"
+  <h4 *ngIf="desksOnPage.length != 0"
+      (click)="onMilkClicked($event)"
       (contextmenu)="onRightClickMilk($event)">
     Доски
   </h4>
 
-  <div class="folders-container"
+  <div *ngIf="desksOnPage.length != 0"
+       class="folders-container"
        (contextmenu)="onRightClickMilk($event)"
-       (click)="selectMilk($event)">
+       (click)="onMilkClicked($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'desk'"

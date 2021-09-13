@@ -7,6 +7,8 @@
 		<div class="subscription__text">
 			{{getStatus()}}
 		</div>
+    <button *ngIf="hasSubscription"
+      type="button" class="subscription__button" (click)="toggleSubscription()">Отписаться</button>
 	</div>
 	<div class="subscription__item" *ngIf="!hasSubscription">
 		<div class="subscription__title">

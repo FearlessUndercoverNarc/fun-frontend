@@ -1,15 +1,23 @@
 <div class="my-cases-container" cdkDropListGroup
-     (click)="onMilkClick($event)"
-     (contextmenu)="onMilkRightClick($event)">
+     (click)="onMilkClicked($event)"
+     (contextmenu)="onMilkRightClicked($event)">
 
-  <h4 (click)="onMilkClick($event)"
-      (contextmenu)="onMilkRightClick($event)">
+  <div *ngIf="foldersOnPage.length == 0 && desksOnPage.length == 0 && !isLoading"
+       class="seems-empty">
+    <p>Похоже тут совсем пусто.</p>
+    <p>Создайте что-нибудь.</p>
+  </div>
+
+  <h4 *ngIf="foldersOnPage.length != 0"
+      (click)="onMilkClicked($event)"
+      (contextmenu)="onMilkRightClicked($event)">
     {{ getHeaderTitle() }}
   </h4>
 
-  <div class="folders-container"
-       (contextmenu)="onMilkRightClick($event)"
-       (click)="onMilkClick($event)">
+  <div *ngIf="foldersOnPage.length != 0"
+       class="folders-container"
+       (contextmenu)="onMilkRightClicked($event)"
+       (click)="onMilkClicked($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
@@ -25,7 +33,7 @@
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
            (click)="onFolderOnPageClicked(folderOnPage)"
            [ngClass]="{'selected': folderOnPage.isSelected}"
-           (contextmenu)="onRightClickElement($event, folderOnPage.folder.id, true); this.selectFolder(folderOnPage)">
+           (contextmenu)="onFolderRightClicked($event, folderOnPage); ">
 
         <div class="folder-icon element-icon"></div>
         <p>{{ folderOnPage.folder.title }}</p>
@@ -34,14 +42,15 @@
   </div>
 
   <h4 *ngIf="desksOnPage.length != 0"
-      (click)="onMilkClick($event)"
-      (contextmenu)="onMilkRightClick($event)">
+      (click)="onMilkClicked($event)"
+      (contextmenu)="onMilkRightClicked($event)">
     Доски
   </h4>
 
-  <div class="folders-container" *ngIf="desksOnPage.length != 0"
-       (contextmenu)="onMilkRightClick($event)"
-       (click)="onMilkClick($event)">
+  <div *ngIf="desksOnPage.length != 0"
+       class="folders-container"
+       (contextmenu)="onMilkRightClicked($event)"
+       (click)="onMilkClicked($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'desk'"
@@ -55,7 +64,7 @@
            (mousedown)="isDragging = true"
            (mouseup)="isDragging = false"
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
-           (contextmenu)="onRightClickElement($event, deskOnPage.desk.id, false); selectDesk(deskOnPage)"
+           (contextmenu)="onDeskRightClicked($event, deskOnPage); "
            (click)="onDeskOnPageClicked(deskOnPage)"
            [ngClass]="{'selected': deskOnPage.isSelected}">
 

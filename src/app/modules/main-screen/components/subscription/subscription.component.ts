@@ -12,9 +12,11 @@ export class SubscriptionComponent implements OnInit {
   constructor(
     @SkipSelf() private _accountService: AccountService
   ) {
+    // TODO: Fix strange jitter on low-width screen when activating a sub
   }
 
   ngOnInit(): void {
+    this.hasSubscription = this._accountService.hasSubscription;
   }
 
   getStatus(): string {

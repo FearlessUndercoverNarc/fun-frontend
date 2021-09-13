@@ -15,6 +15,8 @@ import {map} from "rxjs/operators";
 export class DeskService extends BasicCRUD<Desk> {
 
   eventSource = {} as EventSource
+  lastSelectedDeskId: number = 0;
+  isDeskSelected: boolean = false;
 
   constructor(
     private _httpClient: HttpClient,
