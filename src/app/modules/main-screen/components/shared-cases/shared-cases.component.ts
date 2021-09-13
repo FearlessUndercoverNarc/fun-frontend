@@ -1,12 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
-import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
 import {PathService} from "../../services/path.service";
 import {DesksLoaderService} from "../../services/desks-loader.service";
 import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
 import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {filter, map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
@@ -178,55 +176,36 @@ export class SharedCasesComponent implements OnInit {
     }
   }
 
-
   private openSubFolder(subFolder: FolderDto) {
-    this._foldersService.loadSharedSubFolders(subFolder.id)
-      .subscribe(() => {
-        const newPathPart: PathPart = {
-          folderId: subFolder.id,
-          folderTitle: subFolder.title
-        }
-        this._pathService.deeper(newPathPart);
+    const newPathPart: PathPart = {
+      folderId: subFolder.id,
+      folderTitle: subFolder.title
+    }
+    this._pathService.deeper(newPathPart);
 
-        //
-        // this.foldersOnPage = this._foldersService.foldersShared.map(f => {
-        //   return {folder: f, isSelected: false};
-        // })
-        //
-        // this._desksService.loadSharedDesks()
-        //   .subscribe(() => {
-        //     this.desksOnPage = this._desksService.desksShared.map(d => {
-        //       return {desk: d, isSelected: false}
-        //     })
-        //   })
-      }, error => {
-        // alert(error.message);
-        console.log(error);
-      });
+    this.processSubFolder(subFolder.id);
   }
 
   private processSubFolder(subFolderId: number): void {
+    this.foldersOnPage = []
+    this.desksOnPage = []
+
     this._foldersService.loadSharedSubFolders(subFolderId)
       .subscribe(() => {
         this.foldersOnPage = this._foldersService.foldersShared.map(f => {
           return {folder: f, isSelected: false};
         })
-
-
       }, error => {
         alert('ERROR. Check console for details.');
         console.log(error);
       });
 
-    this._desksService.loadSharedDesksByFolder(subFolderId)
+    this._desksService.loadSharedDesksInFolder(subFolderId)
       .subscribe(() => {
         this.desksOnPage = this._desksService.desksShared.map(d => {
           return {desk: d, isSelected: false}
         })
-      }, error => {
-        alert('ERROR. Check console for details.');
-        console.log(error);
-      });
+      })
   }
 
   getHeaderTitle(): string {
@@ -235,41 +214,7 @@ export class SharedCasesComponent implements OnInit {
 
   private loadAllElements() {
     if (this._pathService.isRoot()) {
-      this._casesService.getSharedToMeRoot()
-        .subscribe(() => {
-          this.casesOnPage = this._casesService.sharedToMeRoot
-            .filter(c => {
-              return c.parentId === null
-            })
-            .map(tc => {
-              return {folder: tc, isSelected: false}
-            })
-        }, error => {
-          console.log(error)
-        })
-
-      this._foldersService.getSharedToMeRoot()
-        .subscribe(() => {
-          this.foldersOnPage = this._foldersService.foldersShared
-            .filter(f => {
-              return f.parentId!!
-            })
-            .map(f => {
-              return {folder: f, isSelected: false}
-            })
-        }, error => {
-          console.log(error)
-        })
-
-
-      this._desksService.getSharedToMe()
-        .subscribe(() => {
-          this.desksOnPage = this._desksService.desksShared.map(d => {
-            return {desk: d, isSelected: false}
-          })
-        }, error => {
-          console.log(error)
-        })
+      this.loadRoot()
     } else {
       this._casesService.sharedToMeRoot = [];
       this.casesOnPage = [];
@@ -285,12 +230,10 @@ export class SharedCasesComponent implements OnInit {
 
     event.preventDefault();
 
-    for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
-        break;
-      }
-    }
+    let firstSelectedFolder = this.foldersOnPage.find(folderOnPage => folderOnPage.isSelected);
+
+    if (firstSelectedFolder) this._foldersService.lastSelectedFolderId = firstSelectedFolder.folder.id;
+
 
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
@@ -316,11 +259,11 @@ export class SharedCasesComponent implements OnInit {
 
       this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
         .subscribe(() => {
-          this.foldersOnPage = this.foldersOnPage.filter(f => {
-            return f.folder.id != event.previousContainer.data.folder.id
+          this.foldersOnPage = this.foldersOnPage.filter(folderOnPage => {
+            return folderOnPage.folder.id != event.previousContainer.data.folder.id
           })
-          this._foldersService.foldersShared = this.foldersOnPage.map(f => {
-            return f.folder
+          this._foldersService.foldersShared = this.foldersOnPage.map(folderOnPage => {
+            return folderOnPage.folder
           })
         }, error => {
           console.table(error)
@@ -333,27 +276,27 @@ export class SharedCasesComponent implements OnInit {
     return drop.id === 'folder';
   }
 
-  private loadEverything() {
+  private loadRoot() {
     this._foldersService.getSharedToMeRoot()
       .subscribe(() => {
-        this.casesOnPage = this._foldersService.foldersShared.filter(tc => {
-          return tc.parentId === null
-        }).map(tc => {
-          return {folder: tc, isSelected: false}
+        this.casesOnPage = this._foldersService.foldersShared.filter(folderOnPage => {
+          return folderOnPage.parentId === null
+        }).map(folderOnPage => {
+          return {folder: folderOnPage, isSelected: false}
         });
 
-        this.foldersOnPage = this._foldersService.foldersShared.filter(tf => {
-          return tf.parentId!!
-        }).map(tf => {
-          return {folder: tf, isSelected: false}
+        this.foldersOnPage = this._foldersService.foldersShared.filter(folderOnPage => {
+          return folderOnPage.parentId!!
+        }).map(folderOnPage => {
+          return {folder: folderOnPage, isSelected: false}
         })
       }, error => {
         console.log(error)
       })
 
     this._desksService.getSharedToMe().subscribe(() => {
-      this.desksOnPage = this._desksService.desksShared.map(d => {
-        return {desk: d, isSelected: false}
+      this.desksOnPage = this._desksService.desksShared.map(desk => {
+        return {desk: desk, isSelected: false}
       })
     })
   }

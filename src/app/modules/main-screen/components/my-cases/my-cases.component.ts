@@ -68,7 +68,7 @@ export class MyCasesComponent implements OnInit {
     });
 
     this._deleteService.selectedElementsToTrashbinMoved
-      .subscribe(() => this.moveToTrashbinSelectedElements())
+      .subscribe(() => this.moveToTrashBinSelectedElements())
 
     this._importService.selectedElementsExported
       .subscribe(() => this.exportElement())
@@ -88,7 +88,7 @@ export class MyCasesComponent implements OnInit {
     })
   }
 
-  private moveToTrashbinSelectedElements() {
+  private moveToTrashBinSelectedElements() {
     console.log('here 3')
 
     console.table(this.foldersOnPage);
@@ -217,22 +217,25 @@ export class MyCasesComponent implements OnInit {
   }
 
   private processSubFolder(subFolderId: number): void {
+    this.foldersOnPage = []
+    this.desksOnPage = []
+
     this._foldersService.loadSubFolders(subFolderId)
       .subscribe(() => {
         this.foldersOnPage = this._foldersService.folders.map(f => {
           return {folder: f, isSelected: false};
         })
-
-        this._desksService.loadDesks()
-          .subscribe(() => {
-            this.desksOnPage = this._desksService.desks.map(d => {
-              return {desk: d, isSelected: false}
-            })
-          })
       }, error => {
         alert('ERROR. Check console for details.');
         console.log(error);
       });
+
+    this._desksService.loadDesksInFolder(subFolderId)
+      .subscribe(() => {
+        this.desksOnPage = this._desksService.desks.map(d => {
+          return {desk: d, isSelected: false}
+        })
+      })
   }
 
   getHeaderTitle(): string {
