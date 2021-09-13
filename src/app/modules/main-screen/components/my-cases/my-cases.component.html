@@ -1,15 +1,15 @@
 <div class="my-cases-container" cdkDropListGroup
-     (click)="selectMilk($event)"
-     (contextmenu)="onRightClickMilk($event)">
+     (click)="onMilkClick($event)"
+     (contextmenu)="onMilkRightClick($event)">
 
-  <h4 (click)="selectMilk($event)"
-      (contextmenu)="onRightClickMilk($event)">
+  <h4 (click)="onMilkClick($event)"
+      (contextmenu)="onMilkRightClick($event)">
     {{ getHeaderTitle() }}
   </h4>
 
-  <div class="cases-container"
-       (contextmenu)="onRightClickMilk($event)"
-       (click)="selectMilk($event)">
+  <div class="folders-container"
+       (contextmenu)="onMilkRightClick($event)"
+       (click)="onMilkClick($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'folder'"
@@ -23,8 +23,8 @@
            (mousedown)="isDragging = true"
            (mouseup)="isDragging = false"
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
-           (click)="this.onceClicked = true; selectFolder(folderOnPage)"
-           [ngClass]="folderOnPage.isSelected ? 'selected' : ''"
+           (click)="onFolderOnPageClicked(folderOnPage)"
+           [ngClass]="{'selected': folderOnPage.isSelected}"
            (contextmenu)="onRightClickElement($event, folderOnPage.folder.id, true); this.selectFolder(folderOnPage)">
 
         <div class="folder-icon element-icon"></div>
@@ -34,14 +34,14 @@
   </div>
 
   <h4 *ngIf="desksOnPage.length != 0"
-      (click)="selectMilk($event)"
-      (contextmenu)="onRightClickMilk($event)">
+      (click)="onMilkClick($event)"
+      (contextmenu)="onMilkRightClick($event)">
     Доски
   </h4>
 
-  <div class="cases-container" *ngIf="desksOnPage.length != 0"
-       (contextmenu)="onRightClickMilk($event)"
-       (click)="selectMilk($event)">
+  <div class="folders-container" *ngIf="desksOnPage.length != 0"
+       (contextmenu)="onMilkRightClick($event)"
+       (click)="onMilkClick($event)">
 
     <div class="folder-wrapper" cdkDropList
          [id]="'desk'"
@@ -56,8 +56,8 @@
            (mouseup)="isDragging = false"
            [style.cursor]="isDragging ? 'grabbing' : 'pointer'"
            (contextmenu)="onRightClickElement($event, deskOnPage.desk.id, false); selectDesk(deskOnPage)"
-           (click)="this.onceClicked = true; selectDesk(deskOnPage)"
-           [ngClass]="deskOnPage.isSelected ? 'selected' : ''">
+           (click)="onDeskOnPageClicked(deskOnPage)"
+           [ngClass]="{'selected': deskOnPage.isSelected}">
 
         <div class="desk-icon element-icon"></div>
         <p>{{ deskOnPage.desk.title }}</p>
