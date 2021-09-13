@@ -78,7 +78,7 @@ export class RightClickModalComponent implements OnInit {
     return this._rightClickService.y;
   }
 
-  moveToTrashbinElement() {
+  moveToTrashBinElement() {
     this._rightClickService.hideAllModals();
     this._deleteService.moveToTrashbinSelectedElements();
   }

@@ -20,6 +20,7 @@ import {ImportService} from '../../services/import.service';
 import {DeskService} from 'src/app/shared/services/desk.service';
 import {EditElementsService} from "../../../../shared/services/edit-elements.service";
 import {EditedResponse} from "../../../../shared/interfaces/edited-response";
+import {BasicCRUD} from "../../../../shared/services/basic-crud.service";
 
 
 @Component({
@@ -261,22 +262,6 @@ export class MyCasesComponent implements OnInit {
     this._foldersService.lastSelectedFolderId = itemId;
     this._foldersService.isFolderSelected = isFolder;
 
-    // for (let i = 0; i < this.foldersOnPage.length; i++) {
-    //   if (this.foldersOnPage[i].isSelected) {
-    //     this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
-    //     this._foldersService.isFolderSelected = true;
-    //     break;
-    //   }
-    // }
-    //
-    // for (let i = 0; i < this.desksOnPage.length; i++) {
-    //   if (this.desksOnPage[i].isSelected) {
-    //     this._foldersService.lastSelectedFolderId = this.desksOnPage[i].desk.id;
-    //     this._foldersService.isFolderSelected = false;
-    //     break;
-    //   }
-    // }
-
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
 
@@ -296,9 +281,6 @@ export class MyCasesComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer !== event.container) {
-      console.log() //...OnPage
-      console.log(event.container.data)
-
       let destinationFolderId = event.container.data.folder.id as number;
 
       if (typeof event.previousContainer.data?.desk === 'object') {
@@ -336,42 +318,21 @@ export class MyCasesComponent implements OnInit {
 
     console.log(result)
 
-    switch (this._creatingTarget) {
-      case 'folder':
-        if (result.agreed) {
-          this._foldersService.update(result.data)
-            .subscribe((response) => {
-                console.log('case was created!')
-                console.table(response);
+    let service: BasicCRUD<any> = this._creatingTarget == 'desk' ? this._desksService : this._foldersService;
 
-                // const newPathPart: PathPart = {
-                //   folderId: response.id,
-                //   folderTitle: result.data!.title
-                // }
-                //
-                // this._pathService.deeper(newPathPart);
-
-                this._router.navigate(['browse', 'my-cases']);
-              }
-            )
-        }
-        break;
-
-      case 'desk':
-        if (result.agreed) {
-          this._desksService.update(result.data)
-            .subscribe((response) => {
-                console.log('case was created!')
-                console.table(response);
-
-                this._router.navigate(['browse', 'my-cases']);
-              }
-            )
-        }
-        break;
+    if (result.agreed) {
+      service.update(result.data)
+        .subscribe((response) => {
+            if (this._creatingTarget == 'desk') {
+              let desk = this.desksOnPage.find(d => d.desk.id == result.data?.id);
+              if (desk) desk.desk.title = result.data?.title ?? 'Unknown';
+            } else {
+              let folder = this.foldersOnPage.find(f => f.folder.id == result.data?.id);
+              if (folder) folder.folder.title = result.data?.title ?? 'Unknown';
+            }
+          }
+        )
     }
-
-    this.loadAllElements();
   }
 
   onFolderOnPageClicked(folderOnPage: FolderOnPage) {
