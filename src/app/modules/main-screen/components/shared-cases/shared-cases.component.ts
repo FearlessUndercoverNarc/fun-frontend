@@ -95,25 +95,23 @@ export class SharedCasesComponent implements OnInit {
   }
 
   exportElement() {
-    console.log(1)
-    for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        this._foldersService.export(this.foldersOnPage[i].folder.id)
+    this.foldersOnPage
+      .filter(f => f.isSelected)
+      .forEach(f => {
+        this._foldersService.export(f.folder.id)
           .subscribe(arrayBuffer => {
-            this.downloadFile(arrayBuffer, this.foldersOnPage[i].folder.title + '.fun', 'application/binary')
+            this.downloadFile(arrayBuffer, f.folder.title + '.fun', 'application/binary')
           })
-      }
-    }
+      })
 
-    for (let i = 0; i < this.desksOnPage.length; i++) {
-      if (this.desksOnPage[i].isSelected) {
-        console.log('dick')
-        this._deskService.export(this.desksOnPage[i].desk.id)
+    this.desksOnPage
+      .filter(d => d.isSelected)
+      .forEach(d => {
+        this._deskService.export(d.desk.id)
           .subscribe(arrayBuffer => {
-            this.downloadFile(arrayBuffer, this.desksOnPage[i].desk.title + '.fun', 'application/binary')
+            this.downloadFile(arrayBuffer, d.desk.title + '.fun', 'application/binary')
           })
-      }
-    }
+      })
   }
 
   downloadFile(content: ArrayBuffer, fileName: string, contentType: string) {

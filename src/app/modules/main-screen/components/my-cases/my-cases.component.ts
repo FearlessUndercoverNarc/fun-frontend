@@ -1,12 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
-import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
 import {PathService} from "../../services/path.service";
 import {DesksLoaderService} from "../../services/desks-loader.service";
 import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
 import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
@@ -20,7 +18,6 @@ import {Router} from "@angular/router";
 
 import {ImportService} from '../../services/import.service';
 import {DeskService} from 'src/app/shared/services/desk.service';
-import {CreationResponse} from "../create/shared/interfaces/creation-response.interface";
 import {EditElementsService} from "../../../../shared/services/edit-elements.service";
 import {EditedResponse} from "../../../../shared/interfaces/edited-response";
 
@@ -126,28 +123,23 @@ export class MyCasesComponent implements OnInit {
   }
 
   exportElement() {
-    for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
-
-        this._foldersService.export(this.foldersOnPage[i].folder.id)
+    this.foldersOnPage
+      .filter(f => f.isSelected)
+      .forEach(f => {
+        this._foldersService.export(f.folder.id)
           .subscribe(arrayBuffer => {
-            this.downloadFile(arrayBuffer, this.foldersOnPage[i].folder.title + '.fun', 'application/binary')
+            this.downloadFile(arrayBuffer, f.folder.title + '.fun', 'application/binary')
           })
+      })
 
-      }
-    }
-
-    for (let i = 0; i < this.desksOnPage.length; i++) {
-      console.log('?')
-      if (this.desksOnPage[i].isSelected) {
-        console.log('dick')
-        this._deskService.export(this.desksOnPage[i].desk.id)
+    this.desksOnPage
+      .filter(d => d.isSelected)
+      .forEach(d => {
+        this._deskService.export(d.desk.id)
           .subscribe(arrayBuffer => {
-            this.downloadFile(arrayBuffer, this.desksOnPage[i].desk.title + '.fun', 'application/binary')
+            this.downloadFile(arrayBuffer, d.desk.title + '.fun', 'application/binary')
           })
-      }
-    }
+      })
   }
 
   downloadFile(content: ArrayBuffer, fileName: string, contentType: string) {
