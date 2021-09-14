@@ -11,7 +11,7 @@ import {map} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class TrashedFoldersService extends BasicCRUD<any> {
+export class FolderTrashBinService extends BasicCRUD<any> {
   private _trashedFolders: FolderDto[] = [];
 
   constructor(
@@ -29,9 +29,8 @@ export class TrashedFoldersService extends BasicCRUD<any> {
     return this._trashedFolders;
   }
 
-
-  loadTrashedFolders(): Observable<void> {
-    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashbin`)
+  getMyTrashBin(): Observable<void> {
+    return this._httpClient.get<FolderDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
       .pipe(
         map((result: FolderDto[]) => {
           this._trashedFolders = result;
@@ -39,25 +38,24 @@ export class TrashedFoldersService extends BasicCRUD<any> {
       )
   }
 
-
-  moveToTrash(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
+  moveToTrashBin(id: number) {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  recover(id: number) {
-    return this.httpClient.get<number>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/restoreFromTrashbin`, {
+  restoreFromTrashBin(id: number): Observable<void> {
+    return this.httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/restoreFromTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  delete(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/removeFromTrashbin`, {
+  removeFromTrashBin(id: number) {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/removeFromTrashBin`, {
       params: {
         id: id.toString(),
       }

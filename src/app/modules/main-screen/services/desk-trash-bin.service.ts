@@ -13,7 +13,7 @@ import {Desk} from "../../../shared/interfaces/desk.interface";
 @Injectable({
   providedIn: 'root'
 })
-export class TrashedDesksService extends BasicCRUD<any> {
+export class DeskTrashBinService extends BasicCRUD<any> {
   private _trashedDesks: DeskDto[] = [];
 
   constructor(
@@ -31,9 +31,8 @@ export class TrashedDesksService extends BasicCRUD<any> {
     return this._trashedDesks;
   }
 
-
-  loadTrashedDesks(): Observable<void> {
-    return this._httpClient.get<Desk[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashbin`)
+  getMyTrashBin(): Observable<void> {
+    return this._httpClient.get<Desk[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
       .pipe(
         map((result: DeskDto[]) => {
           this._trashedDesks = result;
@@ -41,25 +40,24 @@ export class TrashedDesksService extends BasicCRUD<any> {
       )
   }
 
-
-  moveToTrash(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
+  moveToTrashBin(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  recover(id: number): Observable<number> {
-    return this.httpClient.get<number>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/restoreFromTrashbin`, {
+  restoreFromTrashBin(id: number): Observable<void> {
+    return this.httpClient.get<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/restoreFromTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  delete(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/removeFromTrashbin`, {
+  removeFromTrashBin(id: number) {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/removeFromTrashBin`, {
       params: {
         id: id.toString(),
       }

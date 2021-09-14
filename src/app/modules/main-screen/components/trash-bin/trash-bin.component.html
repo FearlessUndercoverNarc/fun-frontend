@@ -47,7 +47,7 @@
 <div class="trash-bin-container trash"
      (click)="selectMilk($event)">
   <h4 (click)="selectMilk($event)">Дела</h4>
-  <div class="cases-container"
+  <div class="folders-container"
        (click)="selectMilk($event)">
     <div class="folder" *ngFor="let caseOnPage of casesOnPage"
          (click)="selectFolder(caseOnPage)"
@@ -58,7 +58,7 @@
     </div>
   </div>
   <h4 (click)="selectMilk($event)">Папки</h4>
-  <div class="cases-container"
+  <div class="folders-container"
        (click)="selectMilk($event)">
     <div class="folder" *ngFor="let caseOnPage of foldersOnPage"
          (click)="selectFolder(caseOnPage)"
@@ -69,7 +69,7 @@
     </div>
   </div>
   <h4 (click)="selectMilk($event)">Доски</h4>
-  <div class="cases-container" *ngIf="desksOnPage.length != 0"
+  <div class="folders-container" *ngIf="desksOnPage.length != 0"
        (click)="selectMilk($event)">
     <div class="folder" *ngFor="let deskOnPage of desksOnPage"
          (contextmenu)="onRightClickElement($event); selectDesk(deskOnPage)"

@@ -17,7 +17,6 @@ export class CardConnectionService extends BasicCRUD<CardConnection> {
         super(APIControllers.CardConnection, _httpClient, _accountService);
     }
 
-
     getAllByDesk(id: number): Observable<CardConnection[]> {
         return this._httpClient.get<CardConnection[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAllByDesk`, {params: {id: id+''}})
     }

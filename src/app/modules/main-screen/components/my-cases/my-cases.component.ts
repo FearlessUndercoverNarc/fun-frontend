@@ -1,18 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit, SkipSelf} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
-import {DeskDto} from "../../interfaces/dto/desk-dto.interface";
 import {PathService} from "../../services/path.service";
 import {DesksLoaderService} from "../../services/desks-loader.service";
 import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
 import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {map} from "rxjs/operators";
 import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 import {FoldersService} from "../../services/folders.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
-import {TrashedFoldersService} from "../../services/trashed-folders.service";
-import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {FolderTrashBinService} from "../../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../../services/desk-trash-bin.service";
 import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
 import {ShareModalService} from "../../../../shared/services/share-modal.service";
 import {AccountService} from "../../../../shared/services/account.service";
@@ -20,9 +18,10 @@ import {Router} from "@angular/router";
 
 import {ImportService} from '../../services/import.service';
 import {DeskService} from 'src/app/shared/services/desk.service';
-import {CreationResponse} from "../create/shared/interfaces/creation-response.interface";
 import {EditElementsService} from "../../../../shared/services/edit-elements.service";
 import {EditedResponse} from "../../../../shared/interfaces/edited-response";
+import {BasicCRUD} from "../../../../shared/services/basic-crud.service";
+import {zip} from "rxjs";
 
 
 @Component({
@@ -44,8 +43,8 @@ export class MyCasesComponent implements OnInit {
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
-    @SkipSelf() private _trashedDesksService: TrashedDesksService,
+    @SkipSelf() private _trashedFoldersService: FolderTrashBinService,
+    @SkipSelf() private _trashedDesksService: DeskTrashBinService,
     @SkipSelf() private _rightClickService: RightClickService,
     @SkipSelf() private _shareModalService: ShareModalService,
     private _editElementsService: EditElementsService,
@@ -60,10 +59,9 @@ export class MyCasesComponent implements OnInit {
   isFolderEditShown: boolean = false;
   isDeskEditShown: boolean = false;
 
+  isLoading: boolean = false;
+
   ngOnInit(): void {
-
-    // this._pathService.goToRoot();
-
     this.loadAllElements();
 
     this._pathService.pathChanged.subscribe(() => {
@@ -71,15 +69,14 @@ export class MyCasesComponent implements OnInit {
     });
 
     this._deleteService.selectedElementsToTrashbinMoved
-      .subscribe(() => this.moveToTrashbinSelectedElements())
+      .subscribe(() => this.performMoveToTrashBinFromSelected())
 
     this._importService.selectedElementsExported
-      .subscribe(() => this.exportElement())
+      .subscribe(() => this.exportSelectedElement())
 
     this._editElementsService.editedDesk.subscribe(() => {
       this.isDeskEditShown = true;
       this._creatingTarget = 'desk'
-
     })
     this._editElementsService.editedFolder.subscribe(() => {
       this.isFolderEditShown = true;
@@ -91,18 +88,15 @@ export class MyCasesComponent implements OnInit {
     })
   }
 
-  private moveToTrashbinSelectedElements() {
-    console.log('here 3')
-
-    console.table(this.foldersOnPage);
-
+  private performMoveToTrashBinFromSelected() {
     for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
-          .subscribe(() => {
-            this.foldersOnPage.splice(i, 1)
-          });
+      if (!this.foldersOnPage[i].isSelected) {
+        continue;
       }
+      this._trashedFoldersService.moveToTrashBin(this.foldersOnPage[i].folder.id)
+        .subscribe(() => {
+          this.foldersOnPage.splice(i, 1)
+        });
     }
 
     this._foldersService.folders = this.foldersOnPage.map(f => {
@@ -111,7 +105,7 @@ export class MyCasesComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._trashedDesksService.moveToTrash(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.moveToTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })
@@ -125,32 +119,27 @@ export class MyCasesComponent implements OnInit {
     this.unselectAll();
   }
 
-  exportElement() {
-    for (let i = 0; i < this.foldersOnPage.length; i++) {
-      if (this.foldersOnPage[i].isSelected) {
-        console.log('EXPORTED WITH ID', this.foldersOnPage[i].folder.id)
-
-        this._foldersService.export(this.foldersOnPage[i].folder.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_folder_' + this.foldersOnPage[i].folder.id, 'text/plain')
+  exportSelectedElement() {
+    this.foldersOnPage
+      .filter(f => f.isSelected)
+      .forEach(f => {
+        this._foldersService.export(f.folder.id)
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, f.folder.title + '.fun', 'application/binary')
           })
+      })
 
-      }
-    }
-
-    for (let i = 0; i < this.desksOnPage.length; i++) {
-      console.log('?')
-      if (this.desksOnPage[i].isSelected) {
-        console.log('dick')
-        this._deskService.doExport(this.desksOnPage[i].desk.id)
-          .subscribe(response => {
-            this.downloadFile(JSON.stringify(response), 'export_desk_' + this.desksOnPage[i].desk.id, 'text/plain')
+    this.desksOnPage
+      .filter(d => d.isSelected)
+      .forEach(d => {
+        this._deskService.export(d.desk.id)
+          .subscribe(arrayBuffer => {
+            this.downloadFile(arrayBuffer, d.desk.title + '.fun', 'application/binary')
           })
-      }
-    }
+      })
   }
 
-  downloadFile(content: string, fileName: string, contentType: string) {
+  downloadFile(content: ArrayBuffer, fileName: string, contentType: string) {
     var a = document.createElement("a");
     var file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
@@ -169,22 +158,17 @@ export class MyCasesComponent implements OnInit {
       if (this.onceClicked) {
         this.onceClicked = false;
         this._rightClickService.hideAllModals();
-        this.openSubFolder(folderOnPage.folder);
+        this.gotoSubFolder(folderOnPage.folder);
       }
     }
   }
 
   unselectAll() {
-    for (let folder of this.foldersOnPage) {
-      folder.isSelected = false;
-    }
-
-    for (let desk of this.desksOnPage) {
-      desk.isSelected = false;
-    }
+    this.foldersOnPage.forEach(f => f.isSelected = false);
+    this.desksOnPage.forEach(d => d.isSelected = false);
   }
 
-  selectMilk(event: MouseEvent): void {
+  onMilkClicked(event: MouseEvent): void {
     this.onceClicked = false;
 
     if (event.target !== event.currentTarget) {
@@ -214,33 +198,14 @@ export class MyCasesComponent implements OnInit {
     }
   }
 
-  private openSubFolder(subFolder: FolderDto) {
+  private gotoSubFolder(subFolder: FolderDto) {
     const newPathPart: PathPart = {
       folderId: subFolder.id,
       folderTitle: subFolder.title
     }
     this._pathService.deeper(newPathPart);
 
-    this.processSubFolder(subFolder.id);
-  }
-
-  private processSubFolder(subFolderId: number): void {
-    this._foldersService.loadSubFolders(subFolderId)
-      .subscribe(() => {
-        this.foldersOnPage = this._foldersService.folders.map(f => {
-          return {folder: f, isSelected: false};
-        })
-
-        this._desksService.loadDesks()
-          .subscribe(() => {
-            this.desksOnPage = this._desksService.desks.map(d => {
-              return {desk: d, isSelected: false}
-            })
-          })
-      }, error => {
-        alert('ERROR. Check console for details.');
-        console.log(error);
-      });
+    this.loadSubFolder(subFolder.id);
   }
 
   getHeaderTitle(): string {
@@ -249,58 +214,89 @@ export class MyCasesComponent implements OnInit {
 
   private loadAllElements() {
     if (this._pathService.isRoot()) {
-      this._casesService.loadCases()
-        .subscribe(() => {
-          this.foldersOnPage = this._casesService.cases.map(c => {
-            return {folder: c, isSelected: false};
-          });
-        }, error => {
-          console.log(error)
-        })
-
+      this.loadRoot();
       this._desksService.desks = [];
       this.desksOnPage = [];
-
     } else {
-      this.processSubFolder(this._pathService.parentFolderId);
+      this.loadSubFolder(this._pathService.parentFolderId);
     }
   }
 
-  onRightClickElement(event: MouseEvent, itemId: number, isFolder: boolean) {
+  private loadRoot() {
+    this.isLoading = true;
+    this._casesService.getMyRoot()
+      .subscribe(() => {
+        this.foldersOnPage = this._casesService.myRoot.map(folder => {
+          return {folder: folder, isSelected: false};
+        });
+        this.isLoading = false;
+      }, error => {
+        console.log(error)
+      })
+  }
+
+  private loadSubFolder(subFolderId: number): void {
+    this.foldersOnPage = []
+    this.desksOnPage = []
+
+    this.isLoading = true;
+
+    zip(this._foldersService.loadSubFolders(subFolderId), this._desksService.loadDesksInFolder(subFolderId))
+      .subscribe(() => {
+        this.foldersOnPage = this._foldersService.folders.map(f => {
+          return {folder: f, isSelected: false};
+        })
+        this.desksOnPage = this._desksService.desks.map(d => {
+          return {desk: d, isSelected: false}
+        })
+        this.isLoading = false;
+      }, error => {
+        alert('ERROR. Check console for details.');
+        console.log(error);
+      });
+  }
+
+  onFolderRightClicked(event: MouseEvent, folderOnPage: FolderOnPage) {
     this.onceClicked = false;
 
     event.stopImmediatePropagation();
 
     event.preventDefault();
 
-    console.log('id: ' + itemId.toString())
-    console.log('isFolder: ' + isFolder)
-    this._foldersService.lastSelectedFolderId = itemId;
-    this._foldersService.isFolderSelected = isFolder;
-
-    // for (let i = 0; i < this.foldersOnPage.length; i++) {
-    //   if (this.foldersOnPage[i].isSelected) {
-    //     this._foldersService.lastSelectedFolderId = this.foldersOnPage[i].folder.id;
-    //     this._foldersService.isFolderSelected = true;
-    //     break;
-    //   }
-    // }
-    //
-    // for (let i = 0; i < this.desksOnPage.length; i++) {
-    //   if (this.desksOnPage[i].isSelected) {
-    //     this._foldersService.lastSelectedFolderId = this.desksOnPage[i].desk.id;
-    //     this._foldersService.isFolderSelected = false;
-    //     break;
-    //   }
-    // }
+    console.log('id: ' + folderOnPage.folder.id.toString())
+    console.log('isFolder: ' + true)
+    this._foldersService.lastSelectedFolderId = folderOnPage.folder.id;
+    this._foldersService.isFolderSelected = true;
 
     this._rightClickService.x = event.x;
     this._rightClickService.y = event.y;
 
     this._rightClickService.rightClickedElement.next();
+
+    this.selectFolder(folderOnPage)
   }
 
-  onRightClickMilk(event: MouseEvent) {
+  onDeskRightClicked(event: MouseEvent, deskOnPage: DeskOnPage) {
+    this.onceClicked = false;
+
+    event.stopImmediatePropagation();
+
+    event.preventDefault();
+
+    console.log('id: ' + deskOnPage.desk.id.toString())
+    console.log('isFolder: ' + false)
+
+    this._rightClickService.x = event.x;
+    this._rightClickService.y = event.y;
+
+    this._deskService.lastSelectedDeskId = deskOnPage.desk.id;
+    this._deskService.isDeskSelected = true;
+    this._rightClickService.rightClickedElement.next();
+    // TODO: Implement logic for desk, similar to 'onDeskRightClicked'
+    this.selectDesk(deskOnPage);
+  }
+
+  onMilkRightClicked(event: MouseEvent) {
     if (event.target === event.currentTarget) {
       event.preventDefault();
 
@@ -313,32 +309,31 @@ export class MyCasesComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer !== event.container) {
-      console.log() //...OnPage
-      console.log(event.container.data)
+      let destinationFolderId = event.container.data.folder.id as number;
 
       if (typeof event.previousContainer.data?.desk === 'object') {
-        this._desksService.moveToFolder(event.previousContainer.data.desk.id as number, event.container.data.folder.id as number)
+        let deskId = event.previousContainer.data.desk.id as number;
+        this._desksService.moveToFolder(deskId, destinationFolderId)
           .subscribe(() => {
-            this.foldersOnPage = this.foldersOnPage.filter(f => {
-              return f.folder.id != event.previousContainer.data.desk.id
+            this.desksOnPage = this.desksOnPage.filter(deskOnPage => {
+              return deskOnPage.desk.id != deskId
             })
-            this._foldersService.folders = this.foldersOnPage.map(f => {
-              return f.folder
+            this._desksService.desks = this.desksOnPage.map(deskOnPage => {
+              return deskOnPage.desk
             })
           })
       } else {
-        this._foldersService.moveToFolder(event.previousContainer.data.folder.id as number, event.container.data.folder.id as number)
+        let folderId = event.previousContainer.data.folder.id as number;
+        this._foldersService.moveToFolder(folderId, destinationFolderId)
           .subscribe(() => {
-            this.foldersOnPage = this.foldersOnPage.filter(f => {
-              return f.folder.id != event.previousContainer.data.folder.id
+            this.foldersOnPage = this.foldersOnPage.filter(folderOnPage => {
+              return folderOnPage.folder.id != folderId
             })
-            this._foldersService.folders = this.foldersOnPage.map(f => {
-              return f.folder
+            this._foldersService.folders = this.foldersOnPage.map(folderOnPage => {
+              return folderOnPage.folder
             })
           })
       }
-
-      this.loadAllElements();
     }
   }
 
@@ -351,48 +346,30 @@ export class MyCasesComponent implements OnInit {
 
     console.log(result)
 
-    switch (this._creatingTarget) {
-      case 'folder':
-        if (result.agreed) {
-          this._foldersService.update(result.data)
-            .subscribe((response) => {
-                console.log('case was created!')
-                console.table(response);
+    let service: BasicCRUD<any> = this._creatingTarget == 'desk' ? this._desksService : this._foldersService;
 
-                // const newPathPart: PathPart = {
-                //   folderId: response.id,
-                //   folderTitle: result.data!.title
-                // }
-                //
-                // this._pathService.deeper(newPathPart);
-
-                this._router.navigate(['browse', 'my-cases']);
-              }
-            )
-        }
-        break;
-
-      case 'desk':
-        if (result.agreed) {
-          this._desksService.update(result.data)
-            .subscribe((response) => {
-                console.log('case was created!')
-                console.table(response);
-
-                // const newPathPart: PathPart = {
-                //   folderId: response.id,
-                //   folderTitle: result.data!.title
-                // }
-                //
-                // this._pathService.deeper(newPathPart);
-
-                this._router.navigate(['browse', 'my-cases']);
-              }
-            )
-        }
-        break;
+    if (result.agreed) {
+      service.update(result.data)
+        .subscribe((response) => {
+            if (this._creatingTarget == 'desk') {
+              let desk = this.desksOnPage.find(d => d.desk.id == result.data?.id);
+              if (desk) desk.desk.title = result.data?.title ?? 'Unknown';
+            } else {
+              let folder = this.foldersOnPage.find(f => f.folder.id == result.data?.id);
+              if (folder) folder.folder.title = result.data?.title ?? 'Unknown';
+            }
+          }
+        )
     }
+  }
 
-    this.loadAllElements();
+  onFolderOnPageClicked(folderOnPage: FolderOnPage) {
+    this.onceClicked = true;
+    this.selectFolder(folderOnPage)
+  }
+
+  onDeskOnPageClicked(deskOnPage: DeskOnPage) {
+    this.onceClicked = true;
+    this.selectDesk(deskOnPage)
   }
 }

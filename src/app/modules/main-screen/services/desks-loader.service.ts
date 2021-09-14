@@ -8,8 +8,6 @@ import {AccountService} from "../../../shared/services/account.service";
 import {APIControllers} from "../../../shared/enums/api-controllers.enum";
 import {PathService} from "./path.service";
 import {BasicCRUD} from "../../../shared/services/basic-crud.service";
-import {FolderDto} from "../interfaces/dto/folder-dto.interface";
-import {Desk} from "../../../shared/interfaces/desk.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -44,12 +42,8 @@ export class DesksLoaderService extends BasicCRUD<any> {
     return this._desks;
   }
 
-  loadDesks(): Observable<void> {
-    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
-      params: {
-        id: this._pathService.parentFolderId
-      }
-    })
+  loadDesksInFolder(folderId: number): Observable<void> {
+    return this.getByFolder(folderId)
       .pipe(
         map((result: DeskDto[]) => {
           this._desks = result;
@@ -57,7 +51,24 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedDesksByFolder(id: number): Observable<void> {
+  loadDesksInCurrentFolder(): Observable<void> {
+    return this.getByFolder(this._pathService.parentFolderId)
+      .pipe(
+        map((result: DeskDto[]) => {
+          this._desks = result;
+        })
+      )
+  }
+
+  getByFolder(id: number): Observable<DeskDto[]> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
+      params: {
+        id: id.toString()
+      }
+    });
+  }
+
+  loadSharedDesksInFolder(id: number): Observable<void> {
     return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this._accountService.ApiVersion}/${this.postfix}/getByFolder`, {
       params: {
         id: id
@@ -70,16 +81,16 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  moveToTrash(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashbin`, {
+  moveToTrashBin(id: number) {
+    return this.httpClient.delete<void>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/moveToTrashBin`, {
       params: {
         id: id.toString(),
       }
     })
   }
 
-  loadTrashedDesks(): Observable<void> {
-    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashbin`)
+  getMyTrashBin(): Observable<void> {
+    return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getMyTrashBin`)
       .pipe(
         map((result: DeskDto[]) => {
           this._desks = result;
@@ -87,7 +98,7 @@ export class DesksLoaderService extends BasicCRUD<any> {
       )
   }
 
-  loadSharedToMeDesks(): Observable<void> {
+  getSharedToMe(): Observable<void> {
     return this._httpClient.get<DeskDto[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/getSharedToMe`)
       .pipe(
         map((result: DeskDto[]) => {

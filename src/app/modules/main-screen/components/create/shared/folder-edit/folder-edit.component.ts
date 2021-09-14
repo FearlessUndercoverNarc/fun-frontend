@@ -1,9 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
-import {CreationResponse} from "../interfaces/creation-response.interface";
 import {PathService} from "../../../../services/path.service";
-import {NewDesk} from "../../../../interfaces/new-created/new-desk.interface";
 import {EditedResponse} from "../../../../../../shared/interfaces/edited-response";
-import {EditedFolder} from "../../../../../../shared/interfaces/editedFolder";
 import {FoldersService} from "../../../../services/folders.service";
 
 @Component({
@@ -25,23 +22,17 @@ export class FolderEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // let folder = this._foldersService.folders.find(f => f.id == this._foldersService.lastSelectedFolderId);
+    // if (folder) this.title = folder.title;
   }
 
 
   closeModal(decision: boolean): void {
     let response: EditedResponse = {
-      agreed: false,
-      data: null
-    }
-    if (decision) {
-      const data: EditedFolder = {
+      agreed: decision,
+      data: {
         id: this._foldersService.lastSelectedFolderId,
         title: this.title
-      }
-
-      response = {
-        agreed: true,
-        data: data
       }
     }
 

@@ -29,22 +29,13 @@ export class DeskEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   closeModal(decision: boolean): void {
     let response: EditedResponse = {
-      agreed: false,
-      data: null
-    }
-    if (decision) {
-      const data: EditedDesk = {
+      agreed: decision,
+      data: {
         id: this._foldersService.lastSelectedFolderId,
         title: this.title,
         description: this.description
-      }
-
-      response = {
-        agreed: true,
-        data: data
       }
     }
 

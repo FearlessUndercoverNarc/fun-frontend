@@ -17,16 +17,12 @@ import {SubscriptionComponent} from "../components/subscription/subscription.com
 import {RepositoryComponent} from "../components/repository/repository.component";
 
 import {DesksLoaderService} from "../services/desks-loader.service";
-import {FoldersService} from "../services/folders.service";
 import {PathLineComponent} from "../components/template/path-line/path-line.component";
-import {DeleteService} from "../services/delete.service";
-import {PathService} from "../services/path.service";
-import {TrashedFoldersService} from "../services/trashed-folders.service";
-import {TrashedDesksService} from "../services/trashed-desks.service";
-import {ShareFolderService} from "../services/share-folder.service";
+import {FolderTrashBinService} from "../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../services/desk-trash-bin.service";
 import {SharedCasesModule} from "./shared-cases.module";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ShareModalModule} from "../../../shared/modules/share-modal/share-modal.module";
 
 
@@ -99,8 +95,8 @@ const routes: Routes = [
   providers: [
     CasesService,
     DesksLoaderService,
-    TrashedFoldersService,
-    TrashedDesksService,
+    FolderTrashBinService,
+    DeskTrashBinService,
 
   ],
 })

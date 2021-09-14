@@ -7,24 +7,26 @@ import {AccountService} from "../../../../shared/services/account.service";
   styleUrls: ['./subscription.component.sass']
 })
 export class SubscriptionComponent implements OnInit {
-  hasSub: boolean = false;
+  hasSubscription: boolean = false;
 
   constructor(
     @SkipSelf() private _accountService: AccountService
   ) {
+    // TODO: Fix strange jitter on low-width screen when activating a sub
   }
 
   ngOnInit(): void {
+    this.hasSubscription = this._accountService.hasSubscription;
   }
 
   getStatus(): string {
-    return this.hasSub ? 'Неогр. досок и неогр. карточек' : '10 досок (по 30 карточек в каждой)'
+    return this.hasSubscription ? 'Неогр. досок и неогр. карточек' : '10 досок (по 30 карточек в каждой)'
   }
 
-  toggleSub() {
-    this._accountService.hasSub().subscribe((res) => {
-      this.hasSub = res.isActive;
-      this._accountService.hasSubscription = this.hasSub;
+  toggleSubscription() {
+    this._accountService.toggleSubscription().subscribe((res) => {
+      this.hasSubscription = res.isActive;
+      this._accountService.hasSubscription = this.hasSubscription;
     })
   }
 }

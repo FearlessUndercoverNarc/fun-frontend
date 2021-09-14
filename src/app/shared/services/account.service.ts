@@ -9,7 +9,9 @@ import {APIControllers} from "../enums/api-controllers.enum";
 import {UserDto} from "../interfaces/dto/user-dto.interface";
 import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 import {ApiAreas} from "../enums/api-areas.enum";
-import {Profile} from '../interfaces/profile.interface';
+import {IsActiveDto} from "../interfaces/dto/is-active-dto.interface";
+import CreatedDto from "../interfaces/dto/created-dto.interface";
+import {AccountDto, UpdateAccountDto} from "../interfaces/account-dto.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -79,11 +81,11 @@ export class AccountService {
       );
   }
 
-  hasSub(): Observable<any> {
-    return this._httpClient.get<any>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/togglesubscription`, {withCredentials: true})
+  toggleSubscription(): Observable<IsActiveDto> {
+    return this._httpClient.get<IsActiveDto>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/ToggleSubscription`, {withCredentials: true})
   }
 
-  update(user: Profile): Observable<void> {
+  update(user: UpdateAccountDto): Observable<void> {
     return this._httpClient.post<void>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Update`, user)
   }
 
@@ -125,15 +127,15 @@ export class AccountService {
     if (this.isLoggedIn()) this.killLocalStorage();
   }
 
-  create(data: any): Observable<any> {
-    return this._httpClient.post<any>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Create`, data)
+  create(data: any): Observable<CreatedDto> {
+    return this._httpClient.post<CreatedDto>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/Create`, data)
   }
 
   get ApiVersion(): string {
     return this.hasSubscription ? ApiAreas.v2 : ApiAreas.v1;
   }
 
-  getMy(): Observable<Profile> {
-    return this._httpClient.get<Profile>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetMy`)
+  getMy(): Observable<AccountDto> {
+    return this._httpClient.get<AccountDto>(`${environment.apiUrl}/${ApiAreas.Shared}/${this.postfix}/GetMy`)
   }
 }

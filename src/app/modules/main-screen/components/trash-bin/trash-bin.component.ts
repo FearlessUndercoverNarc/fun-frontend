@@ -8,9 +8,8 @@ import {DesksLoaderService} from "../../services/desks-loader.service";
 import {PathService} from "../../services/path.service";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {DeleteService} from "../../services/delete.service";
-import {LinkerEnvironment} from "@angular/compiler-cli/linker";
-import {TrashedFoldersService} from "../../services/trashed-folders.service";
-import {TrashedDesksService} from "../../services/trashed-desks.service";
+import {FolderTrashBinService} from "../../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../../services/desk-trash-bin.service";
 
 @Component({
   selector: 'app-trash-bin',
@@ -29,8 +28,8 @@ export class TrashBinComponent implements OnInit {
     @SkipSelf() private _desksService: DesksLoaderService,
     @SkipSelf() private _pathService: PathService,
     @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _trashedFoldersService: TrashedFoldersService,
-    @SkipSelf() private _trashedDesksService: TrashedDesksService,
+    @SkipSelf() private _trashedFoldersService: FolderTrashBinService,
+    @SkipSelf() private _trashedDesksService: DeskTrashBinService,
     @SkipSelf() private _rightClickService: RightClickService,
     private _deleteService: DeleteService
   ) {
@@ -41,39 +40,39 @@ export class TrashBinComponent implements OnInit {
   ngOnInit(): void {
     this._pathService.goToRoot();
 
-    this._trashedFoldersService.loadTrashedFolders()
+    this._trashedFoldersService.getMyTrashBin()
       .subscribe(() => {
         console.table(this._trashedFoldersService.trashedFolders)
-        this.casesOnPage = this._trashedFoldersService.trashedFolders.filter(tc => {
-          return tc.parentId === null
-        }).map(tc => {
-          return {folder: tc, isSelected: false}
+        this.casesOnPage = this._trashedFoldersService.trashedFolders.filter(folder => {
+          return folder.parentId === null
+        }).map(folder => {
+          return {folder: folder, isSelected: false}
         });
 
         console.table(this.casesOnPage)
 
-        this.foldersOnPage = this._trashedFoldersService.trashedFolders.filter(tf => {
-          return tf.parentId!!
-        }).map(tf => {
-          return {folder: tf, isSelected: false}
+        this.foldersOnPage = this._trashedFoldersService.trashedFolders.filter(folder => {
+          return folder.parentId!!
+        }).map(folder => {
+          return {folder: folder, isSelected: false}
         })
         console.table(this.foldersOnPage)
       });
 
 
-    this._trashedDesksService.loadTrashedDesks().subscribe(() => {
-      this.desksOnPage = this._trashedDesksService.trashedDesks.map(d => {
-        return {desk: d, isSelected: false}
+    this._trashedDesksService.getMyTrashBin().subscribe(() => {
+      this.desksOnPage = this._trashedDesksService.trashedDesks.map(desk => {
+        return {desk: desk, isSelected: false}
       })
     })
 
     console.table(this.desksOnPage)
 
     this._deleteService.selectedElementsRecovered
-      .subscribe(() => this.recoverSelectedElements())
+      .subscribe(() => this.restoreSelectedElements())
 
     this._deleteService.selectedElementsDeleted
-      .subscribe(() => this.deleteSelectedElements())
+      .subscribe(() => this.removeSelectedElements())
   }
 
   showClearModal() {
@@ -151,7 +150,7 @@ export class TrashBinComponent implements OnInit {
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.moveToTrash(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.moveToTrashBin(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -164,7 +163,7 @@ export class TrashBinComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._desksService.moveToTrash(this.desksOnPage[i].desk.id)
+        this._desksService.moveToTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })
@@ -179,21 +178,16 @@ export class TrashBinComponent implements OnInit {
   }
 
   unselectAll() {
-    for (let folder of this.foldersOnPage) {
-      folder.isSelected = false;
-    }
 
-    for (let desk of this.desksOnPage) {
-      desk.isSelected = false;
-    }
+    this.foldersOnPage.forEach(folder => folder.isSelected = false);
+
+    this.desksOnPage.forEach(desk => desk.isSelected = false);
   }
 
-  private recoverSelectedElements() {
-    console.log('here')
-
+  private restoreSelectedElements() {
     for (let i = 0; i < this.casesOnPage.length; i++) {
       if (this.casesOnPage[i].isSelected) {
-        this._trashedFoldersService.recover(this.casesOnPage[i].folder.id)
+        this._trashedFoldersService.restoreFromTrashBin(this.casesOnPage[i].folder.id)
           .subscribe(() => {
             this.casesOnPage.splice(i, 1)
           });
@@ -202,7 +196,7 @@ export class TrashBinComponent implements OnInit {
 
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.recover(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.restoreFromTrashBin(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -215,7 +209,7 @@ export class TrashBinComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._trashedDesksService.recover(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.restoreFromTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })
@@ -229,10 +223,10 @@ export class TrashBinComponent implements OnInit {
     this.unselectAll();
   }
 
-  private deleteSelectedElements() {
+  private removeSelectedElements() {
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
-        this._trashedFoldersService.delete(this.foldersOnPage[i].folder.id)
+        this._trashedFoldersService.removeFromTrashBin(this.foldersOnPage[i].folder.id)
           .subscribe(() => {
             this.foldersOnPage.splice(i, 1)
           });
@@ -245,7 +239,7 @@ export class TrashBinComponent implements OnInit {
 
     for (let i = 0; i < this.desksOnPage.length; i++) {
       if (this.desksOnPage[i].isSelected) {
-        this._trashedDesksService.delete(this.desksOnPage[i].desk.id)
+        this._trashedDesksService.removeFromTrashBin(this.desksOnPage[i].desk.id)
           .subscribe(() => {
             this.desksOnPage.splice(i, 1);
           })

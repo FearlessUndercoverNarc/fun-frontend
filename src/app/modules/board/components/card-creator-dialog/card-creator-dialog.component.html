@@ -35,7 +35,7 @@
         </div>
         <div class="item-popup__content item-color__content">
           <div
-           class="item-color__item" 
+           class="item-color__item"
            *ngFor="let color of colors; let i = index"
            (click)="selectColor(i)"
            [ngClass]="{'_active': selectedColorId == i}"></div>  <!-- _active сюда эжже -->
@@ -49,7 +49,7 @@
         </div>
         <div class="item-popup__content item-attach__content">
           <div class="item-attach__text">
-            {{ uploadedFile || 'Прикрепите файл с внешнего носителя (ПК, мобильный телефон)' }}
+            {{ uploadedImageFileName || 'Прикрепите файл с внешнего носителя (ПК, мобильный телефон)' }}
           </div>
           <input (change)="uploadFile()" type="file" name="file" #fileInput id="input__file" class="item-attach__input">
           <label for="input__file" class="item-attach__label">
