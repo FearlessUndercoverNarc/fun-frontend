@@ -72,10 +72,10 @@ const routes: Routes = [
   declarations: [
     TemplateComponent,
     PathLineComponent,
-
     SettingsComponent,
     ProfileComponent,
     SubscriptionComponent,
+    RepositoryComponent
   ],
   imports: [
     CommonModule,
