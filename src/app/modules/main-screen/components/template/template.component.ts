@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {PathService} from "../../services/path.service";

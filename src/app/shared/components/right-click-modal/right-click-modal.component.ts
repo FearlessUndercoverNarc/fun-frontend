@@ -1,7 +1,6 @@
-import { Component, ElementRef, Input, OnInit, SkipSelf, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RightClickService } from "../../services/right-click.service";
 import { DeleteService } from "../../../modules/main-screen/services/delete.service";
-import { skip } from "rxjs/operators";
 import { ShareModalService } from "../../services/share-modal.service";
 import { ImportService } from 'src/app/modules/main-screen/services/import.service';
 import { FoldersService } from 'src/app/modules/main-screen/services/folders.service';
@@ -111,7 +110,7 @@ export class RightClickModalComponent implements OnInit {
     this._importService.folderImportFile = this.importFolderInput?.nativeElement.files[0]
 
     this._foldersService.import()
-      .subscribe(response => {
+      .subscribe(() => {
         location.reload()
       })
 
@@ -125,7 +124,7 @@ export class RightClickModalComponent implements OnInit {
     this._importService.folderImportFile = this.importFolderInput?.nativeElement.files[0]
 
     this._foldersService.import()
-      .subscribe(response => {
+      .subscribe(() => {
         location.reload()
       })
   }

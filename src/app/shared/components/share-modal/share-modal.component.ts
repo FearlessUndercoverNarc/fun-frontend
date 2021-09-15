@@ -1,14 +1,11 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ShareModalService} from "../../services/share-modal.service";
-import {UserDto} from "../../interfaces/dto/user-dto.interface";
 import {UserOnPage} from "../../../modules/main-screen/interfaces/on-page/user-on-page";
-import {skip} from "rxjs/operators";
 import {AccountService} from "../../services/account.service";
 import {ShareFolderService} from "../../../modules/main-screen/services/share-folder.service";
 import {FoldersService} from "../../../modules/main-screen/services/folders.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-import {ApiAreas} from "../../enums/api-areas.enum";
 
 @Component({
   selector: 'app-share-modal',
@@ -43,7 +40,7 @@ export class ShareModalComponent implements OnInit {
               })
 
             this.isModalShown = true;
-          }, error => {
+          }, () => {
             this.isModalShown = false;
             alert('Произошла ошибка загрузки пользователей.');
           })

@@ -1,14 +1,10 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PathService} from "../../services/path.service";
 import {CaseCreatorService} from "../../services/creators/case-creator.service";
 import {DeskCreatorService} from "../../services/creators/desk-creator.service";
 import {FolderCreatorService} from "../../services/creators/folder-creator.service";
 import {CreationResponse} from "./shared/interfaces/creation-response.interface";
-import {pipe} from "rxjs";
-import {map} from "rxjs/operators";
-import {LockFileWithChildProcess} from "@angular/compiler-cli/ngcc/src/locking/lock_file_with_child_process";
 import {Router} from "@angular/router";
-import {PathPart} from "../../../../shared/interfaces/path-part.interface";
 
 @Component({
   selector: 'app-create',
@@ -91,7 +87,7 @@ export class CreateComponent implements OnInit {
         if (result.agreed) {
           console.log('case: desk')
           this._deskCreatorService.create(result.data)
-            .subscribe((response) => {
+            .subscribe(() => {
               this._router.navigate(['browse', 'my-cases']);
             })
         }

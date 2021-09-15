@@ -1,11 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
-import {CreationResponse} from "../interfaces/creation-response.interface";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PathService} from "../../../../services/path.service";
-import {NewDesk} from "../../../../interfaces/new-created/new-desk.interface";
 import {EditedResponse} from "../../../../../../shared/interfaces/edited-response";
-import {EditedFolder} from "../../../../../../shared/interfaces/editedFolder";
 import {FoldersService} from "../../../../services/folders.service";
-import {EditedDesk} from "../../../../../../shared/interfaces/edited-desk";
 
 @Component({
   selector: 'app-desk-edit',

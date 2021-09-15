@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PathService} from "../../../services/path.service";
 import {PathPart} from "../../../../../shared/interfaces/path-part.interface";
 

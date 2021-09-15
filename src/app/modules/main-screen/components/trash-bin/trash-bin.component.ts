@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FoldersService} from "../../services/folders.service";
 import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
@@ -82,11 +82,11 @@ export class TrashBinComponent implements OnInit {
   modalClosed(result: boolean): void {
     this.isModalShown = false;
     if (result) {
-      this.clearTrashBin();
+      TrashBinComponent.clearTrashBin();
     }
   }
 
-  private clearTrashBin(): void {
+  private static clearTrashBin(): void {
     alert('Not implemented yet.');
   }
 
@@ -143,11 +143,8 @@ export class TrashBinComponent implements OnInit {
   }
 
 
+  // noinspection JSUnusedLocalSymbols
   private moveToTrashSelectedElements() {
-    console.log('here 3')
-
-    console.table(this.foldersOnPage);
-
     for (let i = 0; i < this.foldersOnPage.length; i++) {
       if (this.foldersOnPage[i].isSelected) {
         this._trashedFoldersService.moveToTrashBin(this.foldersOnPage[i].folder.id)

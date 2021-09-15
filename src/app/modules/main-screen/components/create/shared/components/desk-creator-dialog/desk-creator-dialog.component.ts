@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CreationResponse} from "../../interfaces/creation-response.interface";
 import {PathService} from "../../../../../services/path.service";
-import {NewFolder} from "../../../../../interfaces/new-created/new-folder.interface";
 import {NewDesk} from "../../../../../interfaces/new-created/new-desk.interface";
 
 @Component({

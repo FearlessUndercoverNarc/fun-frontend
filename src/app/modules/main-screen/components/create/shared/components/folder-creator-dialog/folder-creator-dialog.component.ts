@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CreationResponse} from "../../interfaces/creation-response.interface";
 import {NewFolder} from "../../../../../interfaces/new-created/new-folder.interface";
 import {PathService} from "../../../../../services/path.service";

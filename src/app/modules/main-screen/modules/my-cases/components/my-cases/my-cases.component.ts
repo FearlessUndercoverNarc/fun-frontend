@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CasesService} from "../../../../services/cases.service";
 import {FolderDto} from "../../../../interfaces/dto/folder-dto.interface";
 import {PathService} from "../../../../services/path.service";
@@ -350,7 +350,7 @@ export class MyCasesComponent implements OnInit {
 
     if (result.agreed) {
       service.update(result.data)
-        .subscribe((response) => {
+        .subscribe(() => {
             if (this._creatingTarget == 'desk') {
               let desk = this.desksOnPage.find(d => d.desk.id == result.data?.id);
               if (desk) desk.desk.title = result.data?.title ?? 'Unknown';

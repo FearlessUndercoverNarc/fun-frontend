@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../../../shared/services/account.service";
 
 @Component({

@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CasesService} from "../../services/cases.service";
 import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
 import {PathService} from "../../services/path.service";
