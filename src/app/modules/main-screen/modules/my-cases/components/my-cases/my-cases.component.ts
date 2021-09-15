@@ -1,26 +1,26 @@
 import {Component, OnInit, SkipSelf} from '@angular/core';
-import {CasesService} from "../../services/cases.service";
-import {FolderDto} from "../../interfaces/dto/folder-dto.interface";
-import {PathService} from "../../services/path.service";
-import {DesksLoaderService} from "../../services/desks-loader.service";
-import {FolderOnPage} from "../../interfaces/on-page/folder-on-page";
-import {DeskOnPage} from "../../interfaces/on-page/desk-on-page";
-import {PathPart} from "../../../../shared/interfaces/path-part.interface";
-import {FoldersService} from "../../services/folders.service";
-import {RightClickService} from "../../../../shared/services/right-click.service";
-import {DeleteService} from "../../services/delete.service";
-import {FolderTrashBinService} from "../../services/folder-trash-bin.service";
-import {DeskTrashBinService} from "../../services/desk-trash-bin.service";
+import {CasesService} from "../../../../services/cases.service";
+import {FolderDto} from "../../../../interfaces/dto/folder-dto.interface";
+import {PathService} from "../../../../services/path.service";
+import {DesksLoaderService} from "../../../../services/desks-loader.service";
+import {FolderOnPage} from "../../../../interfaces/on-page/folder-on-page";
+import {DeskOnPage} from "../../../../interfaces/on-page/desk-on-page";
+import {PathPart} from "../../../../../../shared/interfaces/path-part.interface";
+import {FoldersService} from "../../../../services/folders.service";
+import {RightClickService} from "../../../../../../shared/services/right-click.service";
+import {DeleteService} from "../../../../services/delete.service";
+import {FolderTrashBinService} from "../../../../services/folder-trash-bin.service";
+import {DeskTrashBinService} from "../../../../services/desk-trash-bin.service";
 import {CdkDrag, CdkDragDrop, CdkDropList} from "@angular/cdk/drag-drop";
-import {ShareModalService} from "../../../../shared/services/share-modal.service";
-import {AccountService} from "../../../../shared/services/account.service";
+import {ShareModalService} from "../../../../../../shared/services/share-modal.service";
+import {AccountService} from "../../../../../../shared/services/account.service";
 import {Router} from "@angular/router";
 
-import {ImportService} from '../../services/import.service';
+import {ImportService} from '../../../../services/import.service';
 import {DeskService} from 'src/app/shared/services/desk.service';
-import {EditElementsService} from "../../../../shared/services/edit-elements.service";
-import {EditedResponse} from "../../../../shared/interfaces/edited-response";
-import {BasicCRUD} from "../../../../shared/services/basic-crud.service";
+import {EditElementsService} from "../../../../../../shared/services/edit-elements.service";
+import {EditedResponse} from "../../../../../../shared/interfaces/edited-response";
+import {BasicCRUD} from "../../../../../../shared/services/basic-crud.service";
 import {zip} from "rxjs";
 
 

@@ -15,11 +15,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {CaseCreatorService} from "../services/creators/case-creator.service";
-import {CreatorService} from "../services/creators/creator.service";
 import {FolderCreatorService} from "../services/creators/folder-creator.service";
-import {CardCreatorDialogComponent} from "../../board/components/card-creator-dialog/card-creator-dialog.component";
-import {FolderEditComponent} from "../components/create/shared/folder-edit/folder-edit.component";
-import {DeskEditComponent} from "../components/create/shared/desk-edit/desk-edit.component";
 
 
 @NgModule({
@@ -31,7 +27,6 @@ import {DeskEditComponent} from "../components/create/shared/desk-edit/desk-edit
     CaseCreatorDialogComponent,
     FolderCreatorDialogComponent,
     DeskCreatorDialogComponent,
-
   ],
   imports: [
     CommonModule,

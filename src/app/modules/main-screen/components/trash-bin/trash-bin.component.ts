@@ -42,21 +42,21 @@ export class TrashBinComponent implements OnInit {
 
     this._trashedFoldersService.getMyTrashBin()
       .subscribe(() => {
-        console.table(this._trashedFoldersService.trashedFolders)
+        // console.table(this._trashedFoldersService.trashedFolders)
         this.casesOnPage = this._trashedFoldersService.trashedFolders.filter(folder => {
           return folder.parentId === null
         }).map(folder => {
           return {folder: folder, isSelected: false}
         });
 
-        console.table(this.casesOnPage)
+        // console.table(this.casesOnPage)
 
         this.foldersOnPage = this._trashedFoldersService.trashedFolders.filter(folder => {
           return folder.parentId!!
         }).map(folder => {
           return {folder: folder, isSelected: false}
         })
-        console.table(this.foldersOnPage)
+        // console.table(this.foldersOnPage)
       });
 
 
@@ -66,7 +66,7 @@ export class TrashBinComponent implements OnInit {
       })
     })
 
-    console.table(this.desksOnPage)
+    // console.table(this.desksOnPage)
 
     this._deleteService.selectedElementsRecovered
       .subscribe(() => this.restoreSelectedElements())

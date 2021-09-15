@@ -38,7 +38,7 @@ export class CreateComponent implements OnInit {
   ngOnInit(): void {
     this.isRoot = this._pathService.isRoot();
 
-    console.table(this._pathService.path)
+    // console.table(this._pathService.path)
   }
 
   modalClosed(result: CreationResponse): void {
