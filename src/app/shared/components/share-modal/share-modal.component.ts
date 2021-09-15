@@ -22,10 +22,10 @@ export class ShareModalComponent implements OnInit {
   usersOnPage: UserOnPage[] = [];
 
   constructor(
-    @SkipSelf() private _shareFolderService: ShareFolderService,
-    @SkipSelf() private _shareModalService: ShareModalService,
-    @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _accountService: AccountService,
+    private _shareFolderService: ShareFolderService,
+    private _shareModalService: ShareModalService,
+    private _foldersService: FoldersService,
+    private _accountService: AccountService,
     private _httpClient: HttpClient
   ) {
   }

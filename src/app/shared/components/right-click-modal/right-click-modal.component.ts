@@ -26,12 +26,12 @@ export class RightClickModalComponent implements OnInit {
   @ViewChild('importDeskInput') importDeskInput?: ElementRef
 
   constructor(
-    @SkipSelf() private _rightClickService: RightClickService,
-    @SkipSelf() private _deleteService: DeleteService,
-    @SkipSelf() private _shareModalService: ShareModalService,
-    @SkipSelf() private _editElementsService: EditElementsService,
+    private _rightClickService: RightClickService,
+    private _deleteService: DeleteService,
+    private _shareModalService: ShareModalService,
+    private _editElementsService: EditElementsService,
     private _importService: ImportService,
-    @SkipSelf() private _foldersService: FoldersService,
+    private _foldersService: FoldersService,
     private _deskService: DeskService
   ) {
   }

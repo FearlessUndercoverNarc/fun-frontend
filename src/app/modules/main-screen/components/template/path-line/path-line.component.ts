@@ -12,7 +12,7 @@ export class PathLineComponent implements OnInit {
   pathParts: PathPart[] = [];
 
   constructor(
-    @SkipSelf() private _pathService: PathService
+    private _pathService: PathService
   ) {
   }
 

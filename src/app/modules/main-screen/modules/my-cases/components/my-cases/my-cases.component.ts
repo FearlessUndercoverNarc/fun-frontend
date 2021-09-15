@@ -39,14 +39,14 @@ export class MyCasesComponent implements OnInit {
   private _creatingTarget: string = '';
 
   constructor(
-    @SkipSelf() private _casesService: CasesService,
-    @SkipSelf() private _desksService: DesksLoaderService,
-    @SkipSelf() private _pathService: PathService,
-    @SkipSelf() private _foldersService: FoldersService,
-    @SkipSelf() private _trashedFoldersService: FolderTrashBinService,
-    @SkipSelf() private _trashedDesksService: DeskTrashBinService,
-    @SkipSelf() private _rightClickService: RightClickService,
-    @SkipSelf() private _shareModalService: ShareModalService,
+    private _casesService: CasesService,
+    private _desksService: DesksLoaderService,
+    private _pathService: PathService,
+    private _foldersService: FoldersService,
+    private _trashedFoldersService: FolderTrashBinService,
+    private _trashedDesksService: DeskTrashBinService,
+    private _rightClickService: RightClickService,
+    private _shareModalService: ShareModalService,
     private _editElementsService: EditElementsService,
     private _accountService: AccountService,
     private _deleteService: DeleteService,

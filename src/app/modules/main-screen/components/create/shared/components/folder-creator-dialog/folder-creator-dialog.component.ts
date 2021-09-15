@@ -16,7 +16,7 @@ export class FolderCreatorDialogComponent implements OnInit {
   title = '';
 
   constructor(
-    @SkipSelf() private _pathService: PathService
+    private _pathService: PathService
   ) {
   }
 

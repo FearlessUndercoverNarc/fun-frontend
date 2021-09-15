@@ -27,7 +27,7 @@ export class CreateComponent implements OnInit {
   isDeskEditShown: boolean = false;
 
   constructor(
-    @SkipSelf() private _pathService: PathService,
+    private _pathService: PathService,
     private _caseCreatorService: CaseCreatorService,
     private _folderCreatorService: FolderCreatorService,
     private _deskCreatorService: DeskCreatorService,
@@ -37,8 +37,6 @@ export class CreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.isRoot = this._pathService.isRoot();
-
-    // console.table(this._pathService.path)
   }
 
   modalClosed(result: CreationResponse): void {

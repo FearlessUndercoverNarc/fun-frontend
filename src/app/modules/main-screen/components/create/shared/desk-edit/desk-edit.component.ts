@@ -21,8 +21,8 @@ export class DeskEditComponent implements OnInit {
   description = '';
 
   constructor(
-    @SkipSelf() private _pathService: PathService,
-    @SkipSelf() private _foldersService: FoldersService
+    private _pathService: PathService,
+    private _foldersService: FoldersService
   ) {
   }
 

@@ -12,7 +12,7 @@ export class TemplateComponent implements OnInit {
   constructor(
     private _router: Router,
     private _rightClickService: RightClickService,
-    @SkipSelf() private _pathService: PathService
+    private _pathService: PathService
   ) {
   }
 

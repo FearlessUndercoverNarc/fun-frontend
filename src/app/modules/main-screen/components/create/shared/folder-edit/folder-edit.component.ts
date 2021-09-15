@@ -16,8 +16,8 @@ export class FolderEditComponent implements OnInit {
   title = '';
 
   constructor(
-    @SkipSelf() private _pathService: PathService,
-    @SkipSelf() private _foldersService: FoldersService
+    private _pathService: PathService,
+    private _foldersService: FoldersService
   ) {
   }
 

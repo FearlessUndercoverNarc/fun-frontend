@@ -18,7 +18,7 @@ export class DeskCreatorDialogComponent implements OnInit {
   description = '';
 
   constructor(
-    @SkipSelf() private _pathService: PathService
+    private _pathService: PathService
   ) {
   }
 
