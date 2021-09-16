@@ -19,7 +19,7 @@ import {Router} from "@angular/router";
 import {ImportService} from '../../../../services/import.service';
 import {DeskService} from 'src/app/shared/services/desk.service';
 import {EditElementsService} from "../../../../../../shared/services/edit-elements.service";
-import {EditedResponse} from "../../../../../../shared/interfaces/edited-response";
+import {EditedResponse} from "../../../../../../shared/interfaces/edited-response.interface";
 import {BasicCRUD} from "../../../../../../shared/services/basic-crud.service";
 import {zip} from "rxjs";
 

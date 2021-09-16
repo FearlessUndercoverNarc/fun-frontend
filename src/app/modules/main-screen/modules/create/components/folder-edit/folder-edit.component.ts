@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PathService} from "../../../../services/path.service";
-import {EditedResponse} from "../../../../../../shared/interfaces/edited-response";
+import {EditedResponse} from "../../../../../../shared/interfaces/edited-response.interface";
 import {FoldersService} from "../../../../services/folders.service";
 
 @Component({
