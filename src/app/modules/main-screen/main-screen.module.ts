@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TemplateComponent} from './components/template/template.component';
-import {MyCasesComponent} from './modules/my-cases/components/my-cases/my-cases.component';
 import {SharedCasesComponent} from './modules/shared-cases/components/shared-cases/shared-cases.component';
 import {TrashBinComponent} from './modules/trash-bin/components/trash-bin/trash-bin.component';
 import {RouterModule, Routes} from "@angular/router";

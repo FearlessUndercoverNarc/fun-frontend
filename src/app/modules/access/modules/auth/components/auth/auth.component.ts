@@ -1,6 +1,5 @@
 import {Component, OnInit, SkipSelf} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {AccountService} from "../../../../../../shared/services/account.service";
 import {Md5} from 'ts-md5/dist/md5';
@@ -48,7 +47,7 @@ export class AuthComponent implements OnInit {
           this._router.navigate(['browse'])
         },
 
-        error => {
+        () => {
           this.isFormSent = false
         })
   }
