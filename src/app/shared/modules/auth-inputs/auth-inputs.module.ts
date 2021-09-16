@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LoginInputComponent} from "../../components/login-input/login-input.component";
-import {PasswordInputComponent} from "../../components/password-input/password-input.component";
+import {LoginInputComponent} from "./components/login-input/login-input.component";
+import {PasswordInputComponent} from "./components/password-input/password-input.component";
 import {ReactiveFormsModule} from "@angular/forms";
 
 

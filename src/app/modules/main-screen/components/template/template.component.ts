@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {RightClickService} from "../../../../shared/services/right-click.service";
 import {PathService} from "../../services/path.service";
@@ -12,7 +12,7 @@ export class TemplateComponent implements OnInit {
   constructor(
     private _router: Router,
     private _rightClickService: RightClickService,
-    @SkipSelf() private _pathService: PathService
+    private _pathService: PathService
   ) {
   }
 

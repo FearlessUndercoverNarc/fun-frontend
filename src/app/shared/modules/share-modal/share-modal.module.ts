@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ShareModalComponent} from "../../components/share-modal/share-modal.component";
+import {ShareModalComponent} from "./components/share-modal/share-modal.component";
 
 
 @NgModule({

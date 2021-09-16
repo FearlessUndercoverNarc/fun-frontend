@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AccountService} from 'src/app/shared/services/account.service';
 import {Md5} from 'ts-md5';
-import {AccountDto, UpdateAccountDto} from "../../../../shared/interfaces/account-dto.interface";
+import {AccountDto, UpdateAccountDto} from "../../../../shared/interfaces/dto/account-dto.interface";
 
 @Component({
   selector: 'app-profile',

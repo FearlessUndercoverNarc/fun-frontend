@@ -67,7 +67,8 @@ ul
 
     .left-bar
       position: relative
-      padding-right: 20px !important
+      padding: 24px 20px 24px 0
+      flex: 0 1 322px
 
       &__range
         padding-left: 50px
@@ -97,8 +98,7 @@ ul
         width: 1px
         height: calc(100% - 46px)
         border-right: 1px solid $borderColor
-      padding: 24px 0
-      flex: 0 1 322px
+
 
       ul
         border-bottom: 1px solid $borderColor
@@ -235,7 +235,7 @@ ul
     min-height: 40px
     box-sizing: border-box
 
-.togle-menu
+.toggle-menu
   position: relative
   display: none
   @media (max-width: 768px)
@@ -247,18 +247,18 @@ ul
     span
       transition: all 0.3s ease 0s
       top: calc(50% - 1px)
-      left: 0px
+      left: 0
       position: absolute
       width: 100%
       height: 2px
       background-color: #000
 
       &:first-child
-        top: 0px
+        top: 0
 
       &:last-child
         top: auto
-        bottom: 0px
+        bottom: 0
     &._active
       span
         transform: scale(0)
@@ -296,7 +296,6 @@ ul
           transform: translate(0, 0)
   .header
     flex: 0 1 120px
-    padding: 15px 30px
     flex-wrap: wrap
     padding: 15px 25px
   .main
@@ -308,8 +307,7 @@ ul
     justify-content: flex-end
     flex: 0 1 calc(100% - 45px)
     order: 4
-    margin: 0
-    margin-left: auto
+    margin: 0 0 0 auto
 
     .search-header__wrapper
       width: 100%
@@ -318,9 +316,9 @@ ul
     min-width: 130px
     flex: 0 1 20%
     order: 2
-  .togle-menu
+  .toggle-menu
     order: 3
-  //----<setings>
+  //----<settings>
   div.settings
     width: 100%
 
@@ -337,7 +335,7 @@ ul
   .header__user
     margin-left: auto
     order: 3
-  .header__togle-menu
+  .header__toggle-menu
     order: 1
   .header__search-trigger
     display: flex
@@ -346,7 +344,6 @@ ul
     width: 30px
     height: 30px
     order: 2
-    display: block
     margin-left: 15px
 
     button

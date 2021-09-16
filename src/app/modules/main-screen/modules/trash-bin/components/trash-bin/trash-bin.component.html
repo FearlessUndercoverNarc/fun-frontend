@@ -1,0 +1,88 @@
+<!--<div class="trash-bin-container trash"-->
+<!--     (click)="selectMilk($event)"-->
+<!--     (contextmenu)="onRightClickMilk($event)">-->
+<!--  <h4 (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">Дела</h4>-->
+<!--  <div class="cases-container"-->
+<!--       (contextmenu)="onRightClickMilk($event)"-->
+<!--       (click)="selectMilk($event)">-->
+<!--    <div class="folder" *ngFor="let caseOnPage of casesOnPage"-->
+<!--         (click)="this.onceClicked = true; selectFolder(caseOnPage)"-->
+<!--         [ngClass]="caseOnPage.isSelected ? 'selected' : ''"-->
+<!--         (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">-->
+<!--      <div class="folder-icon element-icon"></div>-->
+<!--      <p>{{ caseOnPage.folder.title }}</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <h4 (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">Папки</h4>-->
+<!--  <div class="cases-container"-->
+<!--       (contextmenu)="onRightClickMilk($event)"-->
+<!--       (click)="selectMilk($event)">-->
+<!--    <div class="folder" *ngFor="let caseOnPage of foldersOnPage"-->
+<!--         (click)="this.onceClicked = true; selectFolder(caseOnPage)"-->
+<!--         [ngClass]="caseOnPage.isSelected ? 'selected' : ''"-->
+<!--         (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">-->
+<!--      <div class="folder-icon element-icon"></div>-->
+<!--      <p>{{ caseOnPage.folder.title }}</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <h4 (click)="selectMilk($event)" (contextmenu)="onRightClickMilk($event)">Доски</h4>-->
+<!--  <div class="cases-container" *ngIf="desksOnPage.length != 0"-->
+<!--       (contextmenu)="onRightClickMilk($event)"-->
+<!--       (click)="selectMilk($event)">-->
+<!--    <div class="folder" *ngFor="let deskOnPage of desksOnPage"-->
+<!--         (contextmenu)="onRightClickElement($event); selectDesk(deskOnPage)"-->
+<!--         (click)="this.onceClicked = true; selectDesk(deskOnPage)"-->
+<!--         [ngClass]="deskOnPage.isSelected ? 'selected' : ''">-->
+<!--      <div class="desk-icon element-icon"></div>-->
+<!--      <p>{{ deskOnPage.desk.title }}</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="trash__button-wrapper">-->
+<!--  <button (click)="showClearModal()" type="button" class="trash__button">Очистить</button>-->
+<!--</div>-->
+
+<!--<clear-trashbin-popup [isShown]="isModalShown" (modalClosed)="modalClosed($event)"></clear-trashbin-popup>-->
+
+<div class="trash-bin-container trash"
+     (click)="selectMilk($event)">
+  <h4 (click)="selectMilk($event)">Дела</h4>
+  <div class="folders-container"
+       (click)="selectMilk($event)">
+    <div class="folder" *ngFor="let caseOnPage of casesOnPage"
+         (click)="selectFolder(caseOnPage)"
+         [ngClass]="caseOnPage.isSelected ? 'selected' : ''"
+         (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">
+      <div class="folder-icon element-icon"></div>
+      <p>{{ caseOnPage.folder.title }}</p>
+    </div>
+  </div>
+  <h4 (click)="selectMilk($event)">Папки</h4>
+  <div class="folders-container"
+       (click)="selectMilk($event)">
+    <div class="folder" *ngFor="let caseOnPage of foldersOnPage"
+         (click)="selectFolder(caseOnPage)"
+         [ngClass]="caseOnPage.isSelected ? 'selected' : ''"
+         (contextmenu)="onRightClickElement($event); this.selectFolder(caseOnPage)">
+      <div class="folder-icon element-icon"></div>
+      <p>{{ caseOnPage.folder.title }}</p>
+    </div>
+  </div>
+  <h4 (click)="selectMilk($event)">Доски</h4>
+  <div class="folders-container" *ngIf="desksOnPage.length != 0"
+       (click)="selectMilk($event)">
+    <div class="folder" *ngFor="let deskOnPage of desksOnPage"
+         (contextmenu)="onRightClickElement($event); selectDesk(deskOnPage)"
+         (click)="selectDesk(deskOnPage)"
+         [ngClass]="deskOnPage.isSelected ? 'selected' : ''">
+      <div class="desk-icon element-icon"></div>
+      <p>{{ deskOnPage.desk.title }}</p>
+    </div>
+  </div>
+</div>
+<div class="trash__button-wrapper">
+  <button (click)="showClearModal()" type="button" class="trash__button">Очистить</button>
+</div>
+
+<popup [isShown]="isModalShown" (modalClosed)="modalClosed($event)"></popup>
+

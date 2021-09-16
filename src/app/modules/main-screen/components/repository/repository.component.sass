@@ -1,7 +1,7 @@
 @import "~src/styles/var-variables"
 @import "~src/styles/global-variables"
 
-@mixin adaptiv-value($property, $startSize, $minSize)
+@mixin adaptive-value($property, $startSize, $minSize)
 	$addSize: $startSize - $minSize
 	#{$property}: $startSize + px
 	@media (max-width: #{1440 + px})
@@ -22,8 +22,8 @@ ul
 	padding-top: 20px
 	font-family: 'Inter', sans-serif
 	color: $Detective_Black_2
-	@include adaptiv-value("padding-left", 59, -17)
-	@include adaptiv-value("padding-right", 59, -17)
+	@include adaptive-value("padding-left", 59, -17)
+	@include adaptive-value("padding-right", 59, -17)
 
 	&__title
 		display: flex
@@ -56,11 +56,11 @@ ul
 	&__item
 		align-items: center
 		cursor: pointer
-		box-shadow: 0px 2px 4px rgba(39, 40, 51, 0.12)
+		box-shadow: 0 2px 4px rgba(39, 40, 51, 0.12)
 		padding-top: 7px
 		padding-bottom: 7px
-		@include adaptiv-value("padding-left", 16, 10)
-		@include adaptiv-value("padding-right", 16, 10)
+		@include adaptive-value("padding-left", 16, 10)
+		@include adaptive-value("padding-right", 16, 10)
 		border-radius: 8px
 		background: #fff
 		display: flex
@@ -79,7 +79,7 @@ ul
 		overflow: hidden
 		text-overflow: ellipsis
 		white-space: nowrap
-		@include adaptiv-value("font-size", 16, 12)
+		@include adaptive-value("font-size", 16, 12)
 		img
 			margin-left: 15px
 
@@ -116,8 +116,6 @@ ul
 		&:nth-child(4)
 			margin-left: -15px
 
-	&__person-counter
-
 	&__size
 		min-width: 80px
 		margin-left: auto
@@ -141,7 +139,7 @@ ul
 
 		&__name
 			max-width: 180px
-			min-width: none
+			min-width: 0
 
 		&__name-wrapper
 			min-width: 230px
@@ -177,7 +175,7 @@ ul
 	.repository
 		&__name
 			max-width: 90px
-			min-width: none
+			min-width: 0
 		&__name-wrapper
 			min-width: 150px
 
@@ -205,8 +203,8 @@ ul
 
 @media (max-width: 767px)
 	.repository
-		@include adaptiv-value("padding-left", 59, 10)
-		@include adaptiv-value("padding-right", 59, 10)
+		@include adaptive-value("padding-left", 59, 10)
+		@include adaptive-value("padding-right", 59, 10)
 
 		&__dateChange-title
 			display: none
@@ -220,7 +218,7 @@ ul
 			flex: 0 1 37%
 		&__name
 			max-width: 180px
-			min-width: none
+			min-width: 0
 		&__name-wrapper
 			min-width: 230px
 
@@ -255,7 +253,7 @@ ul
 
 		&__name
 			max-width: 80px
-			min-width: none
+			min-width: 0
 		&__name-wrapper
 			min-width: 140px
 

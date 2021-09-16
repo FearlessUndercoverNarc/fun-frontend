@@ -2,6 +2,7 @@ import {HttpClient} from "@angular/common/http"
 import {Observable} from "rxjs"
 import {environment} from "src/environments/environment"
 import {AccountService} from "./account.service";
+import CreatedDto from "../interfaces/dto/created-dto.interface";
 
 export abstract class BasicCRUD<TParam> {
 
@@ -22,8 +23,8 @@ export abstract class BasicCRUD<TParam> {
     return this.httpClient.get<TParam[]>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/GetAll`)
   }
 
-  create(data: any): Observable<any> {
-    return this.httpClient.post<any>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Create`, data)
+  create(data: any): Observable<CreatedDto> {
+    return this.httpClient.post<CreatedDto>(`${environment.apiUrl}/${this.apiArea}/${this.postfix}/Create`, data)
   }
 
   remove(id: number): Observable<void> {

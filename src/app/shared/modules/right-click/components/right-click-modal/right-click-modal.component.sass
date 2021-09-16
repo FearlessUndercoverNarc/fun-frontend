@@ -1,0 +1,73 @@
+@import "~src/styles/var-variables"
+@import "~src/styles/global-variables"
+
+@mixin adaptive-value($property, $startSize, $minSize)
+  $addSize: $startSize - $minSize
+  #{$property}: $startSize + px
+  @media (max-width: #{1440 + px})
+    #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
+
+*
+  box-sizing: border-box
+
+ul
+  padding: 0
+  margin: 0
+
+  li
+    list-style-type: none
+    margin: 0
+
+.dialog-box
+  position: absolute
+  top: 120%
+  left: 0
+  max-width: 342px
+  min-width: 170px
+  width: 100%
+  background: $whiteColor
+  border-radius: 8px
+  display: flex
+  flex-direction: column
+  box-shadow: 0 2px 4px rgba(39, 40, 51, 0.12)
+
+  &__item
+    padding: 0 20px
+    height: 56px
+    display: flex
+    cursor: pointer
+    align-items: center
+    transition: all 0.3s ease 0s
+
+    &:hover
+      background: $mainColor
+
+    &:first-child
+      border-radius: 8px 8px 0 0
+
+    &:last-child
+      border-radius: 0 0 8px 8px
+
+
+  &__image
+    width: 30px
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+
+  &__button
+    display: flex
+    align-items: center
+    padding-left: 20px
+    cursor: pointer
+    width: 100%
+    font-size: 16px
+    color: $Detective_Black_2
+    font-family: 'Inter', sans-serif
+    line-height: 19px
+    flex: 0 1 auto
+    height: 100%
+    border: none
+    background: none
+    outline: none

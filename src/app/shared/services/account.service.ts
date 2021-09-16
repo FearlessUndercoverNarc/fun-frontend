@@ -11,7 +11,7 @@ import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 import {ApiAreas} from "../enums/api-areas.enum";
 import {IsActiveDto} from "../interfaces/dto/is-active-dto.interface";
 import CreatedDto from "../interfaces/dto/created-dto.interface";
-import {AccountDto, UpdateAccountDto} from "../interfaces/account-dto.interface";
+import {AccountDto, UpdateAccountDto} from "../interfaces/dto/account-dto.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -101,8 +101,8 @@ export class AccountService {
 
   isLoggedIn(): boolean {
     return (
-      !!this._token ||
-      !!localStorage.getItem('token'))
+        !!this._token ||
+        !!localStorage.getItem('token'))
       &&
       (!!this._id ||
         !!localStorage.getItem('id')

@@ -1,0 +1,12 @@
+<div class="container" [class.invalid]="inputForm.invalid && inputForm.touched"
+     [class.valid]="inputForm.valid">
+  <div class="part input-container">
+    <form [formGroup]="inputForm">
+      <input (blur)="onTouched()" type="text" placeholder="Логин" autocomplete (keyup)="update()" formControlName="input">
+    </form>
+  </div>
+  <div class="part right">
+    <img src="../../../../../../assets/icons/success.svg" class="success" alt="success">
+    <img src="../../../../../../assets/icons/error.svg" class="error" alt="error">
+  </div>
+</div>

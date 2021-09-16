@@ -1,0 +1,107 @@
+@import "../../../../../../../styles/var-variables"
+@import "../../../../../../../styles/global-variables"
+
+.trash__button-wrapper
+  font-family: 'Inter', sans-serif
+  position: absolute
+  bottom: 40px
+  right: 45px
+  width: 190px
+  height: 48px
+  box-sizing: border-box
+  border-radius: 100px
+  filter: drop-shadow(0px 2px 4px rgba(39, 40, 51, 0.12))
+  cursor: pointer
+  overflow: hidden
+
+  button
+    cursor: pointer
+    width: 100%
+    height: 100%
+    background: none
+    font-size: 16px
+    line-height: 19px
+    border: 1px solid $var-6
+    border-radius: inherit
+
+    color: $var-6
+    transition: all 0.3s ease 0s
+
+    &:hover
+      background: #fff
+
+
+.trash-bin-container
+  position: relative
+  width: auto
+  height: 88%
+
+  box-sizing: border-box
+
+  margin: 24px 40px 24px 59px
+
+  color: $detective-black
+  font-family: 'Inter', sans-serif
+  font-size: 16px
+
+
+  h4
+    margin-top: 0
+    margin-left: 8px
+    font-size: 16px !important
+    user-select: none
+
+
+    .selected
+      .folder-icon
+        background-image: url("../../../../../../../assets/icons/selected-folder-icon.svg") !important
+
+      .desk-icon
+        background-image: url("../../../../../../../assets/icons/selected-desk-icon.svg") !important
+
+      p
+        color: $golden
+
+
+  .folders-container
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
+    grid-auto-flow: row
+    box-sizing: border-box
+
+
+    .folder
+      width: auto
+      height: 56px
+      box-sizing: border-box
+
+      background-color: #fff
+
+      filter: drop-shadow(0px 2px 4px rgba(39, 40, 51, 0.12))
+      border-radius: 8px
+
+      margin: 8px
+      padding: 16px
+
+      display: flex
+      align-items: center
+
+      .element-icon
+        width: 26px
+        height: 24px
+        background-repeat: no-repeat
+        background-size: contain
+        background-position: center
+
+
+      .folder-icon
+        background-image: url("../../../../../../../assets/icons/folder-icon.svg")
+
+      .desk-icon
+        background-image: url("../../../../../../../assets/icons/desk-icon.svg")
+
+      p
+        margin-left: 16px
+        width: 100%
+
+

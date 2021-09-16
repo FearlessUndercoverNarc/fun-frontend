@@ -6,23 +6,23 @@ import {TemplateComponent} from "./modules/main-screen/components/template/templ
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./modules/access/components/auth/auth.module').then(a => a.AuthModule),
+    loadChildren: () => import('./modules/access/modules/auth/auth.module').then(a => a.AuthModule),
   },
   {
     path: 'register',
-    loadChildren: () => import('./modules/access/components/register/register.module').then(r => r.RegisterModule),
+    loadChildren: () => import('./modules/access/modules/register/register.module').then(r => r.RegisterModule),
   },
   {
     path: 'not-found',
-    loadChildren: () => import('./modules/access/components/not-found/not-found.module').then(nf => nf.NotFoundModule),
+    loadChildren: () => import('./modules/access/modules/not-found/not-found.module').then(nf => nf.NotFoundModule),
   },
   {
     path: 'forbidden',
-    loadChildren: () => import('./modules/access/components/forbidden/forbidden.module').then(f => f.ForbiddenModule),
+    loadChildren: () => import('./modules/access/modules/forbidden/forbidden.module').then(f => f.ForbiddenModule),
   },
   {
     path: 'browse',
-    loadChildren: () => import('./modules/main-screen/modules/main-screen.module').then(ms => ms.MainScreenModule),
+    loadChildren: () => import('./modules/main-screen/main-screen.module').then(ms => ms.MainScreenModule),
     component: TemplateComponent,
     canActivate: [AuthGuard],
   },

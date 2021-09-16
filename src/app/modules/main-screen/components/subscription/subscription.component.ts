@@ -1,4 +1,4 @@
-import {Component, OnInit, SkipSelf} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../../../shared/services/account.service";
 
 @Component({
@@ -10,7 +10,7 @@ export class SubscriptionComponent implements OnInit {
   hasSubscription: boolean = false;
 
   constructor(
-    @SkipSelf() private _accountService: AccountService
+    private _accountService: AccountService
   ) {
     // TODO: Fix strange jitter on low-width screen when activating a sub
   }

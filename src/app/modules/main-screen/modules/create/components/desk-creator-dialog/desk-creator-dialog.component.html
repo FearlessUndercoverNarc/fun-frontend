@@ -1,0 +1,24 @@
+<div class="popup" [ngClass]="isShown ? '_active' : ''">
+  <!--при нажатии на кнопку очистить, которая находится в right-bar, добавляется класс _active к .clear-trashbin-popup-->
+  <!--при нажатии на clear-trashbin-popup-space-closing отбирается класс _active у .clear-trashbin-popup-->
+  <div class="popup-space-closing" (click)="closeModal(false)"></div>
+  <div class="popup__content">
+    <div class="popup__body">
+      <h3>Создание новой доски</h3>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Название</mat-label>
+        <input matInput [(ngModel)]="title">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Описание</mat-label>
+        <textarea matInput [(ngModel)]="description"></textarea>
+      </mat-form-field>
+
+      <div class="popup__button-wrapper">
+        <button type="button" class="popup__button-cancel" (click)="closeModal(false)">Отмена</button>
+        <button type="button" class="popup__button-clean" (click)="closeModal(true)">Создать</button>
+      </div>
+    </div>
+  </div>
+</div>
