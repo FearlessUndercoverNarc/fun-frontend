@@ -2,14 +2,14 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TemplateComponent} from './components/template/template.component';
 import {MyCasesComponent} from './modules/my-cases/components/my-cases/my-cases.component';
-import {SharedCasesComponent} from './components/shared-cases/shared-cases.component';
-import {TrashBinComponent} from './components/trash-bin/trash-bin.component';
+import {SharedCasesComponent} from './modules/shared-cases/components/shared-cases/shared-cases.component';
+import {TrashBinComponent} from './modules/trash-bin/components/trash-bin/trash-bin.component';
 import {RouterModule, Routes} from "@angular/router";
 import {MyCasesModule} from "./modules/my-cases/my-cases.module";
-import {TrashBinModule} from "./modules/trash-bin.module";
+import {TrashBinModule} from "./modules/trash-bin/trash-bin.module";
 import {CasesService} from "./services/cases.service";
-import {CreateModule} from "./modules/create.module";
-import {CreateComponent} from "./components/create/create.component";
+import {CreateModule} from "./modules/create/create.module";
+import {CreateComponent} from "./modules/create/components/create/create.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 
 import {SettingsComponent} from "./components/settings/settings.component";
@@ -17,10 +17,10 @@ import {SubscriptionComponent} from "./components/subscription/subscription.comp
 import {RepositoryComponent} from "./components/repository/repository.component";
 
 import {DesksLoaderService} from "./services/desks-loader.service";
-import {PathLineComponent} from "./components/template/path-line/path-line.component";
+import {PathLineComponent} from "./components/path-line/path-line.component";
 import {FolderTrashBinService} from "./services/folder-trash-bin.service";
 import {DeskTrashBinService} from "./services/desk-trash-bin.service";
-import {SharedCasesModule} from "./modules/shared-cases.module";
+import {SharedCasesModule} from "./modules/shared-cases/shared-cases.module";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ShareModalModule} from "../../shared/modules/share-modal/share-modal.module";
@@ -69,34 +69,30 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    TemplateComponent,
     PathLineComponent,
-    SettingsComponent,
     ProfileComponent,
+    RepositoryComponent,
+    SettingsComponent,
     SubscriptionComponent,
-    RepositoryComponent
+    TemplateComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
-    MyCasesModule,
-    TrashBinModule,
     CreateModule,
-
-
-    SharedCasesModule,
-
     FormsModule,
-    ReactiveFormsModule,
     MatSnackBarModule,
-    ShareModalModule
+    MyCasesModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    ShareModalModule,
+    SharedCasesModule,
+    TrashBinModule,
   ],
   providers: [
     CasesService,
+    DeskTrashBinService,
     DesksLoaderService,
     FolderTrashBinService,
-    DeskTrashBinService,
-
   ],
 })
 export class MainScreenModule {

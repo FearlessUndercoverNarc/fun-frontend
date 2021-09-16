@@ -1,0 +1,201 @@
+//========================================================================================================================================================
+//========================================================================================================================================================
+//-----<модальное окно>
+
+@import "~src/styles/var-variables"
+@import "~src/styles/global-variables"
+
+@mixin adaptiv-value($property, $startSize, $minSize)
+  $addSize: $startSize - $minSize
+  #{$property}: $startSize + px
+  @media (max-width: #{1440 + px})
+    #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
+
+*
+  box-sizing: border-box
+
+ul
+  padding: 0
+  margin: 0
+
+  li
+    list-style-type: none
+    margin: 0
+
+.popup
+  color: $Detective_Black_2
+  font-family: 'Inter', sans-serif
+  z-index: 100
+  padding: 30px 10px
+  position: fixed
+  top: 0px
+  left: 0
+  width: 100%
+  height: 100%
+  transition: visibility 0.8s ease 0s
+  visibility: hidden
+
+  &._active
+    overflow: auto
+    visibility: visible
+
+    .popup-space-closing
+      cursor: pointer
+      opacity: 1
+
+    .popup__body
+      transition: all 0.3s ease 0.2s
+      transform: scale(1)
+      border-radius: 16px
+
+  &__content
+    display: flex
+    flex-direction: column
+    align-items: center
+    min-height: 100%
+    flex: 1 1 auto
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+
+  &__body
+    transform: scale(0)
+    transition: all 0.3s ease 0s
+    background-color: #fff
+    padding: 50px
+    width: 100%
+    max-width: 602px
+
+  &__title
+    text-align: center
+    font-size: 24px
+    line-height: 32px
+    margin-bottom: 33px
+
+  &__search-wrapper
+    width: 100%
+    margin-bottom: 33px
+
+  &__peaple-wrapper
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+
+  &__peaple
+    max-width: 64px
+    margin: 0 7px 20px 7px
+
+  &__button-wrapper
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-wrap: wrap
+
+  &__button-cancel
+    margin-right: 24px
+    padding: 14px 70px
+    border: 1px solid $Detective_Black_2
+    background: none
+    border-radius: 100px
+    outline: none
+    font-family: 'Inter', sans-serif
+    line-height: 19px
+    transition: all 0.3s ease 0s
+    cursor: pointer
+    font-size: 16px
+    margin: 0px 10px 10px 10px
+
+    &:hover
+      background: #f5f5f5
+
+  &__button-share
+    padding: 14px 62px
+    cursor: pointer
+    border-radius: 100px
+    outline: none
+    border: none
+    background: $bgColor
+    font-size: 16px
+    font-family: 'Inter', sans-serif
+    line-height: 19px
+    transition: all 0.3s ease 0s
+    margin: 0px 10px 10px 10px
+
+    &:hover
+      background: $btnHoverColor
+
+
+.popup-space-closing
+  background: rgba(50, 49, 48, 0.4)
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  opacity: 0
+  transition: opacity 0.8s ease 0s
+
+.search-popup
+  display: flex
+  align-items: center
+
+  &__icon
+    width: 40px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: $mainColor
+    height: 40px
+    cursor: pointer
+    border-radius: 8px 0 0 8px
+
+  &__input
+    width: 100%
+    border: none
+    outline: none
+    padding-right: 10px
+    background: $mainColor
+    height: 40px
+    border-radius: 0 8px 8px 0
+
+.peaple-popup
+
+  &._active .peaple-popup__image
+    border: 3px solid $bgColor
+
+    span
+      opacity: 1
+      visibility: visible
+
+  &__image
+    cursor: pointer
+    position: relative
+    width: 64px
+    height: 64px
+    border-radius: 100%
+
+    span
+      position: absolute
+      bottom: -3px
+      right: -3px
+      width: 24px
+      height: 24px
+      background: $bgColor
+      display: flex
+      align-items: center
+      justify-content: center
+      border-radius: 100%
+      opacity: 0
+      visibility: hidden
+
+    & > img
+      width: 100%
+      height: 100%
+      border-radius: 100%
+
+  &__name
+    text-align: center
+    color: #000
+    font-size: 14px
+    line-height: 22px

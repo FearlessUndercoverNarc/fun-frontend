@@ -6,7 +6,7 @@
         F.U.N.
       </a>
     </div>
-    <div class="header__togle-menu togle-menu" [ngClass]="isMenuShown ? '_active' : ''" (click)="toggleNavMenu()">
+    <div class="header__toggle-menu toggle-menu" [ngClass]="isMenuShown ? '_active' : ''" (click)="toggleNavMenu()">
       <span></span>
       <span></span>
       <span></span>
@@ -21,7 +21,7 @@
     </div>
     <div class="header__search search-header" [ngClass]="isSearchShown ? '_active' : ''">
       <div class="search-header__wrapper">
-        <input class="search-header__input" type="" placeholder="Найти...">
+        <input class="search-header__input" type="text" placeholder="Найти...">
         <button href="" class="search-header__icon">
           <img src="assets/icons/search.svg" alt="">
         </button>

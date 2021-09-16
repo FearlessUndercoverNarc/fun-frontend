@@ -6,8 +6,8 @@ import {CreateElementComponent} from "../../components/create-element/create-ele
 import {RightClickModule} from "../../../../shared/modules/right-click/right-click.module";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {ShareModalModule} from "../../../../shared/modules/share-modal/share-modal.module";
-import {FolderEditComponent} from "../../components/create/shared/folder-edit/folder-edit.component";
-import {DeskEditComponent} from "../../components/create/shared/desk-edit/desk-edit.component";
+import {FolderEditComponent} from "../create/components/folder-edit/folder-edit.component";
+import {DeskEditComponent} from "../create/components/desk-edit/desk-edit.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
@@ -20,36 +20,32 @@ import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
-    MyCasesComponent,
     CreateCaseComponent,
     CreateElementComponent,
+    DeskEditComponent,
     FolderEditComponent,
-    DeskEditComponent
+    MyCasesComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: MyCasesComponent,
-        pathMatch: 'full'
-      }
-    ]),
-    RightClickModule,
     DragDropModule,
-    ShareModalModule,
+    FormsModule,
+    MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    FormsModule,
-    MatSelectModule,
-    MatButtonModule,
+    MatInputModule,
     MatOptionModule,
-    MatInputModule
+    MatSelectModule,
+    RightClickModule,
+    RouterModule.forChild([
+      {path: '', component: MyCasesComponent, pathMatch: 'full'}
+    ]),
+    ShareModalModule,
   ],
   exports: [
-    MyCasesComponent,
     CreateCaseComponent,
-    CreateElementComponent
+    CreateElementComponent,
+    MyCasesComponent,
   ]
 })
 export class MyCasesModule {

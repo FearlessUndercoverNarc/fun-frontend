@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RightClickModalComponent} from "../../components/right-click-modal/right-click-modal.component";
+import {RightClickModalComponent} from "./components/right-click-modal/right-click-modal.component";
 
 
 @NgModule({

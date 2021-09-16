@@ -1,0 +1,37 @@
+<!--модальное окно-->
+
+<div class="reposaitory__popup popup" [ngClass]="isModalShown ? '_active' : ''"> <!--сюда _active-->
+  <!--при нажатии на поделиться ( я ещё не сделал её ) к .clear-trashbin-popup добавляется класс актив-->
+  <!--при нажатии на clear-trashbin-popup-space-closing отбирается класс _active у .clear-trashbin-popup-->
+  <!--при нажатии на .peaple-popup__image к .peaple-clear-trashbin-popup добавляется класс _active-->
+  <div class="popup-space-closing" (click)="isModalShown = false"></div>
+  <div class="popup__content">
+    <div class="popup__body">
+      <div class="popup__title">Поделиться</div>
+      <div class="popup__search-wrapper search-popup">
+        <div class="search-popup__icon">
+          <img src="../../../../../../assets/icons/search.svg" alt="">
+        </div>
+        <input class="search-popup__input" placeholder="Поиск">
+      </div>
+      <div class="popup__peaple-wrapper">
+        <div class="popup__peaple peaple-popup" *ngFor="let userOnPage of usersOnPage"
+             [ngClass]="userOnPage.isSelected ? '_active' : ''">
+          <!--сюда _active-->
+          <div class="peaple-popup__image" (click)="toggleUserToShare(userOnPage)">
+<!--            <span><img src="assets/icons/can-edit-icon.svg" alt=""></span>-->
+            <span><img [src]="getImgStr(userOnPage)" alt=""></span>
+            <img src="../../../../../../assets/img/peaple1.png" alt="">
+          </div>
+          <div class="peaple-popup__name">{{ userOnPage.user.fio }}</div>
+        </div>
+      </div>
+      <div class="popup__button-wrapper">
+        <button type="button" class="popup__button-cancel" (click)="isModalShown = false">Отмена</button>
+        <button type="button" class="popup__button-share" (click)="shareToSelected()">Поделиться</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--модальное окно-->
