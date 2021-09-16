@@ -15,7 +15,7 @@
         <input class="search-popup__input" placeholder="Поиск">
       </div>
       <div class="popup__peaple-wrapper">
-        <div class="popup__peaple peaple-popup" *ngFor="let userOnPage of usersOnPage"
+        <div class="popup__peaple people-popup" *ngFor="let userOnPage of usersOnPage"
              [ngClass]="userOnPage.isSelected ? '_active' : ''">
           <!--сюда _active-->
           <div class="peaple-popup__image" (click)="toggleUserToShare(userOnPage)">

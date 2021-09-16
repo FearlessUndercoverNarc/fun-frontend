@@ -2,83 +2,85 @@
 @import "~src/styles/var-variables"
 
 *
-	box-sizing: border-box
+  box-sizing: border-box
 
-@mixin adaptiv-value($property, $startSize, $minSize)
-	$addSize: $startSize - $minSize
-	#{$property}: $startSize + px
-	@media (max-width: #{1440 + px})
-		#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
+@mixin adaptive-value($property, $startSize, $minSize)
+  $addSize: $startSize - $minSize
+  #{$property}: $startSize + px
+  @media (max-width: #{1440 + px})
+    #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{1440 - 320}))
 
 .subscription
-	max-width: 1069px
-	@include adaptiv-value("padding-left",59,10)
-	@include adaptiv-value("padding-right",59,10)
-	display: flex
-	justify-content: space-between
-	flex-wrap: wrap
-	font-family: 'Inter', sans-serif
+  max-width: 1069px
+  @include adaptive-value("padding-left", 59, 10)
+  @include adaptive-value("padding-right", 59, 10)
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+  font-family: 'Inter', sans-serif
 
-	&__head 
-		margin-top: 32px
-		padding-bottom: 24px
-		border-bottom: 1px solid $borderColor
-		font-weight: 500
-		font-size: 18px
-		line-height: 22px
-		color: $Detective_Black_2
-		flex: 0 1 100%
+  &__head
+    margin-top: 32px
+    padding-bottom: 24px
+    border-bottom: 1px solid $borderColor
+    font-weight: 500
+    font-size: 18px
+    line-height: 22px
+    color: $Detective_Black_2
+    flex: 0 1 100%
 
-	&__item 
-		align-items: center
-		display: flex
-		flex-direction: column
-		margin-top: 20px
-		@include adaptiv-value("padding", 37, 5)
-		text-align: center
-		background: $whiteColor
-		border-radius: 8px
-		flex: 0 1 47%
-		box-shadow: 0px 2px 4px rgba(39, 40, 51, 0.12)
+  &__item
+    align-items: center
+    display: flex
+    flex-direction: column
+    margin-top: 20px
+    @include adaptive-value("padding", 37, 5)
+    text-align: center
+    background: $whiteColor
+    border-radius: 8px
+    flex: 0 1 47%
+    box-shadow: 0 2px 4px rgba(39, 40, 51, 0.12)
 
-	&__title 
-		width: 100%
-		font-weight: 500
-		@include adaptiv-value("font-size", 24, 18)
-		line-height: 32 / 24 * 100%
-		color: $Detective_Black_2
-		padding-bottom: 16px
-		border-bottom: 1px solid $borderColor
-		margin-bottom: 30px
+  &__title
+    width: 100%
+    font-weight: 500
+    @include adaptive-value("font-size", 24, 18)
+    line-height: 32 / 24 * 100%
+    color: $Detective_Black_2
+    padding-bottom: 16px
+    border-bottom: 1px solid $borderColor
+    margin-bottom: 30px
 
-	&__text
-		@include adaptiv-value("font-size", 24, 18)
-		line-height: 32 / 24 * 100%
-		color: $Detective_Black_2
-		margin-bottom: 30px
+  &__text
+    @include adaptive-value("font-size", 24, 18)
+    line-height: 32 / 24 * 100%
+    color: $Detective_Black_2
+    margin-bottom: 30px
 
-	&__button
-		font-family: 'Inter', sans-serif
-		transition: all 0.3s ease 0s
-		border-radius: 100px
-		outline: none
-		border: none
-		background: $bgColor
-		padding: 20px 0px
-		width: 85%
-		font-size: 16px
-		line-height: 19px
-		color: #110801
-		cursor: pointer
-		&:hover
-			background: $btnHoverColor
+  &__button
+    font-family: 'Inter', sans-serif
+    transition: all 0.3s ease 0s
+    border-radius: 100px
+    outline: none
+    border: none
+    background: $bgColor
+    padding: 20px 0
+    width: 85%
+    font-size: 16px
+    line-height: 19px
+    color: #110801
+    cursor: pointer
+
+    &:hover
+      background: $btnHoverColor
 
 
 @media (max-width: 768px)
-	.subscription__item
-		flex: 0 1 47%
-		@include adaptiv-value("padding", 24, 20)
+  .subscription__item
+    flex: 0 1 47%
+    @include adaptive-value("padding", 24, 20)
+
 @media (max-width: 543px)
-	.subscription__item
-		flex: 0 1 100%
-		@include adaptiv-value("padding", 24, 20)
+  .subscription__item
+    flex: 0 1 100%
+    @include adaptive-value("padding", 24, 20)

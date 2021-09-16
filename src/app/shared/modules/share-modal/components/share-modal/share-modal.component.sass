@@ -5,7 +5,7 @@
 @import "~src/styles/var-variables"
 @import "~src/styles/global-variables"
 
-@mixin adaptiv-value($property, $startSize, $minSize)
+@mixin adaptive-value($property, $startSize, $minSize)
   $addSize: $startSize - $minSize
   #{$property}: $startSize + px
   @media (max-width: #{1440 + px})
@@ -156,9 +156,9 @@ ul
     height: 40px
     border-radius: 0 8px 8px 0
 
-.peaple-popup
+.people-popup
 
-  &._active .peaple-popup__image
+  &._active .people-popup__image
     border: 3px solid $bgColor
 
     span

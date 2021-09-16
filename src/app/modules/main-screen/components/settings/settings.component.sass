@@ -1,7 +1,7 @@
 @import "~src/styles/global-variables"
 @import "~src/styles/var-variables"
 
-@mixin adaptiv-value($property, $startSize, $minSize)
+@mixin adaptive-value($property, $startSize, $minSize)
   $addSize: $startSize - $minSize
   #{$property}: $startSize + px
   @media (max-width: #{1440 + px})
@@ -20,8 +20,8 @@ ul
 
 
 .settings
-  @include adaptiv-value("padding-left", 59, 10)
-  @include adaptiv-value("padding-right", 59, 10)
+  @include adaptive-value("padding-left", 59, 10)
+  @include adaptive-value("padding-right", 59, 10)
 
   .cloud-item
     h4
@@ -48,11 +48,11 @@ ul
       font-family: 'Inter', sans-serif
       &:hover
         background: $btnHoverColor
-      
-    
-      
-    
-    
+
+
+
+
+
   &__item
     color: $Detective_Black_2
     padding: 24px 0
