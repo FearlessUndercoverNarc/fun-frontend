@@ -30,7 +30,7 @@ export class PathLineComponent implements OnInit {
     this._pathService.pathChanged.next();
   }
 
-  isNotRoot(): boolean {
-    return !this._pathService.isRoot();
+  isRoot(): boolean {
+    return this._pathService.isRoot();
   }
 }

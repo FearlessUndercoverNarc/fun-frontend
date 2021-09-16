@@ -1,4 +1,4 @@
-<div class="path-line-container" *ngIf="isNotRoot()">
+<div class="path-line-container" *ngIf="!isRoot()">
   <div class="path-part">
     <p class="path-part-title" (click)="goToFolder(0)">Все дела</p>
     <p class="splitter"> > </p>
